@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0ABAB5" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>WEBAPP PIANIFICAZIONE • 2025-2026</title>
+
+  <!-- Bootstrap 4.5.2 -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <!-- SheetJS -->
+  <script src="https://cdn.sheetjs.com/xlsx-0.18.5/package/dist/xlsx.full.min.js"></script>
+
+  <style>
+    :root{
+      --accent:#0ABAB5;
+      --accent2:#087f7a;
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#6b7280;
+      --border:#e5e7eb;
+      --shadow: 0 12px 28px rgba(15,23,42,.10);
+      --shadow2: 0 8px 18px rgba(15,23,42,.08);
+      --radius: 16px;
+      --radius2: 12px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      background: radial-gradient(1200px 500px at 20% -10%, rgba(10,186,181,.18), transparent 60%),
+                  radial-gradient(1200px 500px at 80% 0%, rgba(99,102,241,.12), transparent 60%),
+                  var(--bg);
+      color: var(--text);
+      padding-bottom: 76px; /* spazio per bottom nav su mobile */
+    }
+
+    /* Topbar */
+    .app-topbar{
+      position: sticky;
+      top: 0;
+      z-index: 1040;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(90deg, rgba(10,186,181,.92), rgba(8,127,122,.92));
+      color:#fff;
+      box-shadow: 0 10px 24px rgba(0,0,0,.10);
+      border-bottom: 1px solid rgba(255,255,255,.18);
+    }
+    .app-topbar .wrap{
+      padding: 12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .brand{
+      display:flex;
+      flex-direction:column;
+      line-height:1.1;
+      min-width: 170px;
+    }
+    .brand .title{
+      font-weight: 800;
+      letter-spacing: .3px;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+    .brand .sub{
+      font-size: 12px;
+      opacity: .92;
+      letter-spacing: .2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 46vw;
+    }
+
+    /* Layout container */
+    .app-container{
+      padding: 14px 12px 18px;
+      max-width: 1080px;
+    }
+
+    /* Card */
+    .cardx{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow2);
+    }
+    .cardx .cardx-h{
+      padding: 12px 12px 0;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap: 10px;
+    }
+    .cardx .cardx-b{
+      padding: 12px;
+    }
+
+    .muted{ color: var(--muted); }
+    .mini-note{ font-size: .86rem; color: var(--muted); }
+
+    /* Controls */
+    .control-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 10px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .control-left{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 8px;
+      align-items:center;
+      min-width: 260px;
+    }
+
+    .control-label{
+      font-weight: 700;
+      color: rgba(255,255,255,.92);
+      font-size: 12px;
+      letter-spacing:.2px;
+    }
+
+    .topbar-select,
+    .topbar-input{
+      height: 36px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.14);
+      color:#fff;
+      outline:none;
+      padding: 0 10px;
+      font-size: 13px;
+      min-width: 140px;
+    }
+    .topbar-input::placeholder{ color: rgba(255,255,255,.78); }
+
+    .btn-topbar{
+      height: 36px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.16);
+      color:#fff;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 0 10px;
+      white-space: nowrap;
+    }
+    .btn-topbar:hover{ background: rgba(255,255,255,.22); color:#fff; }
+
+    .backup-chip{
+      display:flex;
+      gap: 8px;
+      align-items:center;
+      flex-wrap: wrap;
+    }
+
+    /* Tabs (desktop) */
+    .nav-tabs .nav-link{ cursor:pointer; }
+    .nav-tabs .nav-link.active{
+      color: var(--accent2);
+      font-weight: 800;
+    }
+
+    /* Bottom nav (mobile) */
+    .bottom-nav{
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      z-index: 1040;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border);
+      box-shadow: 0 -10px 20px rgba(15,23,42,.10);
+      padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
+      display:none;
+    }
+    .bottom-nav .bar{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .bottom-nav button{
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      font-weight: 800;
+      background: #fff;
+      color: var(--text);
+      box-shadow: var(--shadow2);
+    }
+    .bottom-nav button.active{
+      background: linear-gradient(90deg, rgba(10,186,181,.14), rgba(10,186,181,.06));
+      border-color: rgba(10,186,181,.45);
+      color: #075e5a;
+    }
+
+    /* Portfolio table */
+    #clientTable th, #clientTable td{ vertical-align: middle; }
+    #clientTable input, #clientTable select{ font-size: 0.86rem; padding: 6px 8px; border-radius: 10px; }
+    .table thead th{ border-bottom: 1px solid var(--border); }
+    .table-bordered{ border-color: var(--border); }
+    .thead-light th{ background: #f3f6fb; }
+
+    .coded{ background-color: var(--accent) !important; color: #fff; }
+    .noncoded{ background-color: #e5e7eb !important; color: #111827; }
+    .draggable{ cursor: move; }
+
+    /* Calendar */
+    .droppable{
+      min-height: 120px;
+      max-height: 150px;
+      overflow-y: auto;
+      border: 1px dashed rgba(148,163,184,.75);
+      border-radius: 12px;
+      padding: 6px;
+      transition: background .2s, border-color .2s;
+      background: #fff;
+    }
+    .droppable.over{
+      background: rgba(10,186,181,.08);
+      border-color: rgba(10,186,181,.75);
+    }
+    .day-label{
+      font-weight: 900;
+      display:block;
+      text-align:right;
+      margin-bottom: 6px;
+      color: #334155;
+      font-size: 12px;
+    }
+    .appointment-item{
+      background:#fff;
+      border:1px solid rgba(148,163,184,.6);
+      border-radius:10px;
+      padding: 6px 8px;
+      margin-bottom: 6px;
+      font-size: 13px;
+      line-height: 1.15;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      position:relative;
+      cursor: move;
+      box-shadow: 0 6px 14px rgba(15,23,42,.06);
+    }
+    .appointment-coded{
+      background: linear-gradient(90deg, rgba(10,186,181,.95), rgba(8,127,122,.95));
+      color:#fff;
+      border-color: rgba(255,255,255,.2);
+    }
+    .delete-btn{
+      float:right;
+      cursor:pointer;
+      color:#dc3545;
+      font-weight: 900;
+      margin-left: 8px;
+      opacity: .9;
+    }
+    .appointment-coded .delete-btn{ color: rgba(255,255,255,.95); }
+
+    /* Month tabs area */
+    #calendarSubTabs{
+      overflow-x:auto;
+      flex-wrap: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+    #calendarSubTabs .nav-item{ white-space: nowrap; }
+    #calendarSubTabs .nav-link{ border-top-left-radius: 12px; border-top-right-radius: 12px; }
+
+    /* Modal thumbnails */
+    .calendar-grid-header, .calendar-grid{
+      display:grid;
+      grid-template-columns: repeat(7,1fr);
+      gap: 6px;
+      text-align:center;
+    }
+    .calendar-grid-header div{
+      font-weight: 900;
+      padding: 6px 0;
+      color:#475569;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .calendar-grid button{
+      width: 100%;
+      padding: 10px 0;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      cursor: pointer;
+      font-weight: 800;
+    }
+    .calendar-grid button.active{
+      background: rgba(10,186,181,.12);
+      border-color: rgba(10,186,181,.55);
+      color: #075e5a;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 768px){
+      .container{ max-width: 100%; }
+      .app-container{ padding: 12px 10px 18px; }
+      .brand .sub{ max-width: 62vw; }
+
+      /* mostra bottom nav e nasconde tabs classiche */
+      #mainTabs{ display:none; }
+      .bottom-nav{ display:block; }
+
+      /* tabelle scrollabili */
+      .table-responsive{ border-radius: 14px; overflow:hidden; border: 1px solid var(--border); }
+
+      /* calendario più “touch friendly” */
+      .droppable{ min-height: 110px; max-height: 140px; }
+      .appointment-item{ font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- TOPBAR -->
+  <div class="app-topbar">
+    <div class="wrap">
+      <div class="brand">
+        <div class="title">WEBAPP PIANIFICAZIONE</div>
+        <div class="sub" id="currentManagerLabel">Area Manager: —</div>
+      </div>
+
+      <div class="control-row">
+        <div class="control-left">
+          <span class="control-label">AM</span>
+          <select id="managerSelect" class="topbar-select"></select>
+          <input type="text" id="newManagerName" class="topbar-input" placeholder="Nuovo AM" />
+          <button class="btn-topbar" onclick="addManager()">Aggiungi</button>
+          <button id="renameManagerBtn" class="btn-topbar">Rinomina</button>
+          <button id="deleteManagerBtn" class="btn-topbar">Elimina</button>
+        </div>
+
+        <div class="backup-chip">
+          <button id="exportAllBtn" class="btn-topbar">ESPORTA JSON</button>
+          <label class="btn-topbar mb-0" style="cursor:pointer;">
+            IMPORTA JSON <input type="file" id="importAllFile" accept=".json" hidden>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APP CONTAINER -->
+  <div class="container app-container">
+
+    <!-- Tabs desktop -->
+    <ul class="nav nav-tabs" id="mainTabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="portafoglio-tab" data-toggle="tab" href="#portafoglio">Portafoglio Clienti</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="pianificazione-tab" data-toggle="tab" href="#pianificazione">Pianificazione</a>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="mainTabsContent">
+
+      <!-- PORTAFOGLIO -->
+      <div class="tab-pane fade show active" id="portafoglio">
+        <div class="cardx mt-3">
+          <div class="cardx-h">
+            <div>
+              <h5 class="mb-1" style="font-weight:900;">Portafoglio Negozi</h5>
+              <div class="mini-note">Import Excel sovrascrive solo il portafoglio dell’AM selezionato (pianificazione invariata).</div>
+            </div>
+          </div>
+
+          <div class="cardx-b">
+            <div class="form-group mb-2">
+              <label class="mb-1"><strong>Importa Excel</strong></label>
+              <input type="file" id="importFile" accept=".xls,.xlsx" class="form-control-file">
+            </div>
+
+            <hr style="border-color:var(--border);">
+
+            <form id="addClientForm" class="mb-3">
+              <div class="form-row align-items-end">
+                <div class="col-12 col-md">
+                  <label>Nome negozio</label>
+                  <input type="text" id="newClientName" class="form-control" placeholder="Nome negozio" required>
+                </div>
+                <div class="col-12 col-md">
+                  <label>Indirizzo</label>
+                  <input type="text" id="newClientIndirizzo" class="form-control" placeholder="Indirizzo" required>
+                </div>
+                <div class="col-6 col-md">
+                  <label>Comune</label>
+                  <input type="text" id="newClientComune" class="form-control" placeholder="Comune" required>
+                </div>
+                <div class="col-6 col-md">
+                  <label>Città</label>
+                  <input type="text" id="newClientCitta" class="form-control" placeholder="Città" required>
+                </div>
+                <div class="col-6 col-md-auto">
+                  <div class="form-check mb-2 mt-3 mt-md-0">
+                    <input class="form-check-input" type="checkbox" id="newClientCoded">
+                    <label class="form-check-label" for="newClientCoded"><strong>Codificato</strong></label>
+                  </div>
+                </div>
+                <div class="col-6 col-md-auto">
+                  <button class="btn btn-primary btn-block" style="border-radius:12px;font-weight:800;">Aggiungi</button>
+                </div>
+              </div>
+            </form>
+
+            <div class="table-responsive">
+              <table class="table table-bordered mb-0" id="clientTable">
+                <thead class="thead-light">
+                  <tr>
+                    <th>Nome negozio</th>
+                    <th>Indirizzo</th>
+                    <th>Comune</th>
+                    <th>Città</th>
+                    <th style="width:110px;">Codificato</th>
+                    <th style="min-width:220px;">Azioni</th>
+                  </tr>
+                  <tr>
+                    <th><input type="text" id="filterName" placeholder="Filtra nome" class="form-control form-control-sm"></th>
+                    <th><input type="text" id="filterIndirizzo" placeholder="Filtra indirizzo" class="form-control form-control-sm"></th>
+                    <th><input type="text" id="filterComune" placeholder="Filtra comune" class="form-control form-control-sm"></th>
+                    <th><input type="text" id="filterCitta" placeholder="Filtra città" class="form-control form-control-sm"></th>
+                    <th>
+                      <select id="filterCoded" class="form-control form-control-sm">
+                        <option value="">Tutti</option>
+                        <option value="true">SI</option>
+                        <option value="false">NO</option>
+                      </select>
+                    </th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- PIANIFICAZIONE -->
+      <div class="tab-pane fade" id="pianificazione">
+        <div class="cardx mt-3">
+          <div class="cardx-h">
+            <div>
+              <h5 class="mb-1" style="font-weight:900;">Pianificazione</h5>
+              <div class="mini-note">Drag & drop dal portafoglio al calendario (max 8 appuntamenti per giorno).</div>
+            </div>
+
+            <div class="d-flex align-items-center" style="gap:10px;">
+              <div class="d-flex align-items-center">
+                <span class="mr-2" style="font-weight:800;color:#334155;">Anno:</span>
+                <select id="yearSelect" class="custom-select w-auto" style="border-radius:12px;">
+                  <option value="2025">2025</option>
+                  <option value="2026">2026</option>
+                </select>
+              </div>
+              <button id="sendScheduleBtn" class="btn btn-success" style="border-radius:12px;font-weight:900;">INVIA</button>
+            </div>
+          </div>
+
+          <div class="cardx-b">
+
+            <ul class="nav nav-tabs mt-1" id="calendarSubTabs"></ul>
+
+            <div class="tab-content" id="calendarContent">
+              <div class="tab-pane fade show active" id="generale">
+                <div class="mt-3">
+                  <div class="d-flex flex-wrap justify-content-between align-items-center">
+                    <h6 class="mb-2" style="font-weight:900;">Classifica Negozi</h6>
+                    <div class="d-flex align-items-center">
+                      <span class="mr-2" style="font-weight:800;color:#334155;">Filtro:</span>
+                      <select id="rankingYearFilter" class="custom-select w-auto" style="border-radius:12px;">
+                        <option value="ALL">Tutti (2025+2026)</option>
+                        <option value="2025">Solo 2025</option>
+                        <option value="2026">Solo 2026</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div id="generalSummary"></div>
+                </div>
+              </div>
+              <!-- mesi via JS -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom Nav (mobile) -->
+  <div class="bottom-nav">
+    <div class="bar">
+      <button type="button" id="bn-portafoglio" class="active">Portafoglio</button>
+      <button type="button" id="bn-pianificazione">Pianificazione</button>
+    </div>
+  </div>
+
+  <!-- Modal Pianificazione -->
+  <div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content" style="border-radius:16px; overflow:hidden;">
+        <form id="scheduleForm">
+          <div class="modal-header" style="background:linear-gradient(90deg, rgba(10,186,181,.16), rgba(10,186,181,.06));">
+            <h5 class="modal-title" style="font-weight:900;">Pianifica Visita</h5>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <div class="modal-body">
+            <div class="form-group">
+              <label><strong>Negozio</strong></label>
+              <input type="text" id="selectedClientName" class="form-control" readonly style="border-radius:12px;">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label><strong>Anno</strong></label>
+                <select id="scheduleYear" class="form-control" required style="border-radius:12px;">
+                  <option value="2025">2025</option>
+                  <option value="2026">2026</option>
+                </select>
+              </div>
+              <div class="form-group col-6">
+                <label><strong>Mese</strong></label>
+                <select id="scheduleMonth" class="form-control" required style="border-radius:12px;"></select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label><strong>Seleziona giorno</strong></label>
+              <div id="dayThumbnails"></div>
+              <input type="hidden" id="scheduleDay" required>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-light" data-dismiss="modal" style="border-radius:12px;font-weight:800;">Annulla</button>
+            <button class="btn btn-primary" style="border-radius:12px;font-weight:900;">Conferma</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery, Popper, Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    /************************************************************
+     *  WEBAPP PIANIFICAZIONE (2025-2026) - BOZZA MOBILE-FIRST
+     *  - Mantiene TUTTE le funzioni della baseline.
+     *  - UI migliorata e layout ottimizzato smartphone.
+     ************************************************************/
+
+    /* =======================
+       STATE + CONSTANTS
+    ======================= */
+    let currentManager = '';
+    let currentClientId = null;
+    let selectedYear = 2025;
+
+    const weekdays = ["Lun","Mar","Mer","Gio","Ven","Sab","Dom"];
+
+    const MONTHS_BY_YEAR = {
+      2025: [
+        { label: "Aprile",    monthIndex0: 3,  monthNumber: 4,  key: "aprile" },
+        { label: "Maggio",    monthIndex0: 4,  monthNumber: 5,  key: "maggio" },
+        { label: "Giugno",    monthIndex0: 5,  monthNumber: 6,  key: "giugno" },
+        { label: "Luglio",    monthIndex0: 6,  monthNumber: 7,  key: "luglio" },
+        { label: "Agosto",    monthIndex0: 7,  monthNumber: 8,  key: "agosto" },
+        { label: "Settembre", monthIndex0: 8,  monthNumber: 9,  key: "settembre" },
+        { label: "Ottobre",   monthIndex0: 9,  monthNumber: 10, key: "ottobre" },
+        { label: "Novembre",  monthIndex0: 10, monthNumber: 11, key: "novembre" },
+        { label: "Dicembre",  monthIndex0: 11, monthNumber: 12, key: "dicembre" }
+      ],
+      2026: [
+        { label: "Gennaio",   monthIndex0: 0,  monthNumber: 1,  key: "gennaio" },
+        { label: "Febbraio",  monthIndex0: 1,  monthNumber: 2,  key: "febbraio" },
+        { label: "Marzo",     monthIndex0: 2,  monthNumber: 3,  key: "marzo" },
+        { label: "Aprile",    monthIndex0: 3,  monthNumber: 4,  key: "aprile" },
+        { label: "Maggio",    monthIndex0: 4,  monthNumber: 5,  key: "maggio" },
+        { label: "Giugno",    monthIndex0: 5,  monthNumber: 6,  key: "giugno" },
+        { label: "Luglio",    monthIndex0: 6,  monthNumber: 7,  key: "luglio" },
+        { label: "Agosto",    monthIndex0: 7,  monthNumber: 8,  key: "agosto" },
+        { label: "Settembre", monthIndex0: 8,  monthNumber: 9,  key: "settembre" },
+        { label: "Ottobre",   monthIndex0: 9,  monthNumber: 10, key: "ottobre" },
+        { label: "Novembre",  monthIndex0: 10, monthNumber: 11, key: "novembre" },
+        { label: "Dicembre",  monthIndex0: 11, monthNumber: 12, key: "dicembre" }
+      ]
+    };
+
+    /* =======================
+       DATE UTILS
+    ======================= */
+    function getTodayLocal(){ return new Date(); }
+
+    function getMonthKeyForYear(year, monthNumber1to12){
+      const m = (MONTHS_BY_YEAR[year] || []).find(x => x.monthNumber === monthNumber1to12);
+      return m ? m.key : null;
+    }
+    function getFirstMonthKey(year){
+      const arr = MONTHS_BY_YEAR[year] || [];
+      return arr.length ? arr[0].key : null;
+    }
+    function pickBestMonthKey(year){
+      const today = getTodayLocal();
+      const ty = today.getFullYear();
+      const tm = today.getMonth() + 1;
+      if(year === ty){
+        const k = getMonthKeyForYear(year, tm);
+        return k || getFirstMonthKey(year);
+      }
+      return getFirstMonthKey(year);
+    }
+    function autoGoToMonthInCorso(year){
+      const key = pickBestMonthKey(year);
+      if(!key) return;
+      const paneId = `#pane-${year}-${key}`;
+      const link = document.querySelector(`#calendarSubTabs a[href="${paneId}"]`);
+      if(link) $(link).tab('show');
+    }
+
+    /* =======================
+       STORAGE HELPERS
+    ======================= */
+    function getManagersList(){
+      return JSON.parse(localStorage.getItem("areaManagers")) || [];
+    }
+    function setManagersList(list){
+      localStorage.setItem("areaManagers", JSON.stringify(list));
+    }
+    function clientsKey(mgr){ return "clientsData_" + mgr; }
+    function appsKey(mgr){ return "appointmentsData_" + mgr; }
+
+    function updateTopbarLabel(){
+      const el = document.getElementById("currentManagerLabel");
+      if(el) el.textContent = `Area Manager: ${currentManager || "—"}`;
+    }
+
+    /* =======================
+       MANAGER CRUD
+    ======================= */
+    function loadManagers(){
+      let list = getManagersList();
+      if(!list.length){
+        list = ["MARIO ISERNIA"];
+        setManagersList(list);
+      }
+      const sel = document.getElementById("managerSelect");
+      sel.innerHTML = "";
+      list.forEach(m => sel.add(new Option(m, m)));
+      currentManager = sel.value;
+      updateTopbarLabel();
+    }
+
+    function addManager(){
+      const nm = document.getElementById("newManagerName").value.trim();
+      if(!nm){ alert("Inserisci un nome."); return; }
+
+      let list = getManagersList();
+      if(list.includes(nm)){ alert("Esiste già."); return; }
+
+      saveClients(); saveAppointments();
+
+      list.push(nm);
+      setManagersList(list);
+
+      loadManagers();
+      document.getElementById("managerSelect").value = nm;
+      currentManager = nm;
+      updateTopbarLabel();
+
+      document.getElementById("newManagerName").value = "";
+      reloadAll();
+    }
+
+    function renameManager(){
+      const oldName = document.getElementById("managerSelect").value;
+      if(!oldName){ alert("Seleziona un Area Manager."); return; }
+
+      const newName = prompt("Nuovo nome Area Manager:", oldName);
+      if(newName === null) return;
+      const nn = newName.trim();
+      if(!nn){ alert("Nome non valido."); return; }
+
+      let list = getManagersList();
+      if(nn !== oldName && list.includes(nn)){
+        alert("Esiste già un Area Manager con questo nome.");
+        return;
+      }
+
+      saveClients(); saveAppointments();
+
+      const ok = confirm(`Rinominare "${oldName}" in "${nn}"?\n\nVerranno mantenuti portafoglio e pianificazioni.`);
+      if(!ok) return;
+
+      const oldClients = localStorage.getItem(clientsKey(oldName));
+      const oldApps = localStorage.getItem(appsKey(oldName));
+
+      if(oldClients !== null) localStorage.setItem(clientsKey(nn), oldClients);
+      if(oldApps !== null) localStorage.setItem(appsKey(nn), oldApps);
+
+      localStorage.removeItem(clientsKey(oldName));
+      localStorage.removeItem(appsKey(oldName));
+
+      list = list.map(m => (m === oldName ? nn : m));
+      setManagersList(list);
+
+      if(currentManager === oldName) currentManager = nn;
+
+      loadManagers();
+      document.getElementById("managerSelect").value = nn;
+      currentManager = nn;
+      updateTopbarLabel();
+
+      reloadAll();
+    }
+
+    function deleteManager(){
+      const name = document.getElementById("managerSelect").value;
+      if(!name){ alert("Seleziona un Area Manager."); return; }
+
+      let list = getManagersList();
+      if(list.length <= 1){
+        alert("Non puoi eliminare l'ultimo Area Manager.");
+        return;
+      }
+
+      const ok = confirm(`Eliminare "${name}"?\n\nATTENZIONE: verranno cancellati portafoglio e pianificazioni di questo Area Manager.`);
+      if(!ok) return;
+
+      saveClients(); saveAppointments();
+
+      localStorage.removeItem(clientsKey(name));
+      localStorage.removeItem(appsKey(name));
+
+      list = list.filter(m => m !== name);
+      setManagersList(list);
+
+      if(currentManager === name){
+        currentManager = list[0];
+      }
+
+      loadManagers();
+      document.getElementById("managerSelect").value = currentManager;
+      updateTopbarLabel();
+
+      reloadAll();
+    }
+
+    /* =======================
+       BACKUP EXPORT/IMPORT
+    ======================= */
+    function buildBackupPayload(){
+      const payload = {
+        app: "PIANIFICAZIONE_SETTIMANALE",
+        version: "2025-2026-v1",
+        exportedAt: new Date().toISOString(),
+        keys: {}
+      };
+
+      const areaManagers = getManagersList();
+      payload.keys["areaManagers"] = areaManagers;
+
+      areaManagers.forEach(mgr=>{
+        const cKey = clientsKey(mgr);
+        const aKey = appsKey(mgr);
+        payload.keys[cKey] = JSON.parse(localStorage.getItem(cKey) || "null");
+        payload.keys[aKey] = JSON.parse(localStorage.getItem(aKey) || "null");
+      });
+
+      payload.keys["_lastManager"] = currentManager || "";
+      return payload;
+    }
+
+    function downloadJson(filename, obj){
+      const blob = new Blob([JSON.stringify(obj, null, 2)], {type: "application/json"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    /* =======================
+       PORTAFOGLIO: FILTERS
+    ======================= */
+    function filterTable(){
+      const fn=document.getElementById("filterName").value.toLowerCase(),
+            fi=document.getElementById("filterIndirizzo").value.toLowerCase(),
+            fc=document.getElementById("filterComune").value.toLowerCase(),
+            fct=document.getElementById("filterCitta").value.toLowerCase(),
+            fcd=document.getElementById("filterCoded").value;
+
+      document.querySelectorAll("#clientTable tbody tr").forEach(tr=>{
+        const n=tr.querySelector(".client-name").innerText.toLowerCase(),
+              i=tr.querySelector(".client-indirizzo").innerText.toLowerCase(),
+              c=tr.querySelector(".client-comune").innerText.toLowerCase(),
+              ct=tr.querySelector(".client-citta").innerText.toLowerCase(),
+              cd=tr.classList.contains("coded")?"true":"false";
+        let show=true;
+        if(fn && !n.includes(fn)) show=false;
+        if(fi && !i.includes(fi)) show=false;
+        if(fc && !c.includes(fc)) show=false;
+        if(fct && !ct.includes(fct)) show=false;
+        if(fcd && fcd!==cd) show=false;
+        tr.style.display = show?"":"none";
+      });
+    }
+
+    /* =======================
+       DRAG & DROP
+    ======================= */
+    function dragStart(e){
+      const t=e.currentTarget;
+      if(t.classList.contains("appointment-item")){
+        e.dataTransfer.setData("type","appointment");
+        e.dataTransfer.setData("appointmentId",t.id);
+      } else {
+        e.dataTransfer.setData("type","client");
+        e.dataTransfer.setData("clientId",t.dataset.clientId);
+      }
+    }
+    function allowDrop(e){ e.preventDefault(); e.currentTarget.classList.add("over"); }
+    function drop(e){
+      e.preventDefault(); e.currentTarget.classList.remove("over");
+      if(e.currentTarget.querySelectorAll(".appointment-item").length>=8){
+        alert("Limite di 8 appuntamenti."); return;
+      }
+      const type=e.dataTransfer.getData("type");
+      if(type==="client"){
+        const id=e.dataTransfer.getData("clientId"),
+              row=document.getElementById(id);
+        if(!row)return;
+        const name=row.querySelector(".client-name").innerText,
+              coded=row.classList.contains("coded"),
+              app=createAppointment(name,coded);
+        e.currentTarget.appendChild(app);
+      } else {
+        const aid=e.dataTransfer.getData("appointmentId"),
+              app=document.getElementById(aid);
+        if(app) e.currentTarget.appendChild(app);
+      }
+      saveAppointments(); updateGeneralSummary();
+    }
+
+    /* =======================
+       APPOINTMENT
+    ======================= */
+    function createAppointment(name,isCoded){
+      const div=document.createElement("div"),
+            id="appointment-"+Date.now()+"-"+Math.random();
+      div.id=id;
+      div.className="appointment-item"+(isCoded?" appointment-coded":"");
+      div.dataset.name=name;
+      div.dataset.coded=isCoded ? "true" : "false";
+
+      const span=document.createElement("span");
+      span.innerText=name;
+      div.appendChild(span);
+
+      div.draggable=true;
+      div.addEventListener("dragstart",dragStart);
+
+      const del=document.createElement("span");
+      del.className="delete-btn";
+      del.innerHTML="&times;";
+      del.onclick=e=>{
+        e.stopPropagation();
+        div.remove();
+        saveAppointments();
+        updateGeneralSummary();
+      };
+      div.appendChild(del);
+      return div;
+    }
+
+    /* =======================
+       PORTAFOGLIO CRUD
+    ======================= */
+    function addClientRow(client){
+      const tbody=document.querySelector("#clientTable tbody"),
+            tr=document.createElement("tr");
+      tr.id=client.id;
+      tr.dataset.clientId=client.id;
+      tr.draggable=true;
+      tr.classList.add("draggable");
+      tr.addEventListener("dragstart",dragStart);
+
+      let td=document.createElement("td");
+      td.className="client-name";
+      td.innerText=client.name;
+      tr.appendChild(td);
+
+      td=document.createElement("td");
+      td.className="client-indirizzo";
+      td.innerText=client.indirizzo;
+      tr.appendChild(td);
+
+      td=document.createElement("td");
+      td.className="client-comune";
+      td.innerText=client.comune;
+      tr.appendChild(td);
+
+      td=document.createElement("td");
+      td.className="client-citta";
+      td.innerText=client.citta;
+      tr.appendChild(td);
+
+      td=document.createElement("td");
+      td.className="text-center";
+      const chk=document.createElement("input");
+      chk.type="checkbox";
+      chk.className="client-coded";
+      chk.checked=!!client.coded;
+      chk.onchange=()=>{
+        tr.classList.toggle("coded",chk.checked);
+        tr.classList.toggle("noncoded",!chk.checked);
+        saveClients();
+        updateGeneralSummary();
+      };
+      td.appendChild(chk);
+      tr.appendChild(td);
+
+      td=document.createElement("td");
+      ["Modifica","Pianifica","Cancella"].forEach(txt=>{
+        const btn=document.createElement("button");
+        btn.className="btn btn-sm "+(
+          txt==="Modifica" ? "btn-secondary mr-1" :
+          txt==="Pianifica"? "btn-primary mr-1" : "btn-danger"
+        );
+        btn.style.borderRadius = "12px";
+        btn.style.fontWeight = "800";
+        btn.innerText=txt;
+        btn.onclick=()=>{
+          if(txt==="Modifica") editClient(client.id);
+          if(txt==="Pianifica") openScheduleModal(client.id);
+          if(txt==="Cancella") deleteClient(client.id);
+        };
+        td.appendChild(btn);
+      });
+      tr.appendChild(td);
+
+      if(client.coded) tr.classList.add("coded");
+      else tr.classList.add("noncoded");
+
+      tbody.appendChild(tr);
+    }
+
+    function applyRowColors(){
+      document.querySelectorAll("#clientTable tbody tr").forEach(tr=>{
+        tr.classList.remove("coded","noncoded");
+        const chk=tr.querySelector(".client-coded");
+        if(chk && chk.checked) tr.classList.add("coded");
+        else tr.classList.add("noncoded");
+      });
+    }
+
+    function saveClients(){
+      const arr=[...document.querySelectorAll("#clientTable tbody tr")].map(r=>({
+        id:r.id,
+        name:r.querySelector(".client-name").innerText,
+        indirizzo:r.querySelector(".client-indirizzo").innerText,
+        comune:r.querySelector(".client-comune").innerText,
+        citta:r.querySelector(".client-citta").innerText,
+        coded:r.querySelector(".client-coded").checked
+      }));
+      localStorage.setItem(clientsKey(currentManager), JSON.stringify(arr));
+    }
+
+    function loadClients(){
+      document.querySelector("#clientTable tbody").innerHTML="";
+      let arr=JSON.parse(localStorage.getItem(clientsKey(currentManager)))||[];
+      if(!arr.length){
+        arr=[
+          {id:"client-1",name:"Negozio A",indirizzo:"Via Roma 1",comune:"Centro",citta:"Milano",coded:false},
+          {id:"client-2",name:"Negozio B",indirizzo:"Viale Europa 10",comune:"Periferia",citta:"Roma",coded:false}
+        ];
+        localStorage.setItem(clientsKey(currentManager), JSON.stringify(arr));
+      }
+      arr.sort((a,b)=>a.name.localeCompare(b.name));
+      arr.forEach(addClientRow);
+      applyRowColors();
+    }
+
+    function editClient(id){
+      const tr=document.getElementById(id);
+      if(!tr) return;
+      const ne=tr.querySelector(".client-name");
+      const nn=prompt("Modifica nome:",ne.innerText);
+      if(nn){
+        ne.innerText=nn.trim();
+        saveClients();
+        updateGeneralSummary();
+      }
+    }
+
+    function deleteClient(id){
+      if(confirm("Eliminare?")){
+        const el = document.getElementById(id);
+        if(el) el.remove();
+        saveClients();
+        updateGeneralSummary();
+      }
+    }
+
+    /* =======================
+       APPOINTMENTS (merge)
+    ======================= */
+    function saveAppointments(){
+      const viewData = {};
+      document.querySelectorAll("td[data-date]").forEach(td=>{
+        const apps=[...td.querySelectorAll(".appointment-item")].map(a=>({
+          name:a.dataset.name,
+          coded:(a.dataset.coded==="true")
+        }));
+        if(apps.length) viewData[td.dataset.date]=apps;
+      });
+
+      const existing = JSON.parse(localStorage.getItem(appsKey(currentManager))) || {};
+      const merged = { ...existing, ...viewData };
+
+      const viewDates = new Set([...document.querySelectorAll("td[data-date]")].map(td => td.dataset.date));
+      Object.keys(existing).forEach(dateKey => {
+        if (viewDates.has(dateKey) && !viewData[dateKey]) {
+          delete merged[dateKey];
+        }
+      });
+
+      localStorage.setItem(appsKey(currentManager), JSON.stringify(merged));
+    }
+
+    function loadAppointments(){
+      document.querySelectorAll("td[data-date]").forEach(td=>{
+        td.querySelectorAll(".appointment-item").forEach(a=>a.remove());
+      });
+
+      const data=JSON.parse(localStorage.getItem(appsKey(currentManager)))||{};
+      Object.entries(data).forEach(([date,apps])=>{
+        const td=document.querySelector(`td[data-date="${date}"]`);
+        if(td) apps.forEach(a=>td.appendChild(createAppointment(a.name,a.coded)));
+      });
+    }
+
+    /* =======================
+       CALENDARS
+    ======================= */
+    function daysInMonth(y,m){ return new Date(y,m+1,0).getDate(); }
+    function weekday(y,m,d){ const w=new Date(y,m,d).getDay(); return w? w-1:6; }
+
+    function createCalendar(y,mIndex0,containerId){
+      const c=document.getElementById(containerId);
+      if(!c) return;
+      c.innerHTML="";
+
+      const tbl=document.createElement("table");
+      tbl.className="table table-bordered";
+
+      const thead=document.createElement("thead");
+      thead.className="thead-light";
+      const trh=document.createElement("tr");
+      weekdays.forEach(w=>{
+        const th=document.createElement("th");
+        th.innerText=w;
+        trh.appendChild(th);
+      });
+      thead.appendChild(trh);
+      tbl.appendChild(thead);
+
+      const tbody=document.createElement("tbody");
+      let day=1, total=daysInMonth(y,mIndex0);
+      while(day<=total){
+        const tr=document.createElement("tr");
+        for(let wd=0;wd<7;wd++){
+          const td=document.createElement("td");
+          if(day<=total && weekday(y,mIndex0,day)===wd){
+            td.className="droppable";
+            td.ondragover=allowDrop;
+            td.ondrop=drop;
+
+            const lbl=document.createElement("span");
+            lbl.className="day-label";
+            lbl.innerText=day;
+            td.appendChild(lbl);
+
+            td.dataset.date=`${y}-${String(mIndex0+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+            day++;
+          }
+          tr.appendChild(td);
+        }
+        tbody.appendChild(tr);
+      }
+      tbl.appendChild(tbody);
+      c.appendChild(tbl);
+    }
+
+    function renderCalendarTabsForYear(year){
+      const tabs = document.getElementById("calendarSubTabs");
+      const content = document.getElementById("calendarContent");
+
+      tabs.innerHTML = "";
+      [...content.querySelectorAll('.tab-pane')].forEach(p => {
+        if (p.id !== "generale") p.remove();
+      });
+
+      const liGen = document.createElement("li");
+      liGen.className = "nav-item";
+      liGen.innerHTML = `<a class="nav-link active" data-toggle="tab" href="#generale">Generale</a>`;
+      tabs.appendChild(liGen);
+
+      (MONTHS_BY_YEAR[year] || []).forEach(m => {
+        const paneId = `pane-${year}-${m.key}`;
+        const containerId = `calendar-${year}-${m.key}`;
+
+        const li = document.createElement("li");
+        li.className = "nav-item";
+        li.innerHTML = `<a class="nav-link" data-toggle="tab" href="#${paneId}">${m.label}</a>`;
+        tabs.appendChild(li);
+
+        const pane = document.createElement("div");
+        pane.className = "tab-pane fade";
+        pane.id = paneId;
+        pane.innerHTML = `<div id="${containerId}" class="mt-3"></div>`;
+        content.appendChild(pane);
+      });
+
+      $('#calendarSubTabs a[href="#generale"]').tab('show');
+    }
+
+    function rebuildYearCalendars(year){
+      (MONTHS_BY_YEAR[year] || []).forEach(m => {
+        const containerId = `calendar-${year}-${m.key}`;
+        createCalendar(year, m.monthIndex0, containerId);
+      });
+    }
+
+    /* =======================
+       RANKING
+    ======================= */
+    function escapeHtml(str){
+      return String(str)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+    }
+
+    function updateGeneralSummary(){
+      const rawData = JSON.parse(localStorage.getItem(appsKey(currentManager)))||{};
+      const today = getTodayLocal();
+      const filter = document.getElementById("rankingYearFilter").value; // ALL / 2025 / 2026
+
+      const data = {};
+      Object.entries(rawData).forEach(([date, apps]) => {
+        const y = parseInt(String(date).slice(0,4), 10);
+        if (filter !== "ALL" && y !== parseInt(filter, 10)) return;
+        data[date] = apps;
+      });
+
+      const rankingObj = {};
+      Object.entries(data).forEach(([date,apps])=>{
+        const dt=new Date(date);
+        apps.forEach(a=>{
+          if(!rankingObj[a.name]) rankingObj[a.name]=[];
+          rankingObj[a.name].push(dt);
+        });
+      });
+
+      const clients = JSON.parse(localStorage.getItem(clientsKey(currentManager)))||[];
+
+      const arr = clients.map(c=>{
+        const dates = (rankingObj[c.name]||[]).sort((a,b)=>a-b);
+        const past   = dates.filter(d => d <= today);
+        const future = dates.filter(d => d >  today);
+
+        let daysSinceLastVal = NaN;
+        let daysSinceDisplay = "-";
+        if(past.length){
+          const last = past[past.length-1];
+          const diff = Math.round((today - last)/(1000*60*60*24));
+          daysSinceLastVal = diff;
+          daysSinceDisplay = diff + " giorni";
+        }
+
+        let progDisplay = "-";
+        if(future.length){
+          const next = future[0];
+          const missing = Math.round((next - today)/(1000*60*60*24));
+          progDisplay = missing + " giorni";
+        }
+
+        const total = dates.length;
+        const gap = total>1
+          ? (dates.slice(1).reduce((s,d,i)=>s + Math.round((d-dates[i])/(1000*60*60*24)),0)/(total-1)).toFixed(1) + " giorni"
+          : "N/A";
+
+        const sortKey = isNaN(daysSinceLastVal) ? -Infinity : daysSinceLastVal;
+
+        return {
+          name: c.name,
+          total,
+          gap,
+          coded: !!c.coded,
+          daysSinceVal: sortKey,
+          daysSinceDisplay,
+          progDisplay
+        };
+      });
+
+      const codedArr = arr.filter(x=>x.coded).sort((a,b)=>(b.daysSinceVal-a.daysSinceVal)||a.name.localeCompare(b.name));
+      const nonArr   = arr.filter(x=>!x.coded).sort((a,b)=>(b.daysSinceVal-a.daysSinceVal)||a.name.localeCompare(b.name));
+
+      const titleSuffix = (filter==="ALL") ? " (2025+2026)" : ` (${filter})`;
+
+      let html = "";
+      html += `<div class="mb-2"><strong>Totale Negozi:</strong> ${clients.length}${titleSuffix}</div>`;
+
+      function renderTable(title, rows){
+        let out = `<h6 class="mt-3" style="font-weight:900;">${title}</h6>`;
+        out += `<div class="table-responsive"><table class="table table-sm table-bordered mb-0">
+          <thead class="thead-light">
+            <tr>
+              <th>Nome negozio</th>
+              <th>Totale visite</th>
+              <th>Gap medio</th>
+              <th>Programmata</th>
+              <th>Giorni dall'ultima visita</th>
+            </tr>
+          </thead>
+          <tbody>`;
+        rows.forEach(i=>{
+          out += `<tr>
+            <td>${escapeHtml(i.name)}</td>
+            <td>${i.total}</td>
+            <td>${escapeHtml(i.gap)}</td>
+            <td>${escapeHtml(String(i.progDisplay))}</td>
+            <td>${escapeHtml(i.daysSinceDisplay)}</td>
+          </tr>`;
+        });
+        out += `</tbody></table></div>`;
+        return out;
+      }
+
+      html += renderTable("Codificati", codedArr);
+      html += renderTable("Non codificati", nonArr);
+
+      document.getElementById("generalSummary").innerHTML = html;
+    }
+
+    /* =======================
+       MODAL: YEAR/MONTH/DAYS
+    ======================= */
+    function renderMonthSelectForYear(year){
+      const sel = document.getElementById("scheduleMonth");
+      sel.innerHTML = `<option value="">Seleziona</option>`;
+      (MONTHS_BY_YEAR[year] || []).forEach(m=>{
+        const opt = document.createElement("option");
+        opt.value = String(m.monthNumber);
+        opt.textContent = m.label;
+        sel.appendChild(opt);
+      });
+    }
+
+    function generateDayThumbnails(){
+      const year = parseInt(document.getElementById("scheduleYear").value, 10);
+      const mv = parseInt(document.getElementById("scheduleMonth").value, 10);
+      const cont = document.getElementById("dayThumbnails");
+
+      cont.innerHTML="";
+      document.getElementById("scheduleDay").value="";
+      if(!year || !mv) return;
+
+      const hd=document.createElement("div");
+      hd.className="calendar-grid-header";
+      weekdays.forEach(w=>{
+        const d=document.createElement("div");
+        d.innerText=w;
+        hd.appendChild(d);
+      });
+      cont.appendChild(hd);
+
+      const gd=document.createElement("div");
+      gd.className="calendar-grid";
+
+      const mIndex0 = mv - 1;
+      const total = daysInMonth(year, mIndex0);
+      const first = weekday(year, mIndex0, 1);
+
+      for(let i=0;i<first;i++) gd.appendChild(document.createElement("div"));
+
+      for(let d=1;d<=total;d++){
+        const btn=document.createElement("button");
+        btn.type="button";
+        btn.innerText=d;
+        btn.onclick=()=>{
+          gd.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
+          btn.classList.add("active");
+          document.getElementById("scheduleDay").value = String(d);
+        };
+        gd.appendChild(btn);
+      }
+      cont.appendChild(gd);
+    }
+
+    function openScheduleModal(id){
+      currentClientId = id;
+      const tr=document.getElementById(id);
+      if(!tr) return;
+
+      document.getElementById("selectedClientName").value = tr.querySelector(".client-name").innerText;
+
+      document.getElementById("scheduleYear").value = String(selectedYear);
+      renderMonthSelectForYear(selectedYear);
+
+      document.getElementById("scheduleMonth").value = "";
+      document.getElementById("dayThumbnails").innerHTML = "";
+      document.getElementById("scheduleDay").value = "";
+
+      $('#scheduleModal').modal('show');
+    }
+
+    /* =======================
+       SEND MAIL
+    ======================= */
+    function sendScheduleEmail(){
+      const active = document.querySelector("#calendarSubTabs .nav-link.active");
+      const href = active ? active.getAttribute("href") : "#generale";
+
+      let subj="", body="";
+
+      if(href==="#generale"){
+        subj = `Pianificazione - Classifica ${currentManager}`;
+        body = document.getElementById("generalSummary").innerText.trim();
+      } else {
+        subj = `Pianificazione ${selectedYear} - ${active.innerText} - ${currentManager}`;
+        const pane = document.querySelector(href);
+        if(!pane){
+          alert("Tab non valido.");
+          return;
+        }
+        const lines = [];
+        pane.querySelectorAll(`td[data-date]`).forEach(td=>{
+          const apps=[...td.querySelectorAll(".appointment-item")].map(a=>a.dataset.name);
+          if(apps.length){
+            lines.push(`${td.dataset.date}: ${apps.join(", ")}`);
+          }
+        });
+        body = lines.length ? lines.join("\n") : "Nessuna pianificazione presente in questo mese.";
+      }
+
+      window.location.href=`mailto:?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
+    }
+
+    /* =======================
+       RELOAD / INIT
+    ======================= */
+    function reloadAll(){
+      renderCalendarTabsForYear(selectedYear);
+      rebuildYearCalendars(selectedYear);
+
+      loadClients();
+      loadAppointments();
+      updateGeneralSummary();
+      updateTopbarLabel();
+    }
+
+    /* =======================
+       EVENTS BINDING
+    ======================= */
+    document.getElementById("renameManagerBtn").addEventListener("click", renameManager);
+    document.getElementById("deleteManagerBtn").addEventListener("click", deleteManager);
+
+    document.getElementById("managerSelect").addEventListener("change", () => {
+      saveClients(); saveAppointments();
+      currentManager = document.getElementById("managerSelect").value;
+      updateTopbarLabel();
+      reloadAll();
+    });
+
+    document.getElementById("exportAllBtn").addEventListener("click", ()=>{
+      const payload = buildBackupPayload();
+      const stamp = new Date();
+      const fn = `backup_pianificazione_${stamp.getFullYear()}-${String(stamp.getMonth()+1).padStart(2,"0")}-${String(stamp.getDate()).padStart(2,"0")}.json`;
+      downloadJson(fn, payload);
+    });
+
+    document.getElementById("importAllFile").addEventListener("change", (e)=>{
+      const file = e.target.files && e.target.files[0];
+      if(!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (ev)=>{
+        try{
+          const obj = JSON.parse(ev.target.result);
+
+          if(!obj || !obj.keys || obj.app !== "PIANIFICAZIONE_SETTIMANALE"){
+            alert("File non valido o non compatibile.");
+            return;
+          }
+
+          const ok = confirm("Importare il backup?\n\nSovrascrive i dati locali (Area Manager, Portafogli, Pianificazioni).");
+          if(!ok) return;
+
+          Object.entries(obj.keys).forEach(([k,v])=>{
+            if(v === null || typeof v === "undefined"){
+              localStorage.removeItem(k);
+            } else {
+              localStorage.setItem(k, JSON.stringify(v));
+            }
+          });
+
+          loadManagers();
+          const last = (obj.keys["_lastManager"] || "");
+          if(last){
+            document.getElementById("managerSelect").value = last;
+            currentManager = last;
+          } else {
+            currentManager = document.getElementById("managerSelect").value;
+          }
+          updateTopbarLabel();
+
+          const today = getTodayLocal();
+          const preferredYear = (today.getFullYear()===2025 || today.getFullYear()===2026) ? today.getFullYear() : 2026;
+          selectedYear = preferredYear;
+          document.getElementById("yearSelect").value = String(preferredYear);
+
+          reloadAll();
+          autoGoToMonthInCorso(selectedYear);
+
+          alert("Backup importato correttamente.");
+        } catch(err){
+          console.error(err);
+          alert("Errore: il file JSON non è leggibile.");
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = "";
+    });
+
+    document.getElementById("yearSelect").addEventListener("change", () => {
+      const y = parseInt(document.getElementById("yearSelect").value, 10);
+      if (!y || !MONTHS_BY_YEAR[y]) return;
+      selectedYear = y;
+
+      renderCalendarTabsForYear(selectedYear);
+      rebuildYearCalendars(selectedYear);
+      loadAppointments();
+      updateGeneralSummary();
+
+      autoGoToMonthInCorso(selectedYear);
+    });
+
+    document.getElementById("rankingYearFilter").addEventListener("change", updateGeneralSummary);
+
+    ["Name","Indirizzo","Comune","Citta"].forEach(k=>{
+      document.getElementById("filter"+k).addEventListener("keyup",filterTable);
+    });
+    document.getElementById("filterCoded").addEventListener("change",filterTable);
+
+    document.getElementById("importFile").addEventListener("change",e=>{
+      const f=e.target.files[0];
+      if(!f)return;
+
+      const r=new FileReader();
+      r.onload=ev=>{
+        const data=new Uint8Array(ev.target.result),
+              wb=XLSX.read(data,{type:"array"}),
+              rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:""});
+
+        localStorage.removeItem(clientsKey(currentManager));
+        document.querySelector("#clientTable tbody").innerHTML="";
+
+        rows.forEach(rw=>{
+          const name=String(rw["Nome negozio"]||"").trim();
+          const indirizzo=String(rw["Indirizzo"]||"").trim();
+          const comune=String(rw["Comune"]||"").trim();
+          const citta=String(rw["Città"]||"").trim();
+          const cv=String(rw["Codificato"]||"").trim().toUpperCase();
+          const coded=(cv==="SI");
+
+          if(!name && !indirizzo && !comune && !citta) return;
+
+          addClientRow({
+            id:"client-"+Date.now()+"-"+Math.random(),
+            name, indirizzo, comune, citta, coded
+          });
+        });
+
+        saveClients();
+        applyRowColors();
+        updateGeneralSummary();
+      };
+      r.readAsArrayBuffer(f);
+      e.target.value = "";
+    });
+
+    document.getElementById("addClientForm").addEventListener("submit",e=>{
+      e.preventDefault();
+      const n=document.getElementById("newClientName").value.trim(),
+            i=document.getElementById("newClientIndirizzo").value.trim(),
+            c=document.getElementById("newClientComune").value.trim(),
+            ct=document.getElementById("newClientCitta").value.trim(),
+            cd=document.getElementById("newClientCoded").checked;
+
+      if(n && i && c && ct){
+        addClientRow({
+          id:"client-"+Date.now()+"-"+Math.random(),
+          name:n, indirizzo:i, comune:c, citta:ct, coded:cd
+        });
+        saveClients();
+        applyRowColors();
+        ["newClientName","newClientIndirizzo","newClientComune","newClientCitta"].forEach(id=>document.getElementById(id).value="");
+        document.getElementById("newClientCoded").checked=false;
+        updateGeneralSummary();
+      }
+    });
+
+    document.getElementById("scheduleYear").addEventListener("change", () => {
+      const y = parseInt(document.getElementById("scheduleYear").value, 10);
+      renderMonthSelectForYear(y);
+      document.getElementById("dayThumbnails").innerHTML="";
+      document.getElementById("scheduleDay").value="";
+    });
+    document.getElementById("scheduleMonth").addEventListener("change", generateDayThumbnails);
+
+    document.getElementById("scheduleForm").addEventListener("submit",e=>{
+      e.preventDefault();
+
+      const y = parseInt(document.getElementById("scheduleYear").value, 10);
+      const mv = document.getElementById("scheduleMonth").value;
+      const dv = document.getElementById("scheduleDay").value;
+
+      if(!y || !mv || !dv){
+        alert("Compila tutti i campi.");
+        return;
+      }
+
+      const mo=String(mv).padStart(2,"0");
+      const da=String(dv).padStart(2,"0");
+      const date = `${y}-${mo}-${da}`;
+
+      const cell = document.querySelector(`td[data-date="${date}"]`);
+      if(!cell){
+        alert("La data selezionata non è visibile nel calendario corrente. Seleziona l'anno corretto (in alto) e riprova.");
+        return;
+      }
+
+      if(cell.querySelectorAll(".appointment-item").length>=8){
+        alert("Limite di 8 appuntamenti.");
+        return;
+      }
+
+      const name = document.getElementById("selectedClientName").value;
+      const coded = document.getElementById(currentClientId).classList.contains("coded");
+      const app = createAppointment(name, coded);
+
+      cell.appendChild(app);
+      saveAppointments();
+      updateGeneralSummary();
+      $('#scheduleModal').modal('hide');
+    });
+
+    document.getElementById("sendScheduleBtn").onclick = sendScheduleEmail;
+
+    // Mobile bottom nav: collega ai tab bootstrap
+    function setBottomNavActive(which){
+      document.getElementById("bn-portafoglio").classList.toggle("active", which==="portafoglio");
+      document.getElementById("bn-pianificazione").classList.toggle("active", which==="pianificazione");
+    }
+    document.getElementById("bn-portafoglio").addEventListener("click", ()=>{
+      $('#portafoglio-tab').tab('show');
+      setBottomNavActive("portafoglio");
+      window.scrollTo({top:0, behavior:"smooth"});
+    });
+    document.getElementById("bn-pianificazione").addEventListener("click", ()=>{
+      $('#pianificazione-tab').tab('show');
+      setBottomNavActive("pianificazione");
+      window.scrollTo({top:0, behavior:"smooth"});
+    });
+
+    // Autosave
+    window.addEventListener("beforeunload",()=>{ saveClients(); saveAppointments(); });
+    setInterval(()=>{ saveClients(); saveAppointments(); },60000);
+
+    // INIT
+    document.addEventListener("DOMContentLoaded",()=>{
+      loadManagers();
+      document.getElementById("managerSelect").value=currentManager;
+      updateTopbarLabel();
+
+      const today = getTodayLocal();
+      const initYear = (today.getFullYear()===2025 || today.getFullYear()===2026) ? today.getFullYear() : 2026;
+
+      selectedYear = initYear;
+      document.getElementById("yearSelect").value = String(initYear);
+
+      document.getElementById("scheduleYear").value = String(initYear);
+      renderMonthSelectForYear(initYear);
+
+      reloadAll();
+      autoGoToMonthInCorso(selectedYear);
+
+      console.assert(typeof currentManager === "string", "currentManager deve essere definito");
+    });
+  </script>
+</body>
+</html>
