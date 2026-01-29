@@ -26,7 +26,6 @@
       --ok:#10b981;
       --warn:#f59e0b;
 
-      --appbarH: 86px;
       --bottomH: 76px;
     }
 
@@ -36,19 +35,15 @@
                   radial-gradient(900px 600px at 110% 10%, rgba(10,186,181,.12), transparent 55%),
                   var(--bg);
       color:var(--text);
-      overflow:hidden; /* scroll gestito solo nel main */
+      overflow:hidden;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
     /* ===== APP SHELL ===== */
-    .app-shell{
-      height:100%;
-      display:flex;
-      flex-direction:column;
-    }
+    .app-shell{ height:100%; display:flex; flex-direction:column; }
 
-    /* Header compatta */
+    /* ===== APPBAR ===== */
     .appbar{
       position: sticky;
       top: 0;
@@ -64,19 +59,44 @@
       justify-content:space-between;
       gap:12px;
     }
+    .brand{
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
     .brand-title{
       font-weight:1000;
       letter-spacing:.2px;
       font-size:16px;
       line-height:1.1;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
-    .brand-sub{ font-size:12px; opacity:.92; margin-top:4px; }
-    .appbar-actions{
+    .brand-sub{
+      font-size:12.5px;
+      opacity:.95;
+      line-height:1.15;
       display:flex;
-      align-items:center;
-      gap:10px;
+      align-items:baseline;
+      gap:6px;
+      flex-wrap:wrap;
+    }
+    .brand-sub .label{ opacity:.9; font-weight:900; }
+    .brand-sub .value{
+      font-weight:1000;
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.22);
+      padding: 3px 8px;
+      border-radius: 999px;
+      max-width: 100%;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
+    .appbar-actions{ display:flex; align-items:center; gap:10px; }
     .am-select{
       height:36px;
       border-radius:12px;
@@ -88,7 +108,6 @@
       font-weight:900;
       font-size:13px;
     }
-
     .btn-gear{
       width:40px;
       height:40px;
@@ -102,10 +121,12 @@
       justify-content:center;
     }
 
+    /* ===== MAIN ===== */
     .app-main{
       flex:1;
       overflow:auto;
       padding: 14px 14px calc(var(--bottomH) + 14px + env(safe-area-inset-bottom));
+      -webkit-overflow-scrolling: touch;
     }
 
     /* ===== BOTTOM NAV ===== */
@@ -142,7 +163,7 @@
       box-shadow: inset 0 0 0 1px rgba(10,186,181,.25);
     }
 
-    /* ===== CARDS / SECTIONS ===== */
+    /* ===== CARDS ===== */
     .cardx{
       background: var(--card);
       border: 1px solid var(--border);
@@ -156,7 +177,6 @@
       display:flex; align-items:center; justify-content:space-between;
       gap:10px;
     }
-    .cardx-hd h3, .cardx-hd h4, .cardx-hd h5{margin:0;}
     .cardx-bd{padding: 14px;}
     .muted{color:var(--muted);}
     .mini{font-size:12px;}
@@ -172,70 +192,9 @@
     }
     .chip-ok{border-color: rgba(16,185,129,.35); background: rgba(16,185,129,.10); color:#047857;}
     .chip-no{border-color: rgba(107,114,128,.25); background: rgba(107,114,128,.10); color:#374151;}
+    .chip-tiffany{border-color: rgba(10,186,181,.35); background: rgba(10,186,181,.12); color:#0f766e;}
 
-    /* ===== PORTAFOGLIO (mobile list) ===== */
-    .filters-grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-    }
-    .filters-grid .full{grid-column: 1 / -1;}
-    .form-control, .custom-select{border-radius: 12px;}
-    .btn{border-radius: 12px; font-weight:800;}
-    .btn-primary{background: #0ea5a4; border-color:#0ea5a4;}
-    .btn-primary:hover{background:#0b9a98; border-color:#0b9a98;}
-    .btn-success{background:#16a34a; border-color:#16a34a;}
-    .btn-success:hover{background:#15803d; border-color:#15803d;}
-
-    .shop-list{display:flex; flex-direction:column; gap:10px;}
-    .shop-item{
-      border:1px solid var(--border);
-      border-radius: 14px;
-      padding: 12px;
-      background:#fff;
-      box-shadow: 0 10px 22px rgba(15,23,42,.06);
-    }
-    .shop-top{
-      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
-    }
-    .shop-name{
-      font-weight:900;
-      font-size:15px;
-      line-height:1.15;
-      margin:0;
-    }
-    .shop-meta{
-      margin-top:8px;
-      font-size:13px;
-      color:#334155;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:4px;
-    }
-    .shop-meta .k{color:var(--muted); font-weight:800; font-size:12px; margin-right:6px;}
-    .shop-actions{
-      display:flex; gap:8px; margin-top:10px;
-      flex-wrap:wrap;
-    }
-    .shop-actions .btn{padding:8px 10px; font-size:12px; border-radius: 12px;}
-    .btn-danger{background:#ef4444; border-color:#ef4444;}
-    .btn-danger:hover{background:#dc2626; border-color:#dc2626;}
-    .btn-secondary{background:#64748b; border-color:#64748b;}
-    .btn-secondary:hover{background:#475569; border-color:#475569;}
-
-    /* Desktop table fallback */
-    .table-wrap{
-      overflow:auto;
-      border:1px solid var(--border);
-      border-radius: 14px;
-    }
-    #clientTable{
-      min-width: 860px;
-      margin:0;
-    }
-    #clientTable thead th{white-space:nowrap;}
-
-    /* ===== PIANIFICAZIONE ===== */
+    /* Segmented top */
     .segmented{
       display:flex;
       border:1px solid var(--border);
@@ -256,7 +215,53 @@
       box-shadow: inset 0 0 0 1px rgba(10,186,181,.22);
     }
 
-    /* tabs inside planning */
+    /* Form controls */
+    .form-control, .custom-select{border-radius: 12px;}
+    .btn{border-radius: 12px; font-weight:800;}
+    .btn-primary{background: #0ea5a4; border-color:#0ea5a4;}
+    .btn-primary:hover{background:#0b9a98; border-color:#0b9a98;}
+    .btn-success{background:#16a34a; border-color:#16a34a;}
+    .btn-success:hover{background:#15803d; border-color:#15803d;}
+    .btn-danger{background:#ef4444; border-color:#ef4444;}
+    .btn-danger:hover{background:#dc2626; border-color:#dc2626;}
+    .btn-secondary{background:#64748b; border-color:#64748b;}
+    .btn-secondary:hover{background:#475569; border-color:#475569;}
+
+    /* ===== PORTAFOGLIO ===== */
+    .filters-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    .filters-grid .full{grid-column: 1 / -1;}
+    .shop-list{display:flex; flex-direction:column; gap:10px;}
+    .shop-item{
+      border:1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      background:#fff;
+      box-shadow: 0 10px 22px rgba(15,23,42,.06);
+    }
+    .shop-item.coded-row{
+      background: rgba(10,186,181,.10);
+      border-color: rgba(10,186,181,.35);
+      box-shadow: 0 10px 22px rgba(10,186,181,.12);
+    }
+    .shop-top{display:flex; align-items:flex-start; justify-content:space-between; gap:10px;}
+    .shop-name{font-weight:900; font-size:15px; line-height:1.15; margin:0;}
+    .shop-meta{margin-top:8px; font-size:13px; color:#334155; display:grid; grid-template-columns: 1fr; gap:4px;}
+    .shop-meta .k{color:var(--muted); font-weight:800; font-size:12px; margin-right:6px;}
+    .shop-actions{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;}
+    .shop-actions .btn{padding:8px 10px; font-size:12px; border-radius: 12px;}
+
+    .table-wrap{overflow:auto; border:1px solid var(--border); border-radius: 14px;}
+    #clientTable{min-width: 860px; margin:0;}
+    #clientTable thead th{white-space:nowrap;}
+    #clientTable tbody tr.coded-row td{
+      background: rgba(10,186,181,.10) !important;
+    }
+
+    /* ===== PIANIFICAZIONE TABS (solo Generale/Settimana su mobile) ===== */
     .subtabs{
       display:flex;
       gap:8px;
@@ -280,121 +285,24 @@
       color:#0f766e;
     }
 
-    /* ===== MONTH GRID (equal cells + internal scroll) ===== */
-    .month-wrap{
-      border:1px solid var(--border);
-      border-radius: 16px;
-      overflow:hidden;
-      background:#fff;
-      box-shadow: 0 12px 26px rgba(15,23,42,.06);
-
-      /* vincolo display: il mese NON cresce oltre lo schermo */
-      height: calc(100dvh - var(--bottomH) - 260px - env(safe-area-inset-bottom));
-      min-height: 420px;
-      max-height: 760px;
-
+    .mini-controls{
       display:flex;
-      flex-direction:column;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
     }
-
-    .month-head{
-      display:grid;
-      grid-template-columns: repeat(7, 1fr);
-      border-bottom:1px solid var(--border);
-      background: #f8fafc;
-      flex: 0 0 auto;
-    }
-    .month-head div{
-      padding:10px 6px;
-      font-weight:900;
-      font-size:12px;
-      text-align:center;
-      color:#334155;
-      border-right:1px solid var(--border);
-    }
-    .month-head div:last-child{border-right:0;}
-
-    .month-grid{
-      display:grid;
-      grid-template-columns: repeat(7, 1fr);
-
-      /* scroll SOLO qui (dentro la card) */
-      flex: 1 1 auto;
-      overflow:auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    /* Celle sempre uguali */
-    .day-cell{
-      border-right:1px solid var(--border);
-      border-bottom:1px solid var(--border);
-      padding:8px 8px 6px;
-      position:relative;
-      background:#fff;
-      overflow:hidden;
-
-      height: clamp(92px, 12.5dvh, 140px);
-      min-height: unset;
-    }
-    .day-cell:nth-child(7n){border-right:0;}
-    .day-cell.is-empty{ background:#f8fafc; }
-
-    .day-number{
-      position:absolute;
-      top:6px; right:8px;
-      font-weight:1000;
-      font-size:12px;
-      color:#64748b;
-    }
-    .day-cell.today{
-      background: rgba(10,186,181,.10);
-      box-shadow: inset 0 0 0 2px rgba(10,186,181,.25);
-    }
-
-    .day-appointments{
-      margin-top:16px;
-      height: calc(100% - 18px);
-      overflow:auto;
-      padding-right:2px;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .droppable{border:0!important; padding:0!important;}
-    .droppable.over{outline:2px dashed rgba(14,165,164,.55); outline-offset:2px; border-radius: 10px;}
-
-    .appointment-item{
-      background:#fff;
-      border:1px solid #cbd5e1;
-      border-radius: 12px;
-      padding: 6px 8px;
-      margin-bottom:6px;
-      font-size:12px;
-      line-height:1.05;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      position:relative;
-      cursor:move;
-      user-select:none;
-    }
-    .appointment-coded{
-      background: linear-gradient(90deg, rgba(10,186,181,.92), rgba(7,143,138,.92));
-      color:#fff;
-      border-color: rgba(255,255,255,.22);
-    }
-    .delete-btn{
-      float:right;
-      cursor:pointer;
-      color:#ef4444;
-      font-weight:1000;
-      margin-left:8px;
-    }
-    .appointment-coded .delete-btn{color: rgba(255,255,255,.92);}
+    .mini-controls .custom-select{height:36px; font-weight:900; font-size:13px;}
+    .mini-controls .btn{height:36px; padding:0 12px; font-size:12px;}
+    .desktop-only{display:none;}
 
     /* ===== WEEK VIEW ===== */
     .week-controls{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:10px; flex-wrap:wrap;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
     }
     .week-controls .btn{font-size:12px; padding:10px 10px;}
     .week-grid{
@@ -413,60 +321,82 @@
       padding: 10px 12px;
       background:#f8fafc;
       border-bottom:1px solid var(--border);
-      display:flex; align-items:center; justify-content:space-between;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
       font-weight:1000;
     }
     .week-day-hd .small{font-size:12px; color:#475569; font-weight:900;}
-    .week-day-bd{ padding:10px 12px; }
+    .week-day-bd{ padding:10px 12px 12px; }
+
+    /* ✅ vedere fino a 8 appuntamenti senza scroll nel giorno */
     .week-drop{
       min-height: 84px;
-      max-height: 160px;
-      overflow:auto;
-      padding-right:2px;
+      overflow: visible;
+      max-height: none;
+      padding-right:0;
     }
+
     .week-day.today .week-day-hd{
-      background: rgba(10,186,181,.14);
+      background: rgba(10,186,181,.18);
       color:#0f766e;
+      border-bottom-color: rgba(10,186,181,.22);
     }
 
-    /* ===== Modal thumbs ===== */
-    .thumbs-hd{display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:6px;}
-    .thumbs-hd div{font-weight:900; font-size:11px; color:#64748b; text-align:center;}
-    .thumbs-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:6px;}
-    .thumbs-grid button{
-      width:100%;
-      padding:10px 0;
-      border-radius: 12px;
-      border:1px solid var(--border);
+    .appointment-item{
       background:#fff;
-      font-weight:900;
+      border:1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 7px 10px;
+      margin-bottom:8px;
+      font-size:13px;
+      line-height:1.12;
+      position:relative;
+      cursor:move;
+      user-select:none;
+      white-space:normal;  /* più leggibile su mobile */
+      word-break:break-word;
     }
-    .thumbs-grid button.active{
-      background: rgba(10,186,181,.14);
+    .appointment-coded{
+      background: linear-gradient(90deg, rgba(10,186,181,.92), rgba(7,143,138,.92));
+      color:#fff;
+      border-color: rgba(255,255,255,.22);
+    }
+    .delete-btn{
+      float:right;
+      cursor:pointer;
+      color:#ef4444;
+      font-weight:1000;
+      margin-left:10px;
+    }
+    .appointment-coded .delete-btn{color: rgba(255,255,255,.92);}
+
+    /* Droppable */
+    .droppable.over{outline:2px dashed rgba(14,165,164,.55); outline-offset:2px; border-radius: 10px;}
+
+    /* ===== CLASSIFICA: righe codificate tiffany ===== */
+    .rank-card{
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:12px;
+      background:#fff;
+    }
+    .rank-card.coded-row{
+      background: rgba(10,186,181,.10);
       border-color: rgba(10,186,181,.35);
-      color:#0f766e;
+    }
+    .rank-table tbody tr.coded-row td{
+      background: rgba(10,186,181,.10) !important;
     }
 
-    /* Mini controls in header */
-    .mini-controls{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
-    .mini-controls .custom-select{height:36px; font-weight:900; font-size:13px;}
-    .mini-controls .btn{height:36px; padding:0 12px; font-size:12px;}
-
-    /* Responsive tweaks */
+    /* ===== Desktop tweaks ===== */
     @media (min-width: 992px){
-      :root{ --appbarH: 92px; }
       body{overflow:auto;}
       .app-main{padding-bottom: 24px;}
       .bottom-nav{display:none;}
       .week-grid{grid-template-columns: repeat(2, 1fr);}
-      .month-head div{font-size:13px;}
-      .appointment-item{font-size:12.5px;}
-      .month-wrap{
-        height: auto;
-        max-height: none;
-        min-height: 520px;
-      }
-      .month-grid{ overflow: visible; }
+
+      .desktop-only{display:inline-flex;}
     }
   </style>
 </head>
@@ -479,15 +409,15 @@
     <div class="appbar-compact">
       <div class="brand">
         <div class="brand-title">WEBAPP PIANIFICAZIONE</div>
-        <div class="brand-sub">Area Manager: <span id="amLabel"></span></div>
+        <div class="brand-sub">
+          <span class="label">Area Manager:</span>
+          <span class="value" id="amLabel"></span>
+        </div>
       </div>
 
       <div class="appbar-actions">
         <select id="managerSelect" class="custom-select am-select"></select>
-
-        <button type="button" class="btn-gear" id="openSettingsBtn" aria-label="Impostazioni">
-          ⚙️
-        </button>
+        <button type="button" class="btn-gear" id="openSettingsBtn" aria-label="Impostazioni">⚙️</button>
       </div>
     </div>
   </header>
@@ -495,10 +425,9 @@
   <!-- MAIN -->
   <main class="app-main">
 
-    <!-- VIEW CONTAINER -->
     <div class="cardx mb-3">
       <div class="cardx-hd">
-        <div class="d-flex align-items-center gap-2" style="gap:10px;">
+        <div class="d-flex align-items-center" style="gap:10px; flex-wrap:wrap;">
           <h4 class="mb-0" style="font-weight:1000;">Dashboard</h4>
           <span class="chip" id="yearChip">2025</span>
         </div>
@@ -510,38 +439,34 @@
       </div>
 
       <div class="cardx-bd">
-        <!-- Top segmented nav (desktop fallback; on mobile usiamo bottom-nav ma resta anche qui) -->
         <div class="segmented mb-3" id="topSegment">
           <button type="button" id="segPortafoglio" class="active">Portafoglio</button>
           <button type="button" id="segPianificazione">Pianificazione</button>
         </div>
 
-        <!-- CONTENT: Portafoglio -->
+        <!-- PORTAFOGLIO -->
         <section id="viewPortafoglio">
           <div class="cardx">
             <div class="cardx-hd">
               <div>
                 <h5 style="font-weight:1000;">Portafoglio Negozi</h5>
-                <div class="mini muted">
-                  Import Excel sovrascrive solo il portafoglio dell’AM selezionato (pianificazione invariata).
-                </div>
+                <div class="mini muted">Import Excel sovrascrive solo il portafoglio dell’AM selezionato (pianificazione invariata).</div>
               </div>
-              <div class="d-flex" style="gap:8px; align-items:center;">
+              <div class="d-flex" style="gap:8px; align-items:center; flex-wrap:wrap;">
                 <span class="chip" id="shopsCountChip">0 negozi</span>
+                <span class="chip chip-tiffany" id="codedCountChip">Codificati: 0</span>
+                <span class="chip chip-no" id="toCodeCountChip">Da codificare: 0</span>
               </div>
             </div>
 
             <div class="cardx-bd">
-              <!-- Import Excel -->
               <div class="mb-3">
                 <div class="d-flex align-items-center justify-content-between mb-2">
-                  <strong>Importa Excel</strong>
-                  <span class="mini muted">.xls/.xlsx</span>
+                  <strong>Importa Excel</strong><span class="mini muted">.xls/.xlsx</span>
                 </div>
                 <input type="file" id="importFile" accept=".xls,.xlsx" class="form-control-file">
               </div>
 
-              <!-- Add shop -->
               <div class="cardx mb-3" style="box-shadow:none;">
                 <div class="cardx-bd">
                   <h6 style="font-weight:1000;">Aggiungi negozio</h6>
@@ -578,7 +503,6 @@
                 </div>
               </div>
 
-              <!-- Filters -->
               <div class="cardx mb-3" style="box-shadow:none;">
                 <div class="cardx-bd">
                   <h6 style="font-weight:1000;">Filtri</h6>
@@ -608,7 +532,7 @@
 
               <!-- Mobile list -->
               <div class="d-block d-lg-none">
-                <div class="mini muted mb-2">Trascina un negozio sul calendario (vista mensile/settimanale) per pianificare.</div>
+                <div class="mini muted mb-2">Trascina un negozio sul calendario settimanale per pianificare.</div>
                 <div id="shopList" class="shop-list"></div>
               </div>
 
@@ -635,7 +559,7 @@
           </div>
         </section>
 
-        <!-- CONTENT: Pianificazione -->
+        <!-- PIANIFICAZIONE -->
         <section id="viewPianificazione" style="display:none;">
           <div class="cardx">
             <div class="cardx-hd">
@@ -644,16 +568,14 @@
                 <div class="mini muted">Drag & drop dal portafoglio al calendario (max 8 appuntamenti/giorno).</div>
               </div>
 
-              <!-- ✅ Picker anno+mese + OGGI che porta al giorno corrente -->
               <div class="mini-controls">
-                <select id="yearSelect" class="custom-select" style="width:auto;">
+                <!-- Su mobile: niente mese; su desktop lasciamo anno+mese (compatibile con futura vista mensile, se vuoi) -->
+                <select id="yearSelect" class="custom-select desktop-only" style="width:auto;">
                   <option value="2025">2025</option>
                   <option value="2026">2026</option>
                 </select>
 
-                <select id="monthSelect" class="custom-select" style="width:auto;">
-                  <!-- popolato via JS -->
-                </select>
+                <select id="monthSelect" class="custom-select desktop-only" style="width:auto;"></select>
 
                 <button class="btn btn-outline-secondary btn-sm" id="btnGoToday">OGGI</button>
                 <button class="btn btn-success btn-sm" id="sendScheduleBtn">INVIA</button>
@@ -661,13 +583,16 @@
             </div>
 
             <div class="cardx-bd">
-              <!-- Sub tabs (Generale / Settimana / Mese) -->
+              <!-- Tabs (mobile: Generale + Settimana / desktop: Generale + Settimana + Mese) -->
               <div class="subtabs mb-3" id="planningTabs"></div>
 
-              <!-- PANELS -->
               <div id="panelGenerale" class="planning-panel">
                 <div class="d-flex align-items-center justify-content-between mb-2" style="gap:10px; flex-wrap:wrap;">
-                  <h6 class="mb-0" style="font-weight:1000;">Classifica Negozi</h6>
+                  <div class="d-flex align-items-center" style="gap:10px; flex-wrap:wrap;">
+                    <h6 class="mb-0" style="font-weight:1000;">Classifica Negozi</h6>
+                    <span class="chip chip-tiffany" id="rankCodedChip">Codificati: 0</span>
+                    <span class="chip chip-no" id="rankToCodeChip">Da codificare: 0</span>
+                  </div>
                   <div class="d-flex align-items-center" style="gap:8px;">
                     <span class="mini muted" style="font-weight:900;">Filtro:</span>
                     <select id="rankingYearFilter" class="custom-select" style="width:auto;">
@@ -692,13 +617,8 @@
                 <div id="weekGrid" class="week-grid"></div>
               </div>
 
-              <div id="panelMese" class="planning-panel" style="display:none;">
-                <div class="month-wrap">
-                  <div class="month-head" id="monthHead"></div>
-                  <div class="month-grid" id="monthGrid"></div>
-                </div>
-                <div class="mini muted mt-2">Suggerimento: tap su un appuntamento per spostarlo (mese successivo, ecc.).</div>
-              </div>
+              <!-- Panel mese: rimane solo desktop (ma su smartphone non verrà mai mostrata) -->
+              <div id="panelMese" class="planning-panel d-none d-lg-block" style="display:none;"></div>
 
             </div>
           </div>
@@ -808,6 +728,7 @@
   </div></div>
 </div>
 
+<!-- MODAL: Settings -->
 <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" style="border-radius:16px;">
@@ -873,55 +794,53 @@
 
   const MONTHS_BY_YEAR = {
     2025: [
-      { label: "Aprile",    monthIndex0: 3,  monthNumber: 4,  key: "aprile" },
-      { label: "Maggio",    monthIndex0: 4,  monthNumber: 5,  key: "maggio" },
-      { label: "Giugno",    monthIndex0: 5,  monthNumber: 6,  key: "giugno" },
-      { label: "Luglio",    monthIndex0: 6,  monthNumber: 7,  key: "luglio" },
-      { label: "Agosto",    monthIndex0: 7,  monthNumber: 8,  key: "agosto" },
-      { label: "Settembre", monthIndex0: 8,  monthNumber: 9,  key: "settembre" },
-      { label: "Ottobre",   monthIndex0: 9,  monthNumber: 10, key: "ottobre" },
-      { label: "Novembre",  monthIndex0: 10, monthNumber: 11, key: "novembre" },
-      { label: "Dicembre",  monthIndex0: 11, monthNumber: 12, key: "dicembre" }
+      { label: "Aprile",    monthNumber: 4 },
+      { label: "Maggio",    monthNumber: 5 },
+      { label: "Giugno",    monthNumber: 6 },
+      { label: "Luglio",    monthNumber: 7 },
+      { label: "Agosto",    monthNumber: 8 },
+      { label: "Settembre", monthNumber: 9 },
+      { label: "Ottobre",   monthNumber: 10 },
+      { label: "Novembre",  monthNumber: 11 },
+      { label: "Dicembre",  monthNumber: 12 }
     ],
     2026: [
-      { label: "Gennaio",   monthIndex0: 0,  monthNumber: 1,  key: "gennaio" },
-      { label: "Febbraio",  monthIndex0: 1,  monthNumber: 2,  key: "febbraio" },
-      { label: "Marzo",     monthIndex0: 2,  monthNumber: 3,  key: "marzo" },
-      { label: "Aprile",    monthIndex0: 3,  monthNumber: 4,  key: "aprile" },
-      { label: "Maggio",    monthIndex0: 4,  monthNumber: 5,  key: "maggio" },
-      { label: "Giugno",    monthIndex0: 5,  monthNumber: 6,  key: "giugno" },
-      { label: "Luglio",    monthIndex0: 6,  monthNumber: 7,  key: "luglio" },
-      { label: "Agosto",    monthIndex0: 7,  monthNumber: 8,  key: "agosto" },
-      { label: "Settembre", monthIndex0: 8,  monthNumber: 9,  key: "settembre" },
-      { label: "Ottobre",   monthIndex0: 9,  monthNumber: 10, key: "ottobre" },
-      { label: "Novembre",  monthIndex0: 10, monthNumber: 11, key: "novembre" },
-      { label: "Dicembre",  monthIndex0: 11, monthNumber: 12, key: "dicembre" }
+      { label: "Gennaio",   monthNumber: 1 },
+      { label: "Febbraio",  monthNumber: 2 },
+      { label: "Marzo",     monthNumber: 3 },
+      { label: "Aprile",    monthNumber: 4 },
+      { label: "Maggio",    monthNumber: 5 },
+      { label: "Giugno",    monthNumber: 6 },
+      { label: "Luglio",    monthNumber: 7 },
+      { label: "Agosto",    monthNumber: 8 },
+      { label: "Settembre", monthNumber: 9 },
+      { label: "Ottobre",   monthNumber: 10 },
+      { label: "Novembre",  monthNumber: 11 },
+      { label: "Dicembre",  monthNumber: 12 }
     ]
   };
 
-  let selectedYear = 2025;
-
-  // Week view state
+  let selectedYear = 2025; // usato solo per dropdown desktop
+  let activeMonthNumber = null; // usato solo per dropdown desktop
+  let activePlanningTab = "generale"; // generale | settimana | mese (mese solo desktop, qui lo teniamo compatibile)
   let weekStartDate = null; // Monday
 
   // Move modal state
   let moving = { name:"", coded:false, fromDate:"" };
 
-  // ========= UTILS DATE =========
+  // ======= helpers =======
+  function isDesktop(){ return window.matchMedia("(min-width: 992px)").matches; }
   function getTodayLocal(){ return new Date(); }
   function pad2(n){ return String(n).padStart(2,"0"); }
-  function toISODate(d){
-    const y=d.getFullYear(), m=pad2(d.getMonth()+1), day=pad2(d.getDate());
-    return `${y}-${m}-${day}`;
-  }
+  function toISODate(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
   function parseISODate(iso){
     const [y,m,d]=iso.split("-").map(Number);
     return new Date(y, m-1, d);
   }
   function startOfWeekMonday(date){
     const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    const day = d.getDay(); // 0 Sun..6 Sat
-    const diff = (day===0 ? -6 : 1-day); // move to Monday
+    const day = d.getDay(); // 0..6 (Sun..Sat)
+    const diff = (day===0 ? -6 : 1-day);
     d.setDate(d.getDate() + diff);
     d.setHours(0,0,0,0);
     return d;
@@ -932,35 +851,48 @@
     return d;
   }
 
-  function getMonthKeyForYear(year, monthNumber1to12){
-    const m=(MONTHS_BY_YEAR[year]||[]).find(x=>x.monthNumber===monthNumber1to12);
-    return m?m.key:null;
-  }
-  function pickBestMonth(year){
-    const today=getTodayLocal();
-    if(today.getFullYear()===year){
-      const k=getMonthKeyForYear(year, today.getMonth()+1);
-      return k || (MONTHS_BY_YEAR[year]||[])[0]?.key || null;
-    }
-    return (MONTHS_BY_YEAR[year]||[])[0]?.key || null;
-  }
-
   function normalizeActiveMonthForYear(year, desiredMonth){
     const list = MONTHS_BY_YEAR[year] || [];
     if(!list.length) return 1;
     const ok = list.some(m => m.monthNumber === desiredMonth);
-    if(ok) return desiredMonth;
-    // fallback: first available month in that year
-    return list[0].monthNumber;
+    return ok ? desiredMonth : list[0].monthNumber;
   }
 
-  // ========= STORAGE HELPERS =========
+  function escapeHtml(str){
+    return String(str)
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+  }
+
+  // ========= STORAGE =========
   function getManagersList(){ return JSON.parse(localStorage.getItem("areaManagers")) || []; }
   function setManagersList(list){ localStorage.setItem("areaManagers", JSON.stringify(list)); }
   function clientsKey(mgr){ return "clientsData_" + mgr; }
   function appsKey(mgr){ return "appointmentsData_" + mgr; }
 
-  // ========= AREA MANAGER CRUD =========
+  function getClients(){
+    return JSON.parse(localStorage.getItem(clientsKey(currentManager)))||[];
+  }
+  function setClients(arr){
+    localStorage.setItem(clientsKey(currentManager), JSON.stringify(arr));
+  }
+  function getClientById(id){ return getClients().find(c=>c.id===id); }
+
+  function getAppointments(){
+    return JSON.parse(localStorage.getItem(appsKey(currentManager)))||{};
+  }
+  function setAppointments(obj){
+    localStorage.setItem(appsKey(currentManager), JSON.stringify(obj));
+  }
+
+  // ========= AM UI =========
+  function renderAmLabel(){
+    document.getElementById("amLabel").textContent = currentManager || "-";
+  }
+
   function loadManagers(){
     let list=getManagersList();
     if(!list.length){
@@ -974,11 +906,7 @@
     renderAmLabel();
   }
 
-  function renderAmLabel(){
-    const el=document.getElementById("amLabel");
-    el.textContent = currentManager || "-";
-  }
-
+  // ========= AM CRUD =========
   function addManager(){
     const nm=document.getElementById("newManagerName").value.trim();
     if(!nm){ alert("Inserisci un nome."); return; }
@@ -1068,11 +996,11 @@
     reloadAll();
   });
 
-  // ========= BACKUP export/import =========
+  // ========= BACKUP =========
   function buildBackupPayload(){
     const payload={
       app:"PIANIFICAZIONE_SETTIMANALE",
-      version:"webapp-mobile-v1",
+      version:"webapp-mobile-v2",
       exportedAt:new Date().toISOString(),
       keys:{}
     };
@@ -1133,18 +1061,12 @@
         }
         renderAmLabel();
 
-        const today=getTodayLocal();
-        const initYear = (today.getFullYear()===2025 || today.getFullYear()===2026) ? today.getFullYear() : 2026;
-        selectedYear=initYear;
-        document.getElementById("yearSelect").value=String(initYear);
-
-        weekStartDate = startOfWeekMonday(today);
-
-        // month
-        activeMonthNumber = normalizeActiveMonthForYear(selectedYear, today.getMonth()+1);
+        weekStartDate = startOfWeekMonday(getTodayLocal());
         populateMonthSelect();
-
+        rebuildPlanningTabs();
+        renderActivePlanningPanel();
         reloadAll();
+
         alert("Backup importato correttamente.");
       }catch(err){
         console.error(err);
@@ -1155,22 +1077,21 @@
     e.target.value="";
   });
 
-  // ========= NAV (Portafoglio / Pianificazione) =========
+  // ========= NAV =========
   function showView(which){
     const isPort = which==="port";
     document.getElementById("viewPortafoglio").style.display = isPort ? "" : "none";
     document.getElementById("viewPianificazione").style.display = isPort ? "none" : "";
 
-    // top segment
     document.getElementById("segPortafoglio").classList.toggle("active", isPort);
     document.getElementById("segPianificazione").classList.toggle("active", !isPort);
 
-    // bottom nav
     document.getElementById("navPortafoglio").classList.toggle("active", isPort);
     document.getElementById("navPianificazione").classList.toggle("active", !isPort);
 
     if(!isPort){
-      populateMonthSelect();
+      // su smartphone: vogliamo la settimana come vista utile (mese non serve)
+      if(!isDesktop() && activePlanningTab==="mese") activePlanningTab="settimana";
       rebuildPlanningTabs();
       renderActivePlanningPanel();
       loadAppointmentsToViews();
@@ -1183,24 +1104,7 @@
   document.getElementById("navPortafoglio").addEventListener("click", ()=>showView("port"));
   document.getElementById("navPianificazione").addEventListener("click", ()=>showView("plan"));
 
-  // ========= YEAR SELECT =========
-  document.getElementById("yearSelect").addEventListener("change", ()=>{
-    const y=parseInt(document.getElementById("yearSelect").value,10);
-    if(!y || !MONTHS_BY_YEAR[y]) return;
-    selectedYear=y;
-
-    // mese coerente con anno
-    activeMonthNumber = normalizeActiveMonthForYear(selectedYear, activeMonthNumber || (getTodayLocal().getMonth()+1));
-    populateMonthSelect();
-
-    syncYearChip();
-    rebuildPlanningTabs();
-    renderActivePlanningPanel();
-    loadAppointmentsToViews();
-    updateGeneralSummary();
-  });
-
-  // ========= MONTH DROPDOWN PICKER =========
+  // ========= MONTH dropdown (desktop only UI) =========
   function populateMonthSelect(){
     const sel = document.getElementById("monthSelect");
     const list = MONTHS_BY_YEAR[selectedYear] || [];
@@ -1212,30 +1116,25 @@
       sel.appendChild(opt);
     });
 
-    // ensure activeMonthNumber valid
     if(!activeMonthNumber){
-      const bestKey=pickBestMonth(selectedYear);
-      const bestMonth = bestKey
-        ? (MONTHS_BY_YEAR[selectedYear].find(m=>m.key===bestKey)?.monthNumber || list[0]?.monthNumber)
-        : list[0]?.monthNumber;
-      activeMonthNumber = bestMonth || list[0]?.monthNumber || 1;
+      const t=getTodayLocal();
+      activeMonthNumber = normalizeActiveMonthForYear(selectedYear, t.getMonth()+1);
     }
     activeMonthNumber = normalizeActiveMonthForYear(selectedYear, activeMonthNumber);
-
     sel.value = String(activeMonthNumber);
   }
 
-  document.getElementById("monthSelect").addEventListener("change", ()=>{
-    const mv = parseInt(document.getElementById("monthSelect").value, 10);
-    if(!mv) return;
-    activeMonthNumber = normalizeActiveMonthForYear(selectedYear, mv);
+  document.getElementById("yearSelect").addEventListener("change", ()=>{
+    selectedYear=parseInt(document.getElementById("yearSelect").value,10) || selectedYear;
+    activeMonthNumber = normalizeActiveMonthForYear(selectedYear, activeMonthNumber || (getTodayLocal().getMonth()+1));
+    populateMonthSelect();
+    syncYearChip();
+  });
 
-    // porta alla vista mese senza rifare UI
-    activatePlanningTab("mese");
-    renderActivePlanningPanel();
-    loadAppointmentsToViews();
-    updateGeneralSummary();
-    setTimeout(scrollTodayIntoView, 60);
+  document.getElementById("monthSelect").addEventListener("change", ()=>{
+    activeMonthNumber = normalizeActiveMonthForYear(selectedYear, parseInt(document.getElementById("monthSelect").value,10));
+    // se su desktop vuoi andare su mese, qui potresti attivare tab mese.
+    // Su mobile non esiste.
   });
 
   function syncYearChip(){
@@ -1243,42 +1142,39 @@
     document.getElementById("yearSelect").value = String(selectedYear);
   }
 
-  // ========= TODAY buttons =========
-  function scrollTodayIntoView(){
-    if(activePlanningTab!=="mese") return;
-    const t = getTodayLocal();
-    if(t.getFullYear() !== selectedYear) return;
-    if((t.getMonth()+1) !== activeMonthNumber) return;
-
-    const el = document.querySelector('.day-cell.today');
-    if(!el) return;
-    el.scrollIntoView({ block: "center", inline: "nearest", behavior: "smooth" });
+  // ========= OGGI (collegato al calendario) =========
+  function scrollTodayWeekIntoView(){
+    const todayISO = toISODate(getTodayLocal());
+    const el = document.querySelector(`.week-day[data-date="${todayISO}"]`);
+    if(el){
+      el.scrollIntoView({behavior:"smooth", block:"center", inline:"nearest"});
+    }
   }
 
-  function goToday(){
-    const t=getTodayLocal();
-    const y=t.getFullYear();
+  function goTodayCalendar(){
+    const t = getTodayLocal();
+    weekStartDate = startOfWeekMonday(t);
 
-    // anno ammesso
-    selectedYear = (y===2025 || y===2026) ? y : 2026;
-    syncYearChip();
-
-    // mese ammesso per anno selezionato
+    // teniamo compatibilità con desktop dropdown
+    selectedYear = (t.getFullYear()===2025 || t.getFullYear()===2026) ? t.getFullYear() : 2026;
     activeMonthNumber = normalizeActiveMonthForYear(selectedYear, t.getMonth()+1);
+    syncYearChip();
     populateMonthSelect();
 
-    rebuildPlanningTabs();
-    activatePlanningTab("mese");
+    // ✅ su smartphone: forza vista settimanale
+    activatePlanningTab("settimana");
     renderActivePlanningPanel();
     loadAppointmentsToViews();
     updateGeneralSummary();
-    setTimeout(scrollTodayIntoView, 80);
+    setTimeout(scrollTodayWeekIntoView, 80);
   }
 
-  document.getElementById("btnGoToday").addEventListener("click", goToday);
+  document.getElementById("btnGoToday").addEventListener("click", goTodayCalendar);
+  document.getElementById("todayWeekBtn").addEventListener("click", goTodayCalendar);
+
   document.getElementById("btnGoTodayTop").addEventListener("click", ()=>{
     showView("plan");
-    goToday();
+    goTodayCalendar();
   });
 
   // ========= IMPORT EXCEL =========
@@ -1335,7 +1231,6 @@
       coded: document.getElementById("filterCoded").value
     };
   }
-
   function clientPassesFilter(c, f){
     let show=true;
     if(f.name && !String(c.name).toLowerCase().includes(f.name)) show=false;
@@ -1367,6 +1262,26 @@
   }
   function dragLeave(e){
     e.currentTarget.classList.remove("over");
+  }
+
+  function upsertAppointmentToStorage(dateISO, item){
+    const data=getAppointments();
+    const arr=data[dateISO] ? [...data[dateISO]] : [];
+    if(arr.length>=8){ alert("Limite di 8 appuntamenti."); return; }
+    arr.push({name:item.name, coded:!!item.coded});
+    data[dateISO]=arr;
+    setAppointments(data);
+  }
+
+  function removeAppointmentFromStorage(dateISO, name, coded){
+    if(!dateISO) return;
+    const data=getAppointments();
+    const arr=data[dateISO] || [];
+    const idx = arr.findIndex(x=>x.name===name && !!x.coded===!!coded);
+    if(idx>=0) arr.splice(idx,1);
+    if(arr.length) data[dateISO]=arr;
+    else delete data[dateISO];
+    setAppointments(data);
   }
 
   function dropToDate(dateISO, targetContainer){
@@ -1406,11 +1321,9 @@
     const dateISO = e.currentTarget.dataset.date;
     if(!dateISO) return;
 
-    const targetContainer = e.currentTarget.querySelector(".day-appointments") || e.currentTarget;
-    dropToDate(dateISO, targetContainer);
+    dropToDate(dateISO, e.currentTarget);
   }
 
-  // ========= APPOINTMENT ELEMENT =========
   function createAppointmentEl(name, isCoded, fromDate){
     const div=document.createElement("div");
     const id="appointment-"+Date.now()+"-"+Math.random();
@@ -1454,19 +1367,7 @@
     return div;
   }
 
-  // ========= PORTAFOGLIO =========
-  function getClients(){
-    return JSON.parse(localStorage.getItem(clientsKey(currentManager)))||[];
-  }
-
-  function setClients(arr){
-    localStorage.setItem(clientsKey(currentManager), JSON.stringify(arr));
-  }
-
-  function getClientById(id){
-    return getClients().find(c=>c.id===id);
-  }
-
+  // ========= PORTAFOGLIO RENDER =========
   document.getElementById("btnAddClient").addEventListener("click", ()=>{
     const n=document.getElementById("newClientName").value.trim();
     const i=document.getElementById("newClientIndirizzo").value.trim();
@@ -1474,10 +1375,7 @@
     const ct=document.getElementById("newClientCitta").value.trim();
     const cd=document.getElementById("newClientCoded").checked;
 
-    if(!n || !i || !c || !ct){
-      alert("Compila tutti i campi.");
-      return;
-    }
+    if(!n || !i || !c || !ct){ alert("Compila tutti i campi."); return; }
 
     const arr=getClients();
     arr.push({ id:"client-"+Date.now()+"-"+Math.random(), name:n, indirizzo:i, comune:c, citta:ct, coded:cd });
@@ -1491,18 +1389,40 @@
     updateGeneralSummary();
   });
 
-  // Desktop table row
   function addClientRowDesktop(client){
     const tbody=document.querySelector("#clientTable tbody");
     const tr=document.createElement("tr");
     tr.id=client.id;
     tr.dataset.clientId=client.id;
+    tr.dataset.clientId=client.id;
+    tr.dataset.clientId=client.id;
+    tr.dataset.clientId=client.id;
+    tr.dataset.clientId=client.id;
+    tr.dataset.clientId=client.id;
+    tr.dataset.clientId=client.id;
+    tr.dataset.clientId=client.id;
+    tr.dataset.clientId=client.id;
+    tr.dataset.clientId=client.id;
+
+    tr.dataset.clientId=client.id;
+    tr.dataset.clientId=client.id;
+    tr.dataset.clientId=client.id;
+    tr.dataset.clientId=client.id;
+
+    tr.dataset.clientId=client.id;
+    tr.dataset.clientId=client.id;
+    tr.dataset.clientId=client.id;
+
+    tr.dataset.clientId=client.id;
+
     tr.draggable=true;
     tr.addEventListener("dragstart", (e)=>{
       window._dndType="client";
       window._dndClientId=client.id;
       dragStart(e);
     });
+
+    if(client.coded) tr.classList.add("coded-row");
 
     const tdName=document.createElement("td"); tdName.textContent=client.name; tr.appendChild(tdName);
     const tdInd=document.createElement("td"); tdInd.textContent=client.indirizzo; tr.appendChild(tdInd);
@@ -1527,10 +1447,12 @@
     btnEdit.className="btn btn-sm btn-secondary mr-1";
     btnEdit.textContent="Modifica";
     btnEdit.onclick=()=>editClient(client.id);
+
     const btnPlan=document.createElement("button");
     btnPlan.className="btn btn-sm btn-primary mr-1";
     btnPlan.textContent="Pianifica";
     btnPlan.onclick=()=>openScheduleModal(client.id);
+
     const btnDel=document.createElement("button");
     btnDel.className="btn btn-sm btn-danger";
     btnDel.textContent="Cancella";
@@ -1544,11 +1466,10 @@
     tbody.appendChild(tr);
   }
 
-  // Mobile card
   function addClientCardMobile(client){
     const wrap=document.getElementById("shopList");
     const el=document.createElement("div");
-    el.className="shop-item";
+    el.className="shop-item" + (client.coded ? " coded-row" : "");
     el.dataset.clientId=client.id;
     el.draggable=true;
 
@@ -1559,7 +1480,7 @@
     });
 
     const codedChip = client.coded
-      ? `<span class="chip chip-ok">Codificato</span>`
+      ? `<span class="chip chip-tiffany">Codificato</span>`
       : `<span class="chip chip-no">Non codificato</span>`;
 
     el.innerHTML = `
@@ -1603,9 +1524,22 @@
     wrap.appendChild(el);
   }
 
+  function updatePortafoglioCounters(arr){
+    const total = arr.length;
+    const coded = arr.filter(x=>x.coded).length;
+    const toCode = total - coded;
+
+    document.getElementById("shopsCountChip").textContent = `${total} negozi`;
+    document.getElementById("codedCountChip").textContent = `Codificati: ${coded}`;
+    document.getElementById("toCodeCountChip").textContent = `Da codificare: ${toCode}`;
+
+    // anche in classifica
+    document.getElementById("rankCodedChip").textContent = `Codificati: ${coded}`;
+    document.getElementById("rankToCodeChip").textContent = `Da codificare: ${toCode}`;
+  }
+
   function loadClients(){
     let arr=getClients();
-
     if(!arr.length){
       arr=[
         {id:"client-1",name:"Negozio A",indirizzo:"Via Roma 1",comune:"Centro",citta:"Milano",coded:false},
@@ -1613,10 +1547,9 @@
       ];
       setClients(arr);
     }
-
     arr.sort((a,b)=>a.name.localeCompare(b.name));
 
-    document.getElementById("shopsCountChip").textContent = `${arr.length} negozi`;
+    updatePortafoglioCounters(arr);
 
     const tbody=document.querySelector("#clientTable tbody");
     if(tbody) tbody.innerHTML="";
@@ -1627,21 +1560,15 @@
     const f=getFilterState();
     arr.filter(c=>clientPassesFilter(c,f)).forEach(addClientCardMobile);
 
-    filterClientsDesktop(arr, f);
-  }
-
-  function filterClientsDesktop(arr, f){
+    // desktop filter display
     document.querySelectorAll("#clientTable tbody tr").forEach(tr=>{
       const id=tr.dataset.clientId;
       const c=arr.find(x=>x.id===id);
-      if(!c){ tr.style.display="none"; return; }
-      tr.style.display = clientPassesFilter(c,f) ? "" : "none";
+      tr.style.display = (c && clientPassesFilter(c,f)) ? "" : "none";
     });
   }
 
-  function filterClientsAndRender(){
-    loadClients();
-  }
+  function filterClientsAndRender(){ loadClients(); }
 
   function editClient(id){
     const arr=getClients();
@@ -1664,44 +1591,13 @@
     updateGeneralSummary();
   }
 
-  // ========= APPOINTMENTS STORAGE =========
-  function getAppointments(){
-    return JSON.parse(localStorage.getItem(appsKey(currentManager)))||{};
-  }
-  function setAppointments(obj){
-    localStorage.setItem(appsKey(currentManager), JSON.stringify(obj));
-  }
-
-  function upsertAppointmentToStorage(dateISO, item){
-    const data=getAppointments();
-    const arr=data[dateISO] ? [...data[dateISO]] : [];
-    if(arr.length>=8){
-      alert("Limite di 8 appuntamenti.");
-      return;
-    }
-    arr.push({name:item.name, coded:!!item.coded});
-    data[dateISO]=arr;
-    setAppointments(data);
-  }
-
-  function removeAppointmentFromStorage(dateISO, name, coded){
-    if(!dateISO) return;
-    const data=getAppointments();
-    const arr=data[dateISO] || [];
-    const idx = arr.findIndex(x=>x.name===name && !!x.coded===!!coded);
-    if(idx>=0) arr.splice(idx,1);
-    if(arr.length) data[dateISO]=arr;
-    else delete data[dateISO];
-    setAppointments(data);
-  }
-
   // ========= PLANNING TABS =========
-  let activePlanningTab = "generale"; // generale | settimana | mese
-  let activeMonthNumber = null; // 1..12 for selectedYear
-
   function rebuildPlanningTabs(){
     const tabs=document.getElementById("planningTabs");
     tabs.innerHTML="";
+
+    // su smartphone: solo Generale + Settimana
+    const desktop = isDesktop();
 
     const addTab=(key,label)=>{
       const b=document.createElement("button");
@@ -1712,7 +1608,7 @@
         activatePlanningTab(key);
         renderActivePlanningPanel();
         loadAppointmentsToViews();
-        if(key==="mese") setTimeout(scrollTodayIntoView, 60);
+        if(key==="settimana") setTimeout(scrollTodayWeekIntoView, 60);
       });
       tabs.appendChild(b);
     };
@@ -1720,23 +1616,14 @@
     addTab("generale","Generale");
     addTab("settimana","Settimana");
 
-    const list = MONTHS_BY_YEAR[selectedYear] || [];
-    if(!activeMonthNumber){
-      const bestKey=pickBestMonth(selectedYear);
-      const bestMonth = bestKey
-        ? (MONTHS_BY_YEAR[selectedYear].find(m=>m.key===bestKey)?.monthNumber || list[0]?.monthNumber)
-        : list[0]?.monthNumber;
-      activeMonthNumber = bestMonth || list[0]?.monthNumber || 1;
+    if(!desktop && activePlanningTab==="mese"){
+      activePlanningTab="settimana";
     }
-    activeMonthNumber = normalizeActiveMonthForYear(selectedYear, activeMonthNumber);
-
-    const monthLabel = (MONTHS_BY_YEAR[selectedYear].find(m=>m.monthNumber===activeMonthNumber)?.label) || "Mese";
-    addTab("mese", monthLabel);
-
-    syncYearChip();
   }
 
   function activatePlanningTab(key){
+    // su mobile vietiamo "mese"
+    if(!isDesktop() && key==="mese") key="settimana";
     activePlanningTab = key;
     rebuildPlanningTabs();
   }
@@ -1744,93 +1631,13 @@
   function renderActivePlanningPanel(){
     document.getElementById("panelGenerale").style.display = (activePlanningTab==="generale") ? "" : "none";
     document.getElementById("panelSettimana").style.display = (activePlanningTab==="settimana") ? "" : "none";
-    document.getElementById("panelMese").style.display = (activePlanningTab==="mese") ? "" : "none";
 
-    if(activePlanningTab==="mese"){
-      renderMonthView(selectedYear, activeMonthNumber);
-      setTimeout(scrollTodayIntoView, 60);
-    }
     if(activePlanningTab==="settimana"){
       renderWeekView();
+      setTimeout(scrollTodayWeekIntoView, 60);
     }
     if(activePlanningTab==="generale"){
       updateGeneralSummary();
-    }
-  }
-
-  // ========= MONTH VIEW RENDER =========
-  function daysInMonth(y,mIndex0){ return new Date(y,mIndex0+1,0).getDate(); }
-  function weekdayMon0(y,mIndex0,d){ const w=new Date(y,mIndex0,d).getDay(); return w ? w-1 : 6; } // Mon=0..Sun=6
-
-  function renderMonthView(year, monthNumber){
-    const mIndex0 = monthNumber - 1;
-
-    const mh=document.getElementById("monthHead");
-    mh.innerHTML="";
-    weekdays.forEach(w=>{
-      const d=document.createElement("div");
-      d.textContent=w;
-      mh.appendChild(d);
-    });
-
-    const mg=document.getElementById("monthGrid");
-    mg.innerHTML="";
-
-    const total=daysInMonth(year, mIndex0);
-    const first=weekdayMon0(year, mIndex0, 1);
-
-    const today=getTodayLocal();
-    const todayISO = toISODate(today);
-
-    for(let i=0;i<first;i++){
-      const empty=document.createElement("div");
-      empty.className="day-cell is-empty";
-      mg.appendChild(empty);
-    }
-
-    for(let day=1; day<=total; day++){
-      const cell=document.createElement("div");
-      const iso = `${year}-${pad2(monthNumber)}-${pad2(day)}`;
-      cell.className="day-cell droppable";
-      cell.dataset.date=iso;
-
-      cell.addEventListener("dragover", allowDrop);
-      cell.addEventListener("dragleave", dragLeave);
-      cell.addEventListener("drop", (e)=>{
-        const type=e.dataTransfer.getData("type");
-        if(type==="client"){
-          window._dndType="client";
-          window._dndClientId=e.dataTransfer.getData("clientId");
-        } else {
-          window._dndType="appointment";
-          window._dndAppId=e.dataTransfer.getData("appointmentId");
-          window._dndFromDate=e.dataTransfer.getData("fromDate");
-        }
-        handleDrop(e);
-      });
-
-      if(iso===todayISO) cell.classList.add("today");
-
-      const num=document.createElement("div");
-      num.className="day-number";
-      num.textContent=day;
-
-      const apps=document.createElement("div");
-      apps.className="day-appointments";
-
-      cell.appendChild(num);
-      cell.appendChild(apps);
-      mg.appendChild(cell);
-    }
-
-    const cellsSoFar = first + total;
-    const remainder = cellsSoFar % 7;
-    if(remainder!==0){
-      for(let i=0;i<7-remainder;i++){
-        const empty=document.createElement("div");
-        empty.className="day-cell is-empty";
-        mg.appendChild(empty);
-      }
     }
   }
 
@@ -1855,6 +1662,7 @@
 
       const box=document.createElement("div");
       box.className="week-day";
+      box.dataset.date = iso;
       if(iso===todayISO) box.classList.add("today");
 
       const hd=document.createElement("div");
@@ -1900,30 +1708,15 @@
     renderWeekView();
     loadAppointmentsToViews();
   });
-  document.getElementById("todayWeekBtn").addEventListener("click", ()=>{
-    weekStartDate = startOfWeekMonday(getTodayLocal());
-    renderWeekView();
-    loadAppointmentsToViews();
-  });
 
-  // ========= LOAD APPOINTMENTS into visible views =========
+  // ========= LOAD APPOINTMENTS into week view =========
   function clearAllAppointmentContainers(){
-    document.querySelectorAll(".day-appointments").forEach(c=>c.innerHTML="");
     document.querySelectorAll(".week-drop").forEach(c=>c.innerHTML="");
   }
 
   function loadAppointmentsToViews(){
     clearAllAppointmentContainers();
     const data=getAppointments();
-
-    document.querySelectorAll(".day-cell[data-date]").forEach(cell=>{
-      const iso=cell.dataset.date;
-      const cont=cell.querySelector(".day-appointments");
-      const arr=data[iso]||[];
-      arr.forEach(a=>{
-        cont.appendChild(createAppointmentEl(a.name, !!a.coded, iso));
-      });
-    });
 
     document.querySelectorAll(".week-drop[data-date]").forEach(drop=>{
       const iso=drop.dataset.date;
@@ -1935,15 +1728,6 @@
   }
 
   // ========= CLASSIFICA =========
-  function escapeHtml(str){
-    return String(str)
-      .replace(/&/g,"&amp;")
-      .replace(/</g,"&lt;")
-      .replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;")
-      .replace(/'/g,"&#039;");
-  }
-
   function updateGeneralSummary(){
     const rawData=getAppointments();
     const today=getTodayLocal();
@@ -1966,6 +1750,7 @@
     });
 
     const clients=getClients();
+    updatePortafoglioCounters(clients); // mantiene i chip aggiornati anche qui
 
     const arr=clients.map(c=>{
       const dates=(rankingObj[c.name]||[]).sort((a,b)=>a-b);
@@ -2001,9 +1786,6 @@
     const codedArr=arr.filter(x=>x.coded).sort((a,b)=>(b.daysSinceVal-a.daysSinceVal)||a.name.localeCompare(b.name));
     const nonArr=arr.filter(x=>!x.coded).sort((a,b)=>(b.daysSinceVal-a.daysSinceVal)||a.name.localeCompare(b.name));
 
-    let html="";
-    html += `<div class="mb-2"><span class="chip"><strong>Totale negozi:</strong> ${clients.length}</span></div>`;
-
     function renderCards(title, rows){
       return `
         <div class="cardx mb-3 d-block d-lg-none" style="box-shadow:none;">
@@ -2014,7 +1796,7 @@
           <div class="cardx-bd" style="padding:12px;">
             <div style="display:flex;flex-direction:column;gap:10px;max-height:55dvh;overflow:auto;-webkit-overflow-scrolling:touch;">
               ${rows.map(r=>`
-                <div style="border:1px solid var(--border);border-radius:14px;padding:12px;background:#fff;">
+                <div class="rank-card ${r.coded ? "coded-row" : ""}">
                   <div style="font-weight:1000;font-size:14px;line-height:1.15;">${escapeHtml(r.name)}</div>
                   <div class="mini muted" style="margin-top:6px;display:flex;flex-wrap:wrap;gap:10px;">
                     <span><b>Visite:</b> ${r.total}</span>
@@ -2035,7 +1817,7 @@
         <div class="cardx-hd"><h6 style="font-weight:1000;margin:0;">${escapeHtml(title)}</h6></div>
         <div class="cardx-bd" style="padding:0;">
           <div class="table-wrap" style="border:0;border-radius:0;">
-            <table class="table table-sm table-bordered mb-0">
+            <table class="table table-sm table-bordered mb-0 rank-table">
               <thead class="thead-light">
                 <tr>
                   <th>Nome negozio</th>
@@ -2047,7 +1829,7 @@
               </thead>
               <tbody>`;
       rows.forEach(i=>{
-        out += `<tr>
+        out += `<tr class="${i.coded ? "coded-row" : ""}">
           <td>${escapeHtml(i.name)}</td>
           <td>${i.total}</td>
           <td>${escapeHtml(i.gap)}</td>
@@ -2059,10 +1841,11 @@
       return out;
     }
 
-    html += renderCards("Codificati", codedArr);
-    html += renderCards("Non codificati", nonArr);
-    html += renderTable("Codificati", codedArr);
-    html += renderTable("Non codificati", nonArr);
+    const html =
+      renderCards("Codificati", codedArr) +
+      renderCards("Non codificati", nonArr) +
+      renderTable("Codificati", codedArr) +
+      renderTable("Non codificati", nonArr);
 
     document.getElementById("generalSummary").innerHTML=html;
   }
@@ -2079,6 +1862,9 @@
       selectEl.appendChild(opt);
     });
   }
+
+  function daysInMonth(y,mIndex0){ return new Date(y,mIndex0+1,0).getDate(); }
+  function weekdayMon0(y,mIndex0,d){ const w=new Date(y,mIndex0,d).getDay(); return w ? w-1 : 6; }
 
   function generateDayThumbnails(year, monthValue, containerEl, hiddenInputEl){
     containerEl.innerHTML="";
@@ -2127,8 +1913,11 @@
 
     document.getElementById("selectedClientName").value = client.name;
 
-    document.getElementById("scheduleYear").value = String(selectedYear);
-    renderMonthSelectForYear(selectedYear, document.getElementById("scheduleMonth"));
+    const t=getTodayLocal();
+    const y=(t.getFullYear()===2025||t.getFullYear()===2026)?t.getFullYear():2026;
+
+    document.getElementById("scheduleYear").value = String(y);
+    renderMonthSelectForYear(y, document.getElementById("scheduleMonth"));
 
     document.getElementById("scheduleMonth").value="";
     document.getElementById("dayThumbnails").innerHTML="";
@@ -2173,14 +1962,14 @@
     $('#scheduleModal').modal('hide');
   });
 
-  // ========= MODAL: Sposta appuntamento =========
+  // ========= MODAL: Sposta =========
   function openMoveModal(name, coded, fromDate){
     moving = { name, coded, fromDate };
 
     document.getElementById("moveClientName").value = name;
 
     const d = fromDate ? parseISODate(fromDate) : getTodayLocal();
-    const y = d.getFullYear();
+    const y = (d.getFullYear()===2025||d.getFullYear()===2026)?d.getFullYear():2026;
     const m = d.getMonth()+1;
     const day = d.getDate();
 
@@ -2228,7 +2017,6 @@
     if(!y||!mv||!dv){ alert("Compila tutti i campi."); return; }
 
     const toDate = `${y}-${pad2(mv)}-${pad2(dv)}`;
-
     const data=getAppointments();
     const targetArr=data[toDate]||[];
     if(targetArr.length>=8){ alert("Limite di 8 appuntamenti."); return; }
@@ -2251,36 +2039,19 @@
       return {subj, body};
     }
 
-    if(activePlanningTab==="settimana"){
-      subj = `Pianificazione Settimana - ${document.getElementById("weekLabel").innerText} - ${currentManager}`;
-      const data=getAppointments();
-      const lines=[];
-      for(let i=0;i<7;i++){
-        const d=addDays(weekStartDate, i);
-        const iso=toISODate(d);
-        const arr=data[iso]||[];
-        if(arr.length){
-          lines.push(`${iso}: ${arr.map(x=>x.name).join(", ")}`);
-        }
-      }
-      body = lines.length ? lines.join("\n") : "Nessuna pianificazione presente in questa settimana.";
-      return {subj, body};
-    }
-
-    const monthLabel = MONTHS_BY_YEAR[selectedYear].find(m=>m.monthNumber===activeMonthNumber)?.label || "Mese";
-    subj = `Pianificazione ${selectedYear} - ${monthLabel} - ${currentManager}`;
-
+    // default settimana
+    subj = `Pianificazione Settimana - ${document.getElementById("weekLabel").innerText} - ${currentManager}`;
     const data=getAppointments();
     const lines=[];
-    Object.keys(data)
-      .filter(iso=>iso.startsWith(`${selectedYear}-${pad2(activeMonthNumber)}-`))
-      .sort()
-      .forEach(iso=>{
-        const arr=data[iso]||[];
-        if(arr.length) lines.push(`${iso}: ${arr.map(x=>x.name).join(", ")}`);
-      });
-
-    body = lines.length ? lines.join("\n") : "Nessuna pianificazione presente in questo mese.";
+    for(let i=0;i<7;i++){
+      const d=addDays(weekStartDate, i);
+      const iso=toISODate(d);
+      const arr=data[iso]||[];
+      if(arr.length){
+        lines.push(`${iso}: ${arr.map(x=>x.name).join(", ")}`);
+      }
+    }
+    body = lines.length ? lines.join("\n") : "Nessuna pianificazione presente in questa settimana.";
     return {subj, body};
   }
 
@@ -2303,17 +2074,8 @@
   // ========= INIT / RELOAD =========
   function reloadAll(){
     renderAmLabel();
-    syncYearChip();
 
-    if(!activeMonthNumber){
-      const bestKey=pickBestMonth(selectedYear);
-      activeMonthNumber = bestKey
-        ? (MONTHS_BY_YEAR[selectedYear].find(m=>m.key===bestKey)?.monthNumber || MONTHS_BY_YEAR[selectedYear][0]?.monthNumber)
-        : (MONTHS_BY_YEAR[selectedYear][0]?.monthNumber);
-    }
-    activeMonthNumber = normalizeActiveMonthForYear(selectedYear, activeMonthNumber);
-    populateMonthSelect();
-
+    // Counters + list
     loadClients();
 
     rebuildPlanningTabs();
@@ -2329,11 +2091,12 @@
     renderAmLabel();
 
     const today=getTodayLocal();
-    const initYear = (today.getFullYear()===2025 || today.getFullYear()===2026) ? today.getFullYear() : 2026;
-    selectedYear = initYear;
+    weekStartDate = startOfWeekMonday(today);
+
+    selectedYear = (today.getFullYear()===2025 || today.getFullYear()===2026) ? today.getFullYear() : 2026;
+    document.getElementById("yearSelect").value = String(selectedYear);
     syncYearChip();
 
-    weekStartDate = startOfWeekMonday(today);
     activeMonthNumber = normalizeActiveMonthForYear(selectedYear, today.getMonth()+1);
     populateMonthSelect();
 
@@ -2345,11 +2108,15 @@
     document.getElementById("moveYear").value=String(selectedYear);
     renderMonthSelectForYear(selectedYear, document.getElementById("moveMonth"));
 
-    // initial view = portafoglio
+    // initial view
     showView("port");
     reloadAll();
 
-    console.assert(typeof currentManager==="string", "currentManager deve essere definito");
+    // se ruoti/switch breakpoint, ricostruisci tabs coerenti
+    window.addEventListener("resize", ()=>{
+      if(!isDesktop() && activePlanningTab==="mese") activePlanningTab="settimana";
+      rebuildPlanningTabs();
+    });
   });
 </script>
 </body>
