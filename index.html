@@ -48,13 +48,91 @@
       flex-direction:column;
     }
 
-    .appbar{
-      position:sticky; top:0; z-index:1030;
-      background: linear-gradient(90deg, var(--tiffany), var(--tiffany2));
-      color:#fff;
-      padding: 14px 14px calc(10px + env(safe-area-inset-top));
-      box-shadow: 0 10px 28px rgba(0,0,0,.12);
-    }
+/* Header compatta */
+.appbar{
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background: linear-gradient(90deg, var(--tiffany), var(--tiffany2));
+  color: #fff;
+  padding: calc(10px + env(safe-area-inset-top)) 12px 10px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.12);
+}
+
+.appbar-compact{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.brand-title{
+  font-weight:1000;
+  letter-spacing:.2px;
+  font-size:16px;
+  line-height:1.1;
+}
+.brand-sub{ font-size:12px; opacity:.92; margin-top:4px; }
+
+.appbar-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.am-select{
+  height:36px;
+  border-radius:12px;
+  border: 1px solid rgba(255,255,255,.25) !important;
+  background: rgba(255,255,255,.14) !important;
+  color:#fff !important;
+  min-width: 160px;
+  max-width: 180px;
+  font-weight:900;
+  font-size:13px;
+}
+
+.btn-gear{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  border: 1px solid rgba(255,255,255,.30);
+  background: rgba(255,255,255,.14);
+  color:#fff;
+  font-size:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Mensile: la card del calendario deve usare lo spazio disponibile */
+.month-wrap{
+  height: calc(100dvh - var(--bottomH) - 180px); /* 180px = margini + header + toolbar */
+  min-height: 420px;
+}
+
+.month-grid{
+  height: 100%;
+}
+
+.day-cell{
+  height: clamp(92px, 12.5dvh, 140px); /* sempre leggibile */
+  min-height: unset;
+}
+
+.day-appointments{
+  max-height: calc(100% - 18px);
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Non far “gonfiare” i pill */
+.appointment-item{
+  padding: 7px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
     .appbar-inner{
       display:flex; align-items:flex-start; justify-content:space-between;
       gap:12px;
@@ -490,40 +568,21 @@
 
   <!-- APPBAR -->
   <header class="appbar">
-    <div class="appbar-inner">
-      <div style="min-width: 160px">
-        <div class="app-title">WEBAPP<br>PIANIFICAZIONE</div>
-        <div class="app-sub">Area Manager: <span id="amLabel"></span></div>
+    <div class="appbar-compact">
+      <div class="brand">
+        <div class="brand-title">WEBAPP PIANIFICAZIONE</div>
+        <div class="brand-sub">Area Manager: <span id="amLabel"></span></div>
       </div>
-
-      <div class="am-box">
-        <div class="am-row">
-          <div class="am-label">AM</div>
-          <select id="managerSelect" class="custom-select w-100"></select>
-        </div>
-
-        <input type="text" id="newManagerName" placeholder="Nuovo AM" class="form-control w-100">
-
-        <div class="am-actions">
-          <button class="btn btn-outline-light" onclick="addManager()">Aggiungi</button>
-          <button id="renameManagerBtn" class="btn btn-outline-light">Rinomina</button>
-          <button id="deleteManagerBtn" class="btn btn-outline-light">Elimina</button>
-        </div>
-
-        <div class="backup-mini">
-          <button id="exportAllBtn" class="btn btn-soft">ESPORTA JSON</button>
-          <label class="btn btn-soft mb-0" style="display:flex; align-items:center; justify-content:center; cursor:pointer;">
-            IMPORTA
-            <input type="file" id="importAllFile" accept=".json" hidden>
-          </label>
-        </div>
-
-        <div class="mini mt-2" style="opacity:.9;">
-          Backup completo (AM + Portafogli + Pianificazioni).
-        </div>
+  
+      <div class="appbar-actions">
+        <select id="managerSelect" class="custom-select am-select"></select>
+  
+        <button type="button" class="btn-gear" id="openSettingsBtn" aria-label="Impostazioni">
+          ⚙️
+        </button>
       </div>
     </div>
-  </header>
+  </header>  
 
   <!-- MAIN -->
   <main class="app-main">
@@ -834,6 +893,58 @@
     </form>
   </div></div>
 </div>
+
+<div class="modal fade" id="settingsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content" style="border-radius:16px;">
+        <div class="modal-header">
+          <h5 class="modal-title" style="font-weight:1000;">Impostazioni</h5>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+  
+        <div class="modal-body">
+          <div class="cardx" style="box-shadow:none;">
+            <div class="cardx-bd">
+              <div class="mini muted mb-2" style="font-weight:900;">Gestione Area Manager</div>
+  
+              <div class="form-group mb-2">
+                <label class="mini muted mb-1">Nuovo AM</label>
+                <input type="text" id="newManagerName" class="form-control" placeholder="Nuovo AM">
+              </div>
+  
+              <div class="d-flex" style="gap:10px;">
+                <button class="btn btn-outline-secondary flex-fill" onclick="addManager()">Aggiungi</button>
+                <button class="btn btn-outline-secondary flex-fill" id="renameManagerBtn">Rinomina</button>
+                <button class="btn btn-outline-secondary flex-fill" id="deleteManagerBtn">Elimina</button>
+              </div>
+            </div>
+          </div>
+  
+          <div class="cardx mt-3" style="box-shadow:none;">
+            <div class="cardx-bd">
+              <div class="mini muted mb-2" style="font-weight:900;">Backup</div>
+              <div class="d-flex" style="gap:10px;">
+                <button class="btn btn-primary flex-fill" id="exportAllBtn">ESPORTA JSON</button>
+  
+                <label class="btn btn-outline-secondary flex-fill mb-0" style="display:flex;align-items:center;justify-content:center;cursor:pointer;">
+                  IMPORTA
+                  <input type="file" id="importAllFile" accept=".json" hidden>
+                </label>
+              </div>
+  
+              <div class="mini muted mt-2">
+                Backup completo (AM + Portafogli + Pianificazioni).
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-dismiss="modal">Chiudi</button>
+        </div>
+      </div>
+    </div>
+  </div>  
 
 <!-- jQuery, Popper, Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -2131,6 +2242,10 @@
 
     $('#moveModal').modal('show');
   }
+
+  document.getElementById("openSettingsBtn").addEventListener("click", () => {
+  $('#settingsModal').modal('show');
+});
 
   document.getElementById("moveYear").addEventListener("change", ()=>{
     const y=parseInt(document.getElementById("moveYear").value,10);
