@@ -3,10 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0ABAB5" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>WEBAPP PIANIFICAZIONE • 2025-2026</title>
+  <title>WEBAPP PIANIFICAZIONE</title>
 
   <!-- Bootstrap 4.5.2 -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
@@ -15,1891 +12,2318 @@
 
   <style>
     :root{
-      --accent:#0ABAB5;
-      --accent2:#087f7a;
-      --bg:#f4f7fb;
+      --tiffany:#0ABAB5;
+      --tiffany2:#078f8a;
+      --bg:#f6f8fb;
       --card:#ffffff;
       --text:#0f172a;
       --muted:#6b7280;
       --border:#e5e7eb;
-      --shadow: 0 12px 28px rgba(15,23,42,.10);
-      --shadow2: 0 8px 18px rgba(15,23,42,.08);
-      --radius: 16px;
-      --radius2: 12px;
+      --shadow:0 14px 34px rgba(15,23,42,.10);
+      --radius:16px;
+
+      --danger:#ef4444;
+      --ok:#10b981;
+      --warn:#f59e0b;
+
+      --appbarH: 86px;
+      --bottomH: 76px;
     }
 
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
+    html,body{height:100%;}
     body{
-      background:
-        radial-gradient(1200px 500px at 20% -10%, rgba(10,186,181,.18), transparent 60%),
-        radial-gradient(1200px 500px at 80% 0%, rgba(99,102,241,.12), transparent 60%),
-        var(--bg);
-      color: var(--text);
-      padding-bottom: 84px; /* spazio per bottom nav */
+      background: radial-gradient(1200px 600px at 20% -10%, rgba(10,186,181,.18), transparent 60%),
+                  radial-gradient(900px 600px at 110% 10%, rgba(10,186,181,.12), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      overflow:hidden; /* IMPORTANT: scroll gestito solo nel main */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* ===================== TOPBAR (mobile compact) ===================== */
-    .app-topbar{
-      position: sticky;
-      top: 0;
-      z-index: 1040;
-      backdrop-filter: blur(10px);
-      background: linear-gradient(90deg, rgba(10,186,181,.92), rgba(8,127,122,.92));
-      color:#fff;
-      box-shadow: 0 10px 24px rgba(0,0,0,.10);
-      border-bottom: 1px solid rgba(255,255,255,.18);
-    }
-    .app-topbar .wrap{
-      padding: 10px 12px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-    }
-    .brand{
+    /* ===== APP SHELL ===== */
+    .app-shell{
+      height:100%;
       display:flex;
       flex-direction:column;
-      line-height:1.05;
-      min-width: 150px;
     }
-    .brand .title{
-      font-weight: 900;
-      letter-spacing: .3px;
-      font-size: 13px;
-      text-transform: uppercase;
-    }
-    .brand .sub{
-      font-size: 12px;
-      opacity: .92;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 40vw;
-    }
-    .topbar-right{
-      display:flex;
-      align-items:center;
-      gap: 8px;
-      flex-wrap: nowrap;
-    }
-    .topbar-pill{
-      display:flex;
-      align-items:center;
-      gap: 8px;
-      border:1px solid rgba(255,255,255,.20);
-      background: rgba(255,255,255,.14);
-      padding: 6px 8px;
-      border-radius: 999px;
-    }
-    .topbar-pill label{
-      margin:0;
-      font-weight: 800;
-      font-size: 11px;
-      letter-spacing:.2px;
-      opacity:.95;
-    }
-    .topbar-select{
-      height: 30px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.10);
-      color:#fff;
-      outline:none;
-      padding: 0 10px;
-      font-size: 12px;
-      min-width: 150px;
-      max-width: 44vw;
-    }
-    .topbar-btn{
-      height: 34px;
-      min-width: 42px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.20);
-      background: rgba(255,255,255,.16);
-      color:#fff;
-      font-weight: 900;
-      font-size: 14px;
-      padding: 0 12px;
-      white-space: nowrap;
-    }
-    .topbar-btn:hover{ background: rgba(255,255,255,.22); color:#fff; }
 
-    /* ===================== LAYOUT ===================== */
-    .app-container{
-      padding: 14px 12px 18px;
-      max-width: 1080px;
+    .appbar{
+      position:sticky; top:0; z-index:1030;
+      background: linear-gradient(90deg, var(--tiffany), var(--tiffany2));
+      color:#fff;
+      padding: 14px 14px calc(10px + env(safe-area-inset-top));
+      box-shadow: 0 10px 28px rgba(0,0,0,.12);
     }
+    .appbar-inner{
+      display:flex; align-items:flex-start; justify-content:space-between;
+      gap:12px;
+    }
+    .app-title{
+      line-height:1.05;
+      font-weight:800;
+      letter-spacing:.2px;
+      font-size:18px;
+    }
+    .app-sub{
+      opacity:.92;
+      font-size:12px;
+      margin-top:6px;
+    }
+
+    .am-box{
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 14px;
+      padding: 10px;
+      min-width: 190px;
+      max-width: 220px;
+      backdrop-filter: blur(6px);
+    }
+    .am-row{display:flex; align-items:center; gap:8px; margin-bottom:8px;}
+    .am-label{
+      font-weight:700;
+      font-size:12px;
+      letter-spacing:.3px;
+      opacity:.95;
+      min-width:26px;
+      text-transform:uppercase;
+    }
+    .am-box select, .am-box input{
+      border-radius: 12px!important;
+      border: 1px solid rgba(255,255,255,.25)!important;
+      background: rgba(255,255,255,.12)!important;
+      color:#fff!important;
+      height:36px;
+      font-size:13px;
+    }
+    .am-box input::placeholder{color:rgba(255,255,255,.8)}
+    .am-actions{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:8px;
+      margin-top:8px;
+    }
+    .am-actions .btn{
+      border-radius: 12px;
+      padding:8px 8px;
+      font-weight:700;
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .am-actions .btn-outline-light{
+      border-color: rgba(255,255,255,.35);
+      color:#fff;
+    }
+    .am-actions .btn-outline-light:hover{
+      background: rgba(255,255,255,.16);
+      border-color: rgba(255,255,255,.55);
+      color:#fff;
+    }
+
+    .backup-mini{
+      display:flex; gap:8px; margin-top:10px;
+    }
+    .backup-mini .btn{
+      flex:1;
+      border-radius: 12px;
+      font-weight:800;
+      font-size:12px;
+      padding:10px 10px;
+      white-space:nowrap;
+    }
+    .btn-soft{
+      background: rgba(255,255,255,.16);
+      border: 1px solid rgba(255,255,255,.25);
+      color:#fff;
+    }
+    .btn-soft:hover{background: rgba(255,255,255,.22); color:#fff;}
+
+    .app-main{
+      flex:1;
+      overflow:auto;
+      padding: 14px 14px calc(var(--bottomH) + 14px + env(safe-area-inset-bottom));
+    }
+
+    /* ===== BOTTOM NAV ===== */
+    .bottom-nav{
+      position:fixed; left:0; right:0; bottom:0;
+      height: calc(var(--bottomH) + env(safe-area-inset-bottom));
+      background: rgba(255,255,255,.92);
+      border-top: 1px solid var(--border);
+      box-shadow: 0 -10px 24px rgba(15,23,42,.08);
+      z-index:1040;
+      padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+      backdrop-filter: blur(10px);
+    }
+    .bottom-nav .nav-pill{
+      display:flex;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius: 18px;
+      overflow:hidden;
+      box-shadow: 0 10px 24px rgba(15,23,42,.06);
+    }
+    .bottom-nav button{
+      flex:1;
+      border:0;
+      padding:12px 12px;
+      font-weight:900;
+      font-size:16px;
+      background: transparent;
+      color: #0f172a;
+    }
+    .bottom-nav button.active{
+      background: rgba(10,186,181,.14);
+      color:#0f766e;
+      box-shadow: inset 0 0 0 1px rgba(10,186,181,.25);
+    }
+
+    /* ===== CARDS / SECTIONS ===== */
     .cardx{
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      box-shadow: var(--shadow2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
     }
-    .cardx .cardx-h{
-      padding: 12px 12px 0;
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap: 10px;
+    .cardx-hd{
+      padding: 14px 14px 10px;
+      border-bottom: 1px solid var(--border);
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
     }
-    .cardx .cardx-b{ padding: 12px; }
-    .mini-note{ font-size: .86rem; color: var(--muted); }
+    .cardx-hd h3, .cardx-hd h4, .cardx-hd h5{margin:0;}
+    .cardx-bd{padding: 14px;}
+    .muted{color:var(--muted);}
+    .mini{font-size:12px;}
+    .chip{
+      display:inline-flex; align-items:center; gap:6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-weight:800;
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .chip-ok{border-color: rgba(16,185,129,.35); background: rgba(16,185,129,.10); color:#047857;}
+    .chip-no{border-color: rgba(107,114,128,.25); background: rgba(107,114,128,.10); color:#374151;}
 
-    /* Tabs */
-    .nav-tabs .nav-link{ cursor:pointer; }
-    .nav-tabs .nav-link.active{
-      color: var(--accent2);
-      font-weight: 900;
-    }
-
-    /* Bottom nav (mobile) */
-    .bottom-nav{
-      position: fixed;
-      left: 0; right: 0; bottom: 0;
-      z-index: 1040;
-      background: rgba(255,255,255,.94);
-      backdrop-filter: blur(10px);
-      border-top: 1px solid var(--border);
-      box-shadow: 0 -10px 20px rgba(15,23,42,.10);
-      padding: 10px 10px calc(10px + env(safe-area-inset-bottom));
-    }
-    .bottom-nav .bar{
+    /* ===== PORTAFOGLIO (mobile list) ===== */
+    .filters-grid{
       display:grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      max-width: 520px;
-      margin: 0 auto;
+      gap:10px;
     }
-    .bottom-nav button{
+    .filters-grid .full{grid-column: 1 / -1;}
+    .form-control, .custom-select{border-radius: 12px;}
+    .btn{border-radius: 12px; font-weight:800;}
+    .btn-primary{background: #0ea5a4; border-color:#0ea5a4;}
+    .btn-primary:hover{background:#0b9a98; border-color:#0b9a98;}
+    .btn-success{background:#16a34a; border-color:#16a34a;}
+    .btn-success:hover{background:#15803d; border-color:#15803d;}
+
+    .shop-list{display:flex; flex-direction:column; gap:10px;}
+    .shop-item{
+      border:1px solid var(--border);
       border-radius: 14px;
-      border: 1px solid var(--border);
-      padding: 11px 12px;
-      font-weight: 900;
-      background: #fff;
-      color: var(--text);
-      box-shadow: var(--shadow2);
+      padding: 12px;
+      background:#fff;
+      box-shadow: 0 10px 22px rgba(15,23,42,.06);
     }
-    .bottom-nav button.active{
-      background: linear-gradient(90deg, rgba(10,186,181,.14), rgba(10,186,181,.06));
-      border-color: rgba(10,186,181,.45);
-      color: #075e5a;
+    .shop-top{
+      display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
     }
+    .shop-name{
+      font-weight:900;
+      font-size:15px;
+      line-height:1.15;
+      margin:0;
+    }
+    .shop-meta{
+      margin-top:8px;
+      font-size:13px;
+      color:#334155;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:4px;
+    }
+    .shop-meta .k{color:var(--muted); font-weight:800; font-size:12px; margin-right:6px;}
+    .shop-actions{
+      display:flex; gap:8px; margin-top:10px;
+      flex-wrap:wrap;
+    }
+    .shop-actions .btn{padding:8px 10px; font-size:12px; border-radius: 12px;}
+    .btn-danger{background:#ef4444; border-color:#ef4444;}
+    .btn-danger:hover{background:#dc2626; border-color:#dc2626;}
+    .btn-secondary{background:#64748b; border-color:#64748b;}
+    .btn-secondary:hover{background:#475569; border-color:#475569;}
 
-    /* Portafoglio table */
-    #clientTable th, #clientTable td{ vertical-align: middle; }
-    #clientTable input, #clientTable select{ font-size: 0.86rem; padding: 6px 8px; border-radius: 10px; }
-    .thead-light th{ background: #f3f6fb; }
-    .table-bordered{ border-color: var(--border); }
-
-    .coded{ background-color: var(--accent) !important; color: #fff; }
-    .noncoded{ background-color: #e5e7eb !important; color: #111827; }
-    .draggable{ cursor: move; }
-
-    /* Calendar common */
-    .droppable{
-      min-height: 120px;
-      max-height: 150px;
-      overflow-y: auto;
-      border: 1px dashed rgba(148,163,184,.75);
-      border-radius: 12px;
-      padding: 6px;
-      transition: background .2s, border-color .2s;
-      background: #fff;
+    /* Desktop table fallback */
+    .table-wrap{
+      overflow:auto;
+      border:1px solid var(--border);
+      border-radius: 14px;
     }
-    .droppable.over{
-      background: rgba(10,186,181,.08);
-      border-color: rgba(10,186,181,.75);
+    #clientTable{
+      min-width: 860px;
+      margin:0;
     }
-    .day-label{
-      font-weight: 900;
+    #clientTable thead th{white-space:nowrap;}
+
+    /* ===== PIANIFICAZIONE ===== */
+    .segmented{
       display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 10px;
-      margin-bottom: 6px;
-      color: #334155;
-      font-size: 12px;
+      border:1px solid var(--border);
+      border-radius: 14px;
+      overflow:hidden;
+      background:#fff;
     }
-    .day-label .small{
-      font-weight: 800;
-      color: #64748b;
-      font-size: 11px;
+    .segmented button{
+      flex:1;
+      border:0;
+      background:transparent;
+      padding:10px 10px;
+      font-weight:900;
     }
+    .segmented button.active{
+      background: rgba(10,186,181,.14);
+      color:#0f766e;
+      box-shadow: inset 0 0 0 1px rgba(10,186,181,.22);
+    }
+
+    /* tabs inside planning */
+    .subtabs{
+      display:flex;
+      gap:8px;
+      overflow:auto;
+      padding-bottom:4px;
+      scrollbar-width: none;
+    }
+    .subtabs::-webkit-scrollbar{display:none;}
+    .subtabs .tabbtn{
+      border:1px solid var(--border);
+      background:#fff;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-weight:900;
+      white-space:nowrap;
+      font-size:13px;
+    }
+    .subtabs .tabbtn.active{
+      border-color: rgba(10,186,181,.35);
+      background: rgba(10,186,181,.14);
+      color:#0f766e;
+    }
+
+    /* ===== MONTH GRID (equal cells + internal scroll) ===== */
+    .month-wrap{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      overflow:hidden;
+      background:#fff;
+      box-shadow: 0 12px 26px rgba(15,23,42,.06);
+    }
+    .month-head{
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+      border-bottom:1px solid var(--border);
+      background: #f8fafc;
+    }
+    .month-head div{
+      padding:10px 6px;
+      font-weight:900;
+      font-size:12px;
+      text-align:center;
+      color:#334155;
+      border-right:1px solid var(--border);
+    }
+    .month-head div:last-child{border-right:0;}
+
+    .month-grid{
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+    }
+
+    /* Celle sempre uguali (non cresce oltre display) */
+    .day-cell{
+      border-right:1px solid var(--border);
+      border-bottom:1px solid var(--border);
+      min-height: 112px;
+      height: 112px;
+      padding:8px 8px 6px;
+      position:relative;
+      background:#fff;
+      overflow:hidden; /* contenuto interno scrolla */
+    }
+    .day-cell:nth-child(7n){border-right:0;}
+    .day-cell.is-empty{
+      background:#f8fafc;
+    }
+    .day-number{
+      position:absolute;
+      top:6px; right:8px;
+      font-weight:1000;
+      font-size:12px;
+      color:#64748b;
+    }
+    .day-cell.today{
+      background: rgba(10,186,181,.10);
+      box-shadow: inset 0 0 0 2px rgba(10,186,181,.25);
+    }
+    .day-appointments{
+      margin-top:16px;
+      height: calc(100% - 18px);
+      overflow:auto;
+      padding-right:2px;
+    }
+
+    .droppable{border:0!important; padding:0!important;}
+    .droppable.over{outline:2px dashed rgba(14,165,164,.55); outline-offset:2px; border-radius: 10px;}
 
     .appointment-item{
       background:#fff;
-      border:1px solid rgba(148,163,184,.6);
-      border-radius:10px;
+      border:1px solid #cbd5e1;
+      border-radius: 12px;
       padding: 6px 8px;
-      margin-bottom: 6px;
-      font-size: 13px;
-      line-height: 1.15;
-      white-space: nowrap;
+      margin-bottom:6px;
+      font-size:12px;
+      line-height:1.05;
+      white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
       position:relative;
-      cursor: move;
-      box-shadow: 0 6px 14px rgba(15,23,42,.06);
+      cursor:move;
+      user-select:none;
     }
     .appointment-coded{
-      background: linear-gradient(90deg, rgba(10,186,181,.95), rgba(8,127,122,.95));
+      background: linear-gradient(90deg, rgba(10,186,181,.92), rgba(7,143,138,.92));
       color:#fff;
-      border-color: rgba(255,255,255,.2);
+      border-color: rgba(255,255,255,.22);
     }
     .delete-btn{
       float:right;
       cursor:pointer;
-      color:#dc3545;
-      font-weight: 900;
-      margin-left: 8px;
-      opacity: .9;
+      color:#ef4444;
+      font-weight:1000;
+      margin-left:8px;
     }
-    .appointment-coded .delete-btn{ color: rgba(255,255,255,.95); }
+    .appointment-coded .delete-btn{color: rgba(255,255,255,.92);}
 
-    /* Month tabs (scroll) */
-    #calendarSubTabs{
-      overflow-x:auto;
-      flex-wrap: nowrap;
-      -webkit-overflow-scrolling: touch;
-      gap: 4px;
-    }
-    #calendarSubTabs .nav-item{ white-space: nowrap; }
-    #calendarSubTabs .nav-link{ border-top-left-radius: 12px; border-top-right-radius: 12px; }
-
-    /* Weekly view layout */
+    /* ===== WEEK VIEW ===== */
     .week-controls{
-      display:flex;
-      flex-wrap:wrap;
-      gap: 8px;
-      align-items:center;
-      justify-content:space-between;
-      margin-top: 10px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px; flex-wrap:wrap;
     }
-    .week-controls .left{
-      display:flex;
-      flex-wrap:wrap;
-      gap: 8px;
-      align-items:center;
-    }
-    .week-badge{
-      background: rgba(10,186,181,.10);
-      border: 1px solid rgba(10,186,181,.35);
-      color:#075e5a;
-      border-radius: 999px;
-      padding: 6px 10px;
-      font-weight: 900;
-      font-size: 12px;
-    }
+    .week-controls .btn{font-size:12px; padding:10px 10px;}
     .week-grid{
       display:grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 10px;
-      margin-top: 10px;
+      grid-template-columns: 1fr;
+      gap:10px;
     }
-    .week-day-card{
-      background:#fff;
+    .week-day{
       border:1px solid var(--border);
-      border-radius: 14px;
-      box-shadow: var(--shadow2);
+      border-radius: 16px;
+      background:#fff;
+      box-shadow: 0 12px 26px rgba(15,23,42,.06);
       overflow:hidden;
-      display:flex;
-      flex-direction:column;
-      min-height: 180px;
     }
-    .week-day-head{
-      padding: 10px 10px 8px;
+    .week-day-hd{
+      padding: 10px 12px;
+      background:#f8fafc;
       border-bottom:1px solid var(--border);
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-end;
-      gap: 10px;
-      background: #f8fafc;
+      display:flex; align-items:center; justify-content:space-between;
+      font-weight:1000;
     }
-    .week-day-head .wd{
-      font-weight: 900;
-      font-size: 12px;
-      color:#334155;
-    }
-    .week-day-head .dt{
-      font-weight: 800;
-      font-size: 11px;
-      color:#64748b;
+    .week-day-hd .small{font-size:12px; color:#475569; font-weight:900;}
+    .week-day-bd{
+      padding:10px 12px;
     }
     .week-drop{
-      margin: 10px;
-      min-height: 140px;
-      max-height: 240px;
+      min-height: 84px;
+      max-height: 160px;
+      overflow:auto;
+      padding-right:2px;
+    }
+    .week-day.today .week-day-hd{
+      background: rgba(10,186,181,.14);
+      color:#0f766e;
     }
 
-    /* Modal thumbnails */
-    .calendar-grid-header, .calendar-grid{
-      display:grid;
-      grid-template-columns: repeat(7,1fr);
-      gap: 6px;
-      text-align:center;
-    }
-    .calendar-grid-header div{
-      font-weight: 900;
-      padding: 6px 0;
-      color:#475569;
-      border-bottom: 1px solid var(--border);
-      font-size: 12px;
-    }
-    .calendar-grid button{
-      width: 100%;
-      padding: 10px 0;
-      border: 1px solid var(--border);
+    /* ===== Modal thumbs ===== */
+    .thumbs-hd{display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:6px;}
+    .thumbs-hd div{font-weight:900; font-size:11px; color:#64748b; text-align:center;}
+    .thumbs-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:6px;}
+    .thumbs-grid button{
+      width:100%;
+      padding:10px 0;
       border-radius: 12px;
-      background: #fff;
-      cursor: pointer;
-      font-weight: 900;
+      border:1px solid var(--border);
+      background:#fff;
+      font-weight:900;
     }
-    .calendar-grid button.active{
-      background: rgba(10,186,181,.12);
-      border-color: rgba(10,186,181,.55);
-      color: #075e5a;
+    .thumbs-grid button.active{
+      background: rgba(10,186,181,.14);
+      border-color: rgba(10,186,181,.35);
+      color:#0f766e;
     }
 
-    /* Responsive */
-    @media (max-width: 768px){
-      /* monthly calendar: più compatto */
-      .droppable{ min-height: 110px; max-height: 140px; }
-      .appointment-item{ font-size: 13px; }
-
-      /* weekly view: cards in colonna (perfetto su mobile) */
-      .week-grid{ grid-template-columns: 1fr; }
-      .week-drop{ max-height: 180px; }
-
-      /* hide desktop main tabs (usiamo bottom nav) */
-      #mainTabs{ display:none; }
+    /* Responsive tweaks */
+    @media (min-width: 992px){
+      :root{ --appbarH: 92px; }
+      body{overflow:auto;}
+      .app-main{padding-bottom: 24px;}
+      .bottom-nav{display:none;}
+      .am-box{max-width: 420px; min-width: 420px;}
+      .am-actions{grid-template-columns: repeat(3, 1fr);}
+      .week-grid{grid-template-columns: repeat(2, 1fr);}
+      .day-cell{height: 140px; min-height: 140px;}
+      .month-head div{font-size:13px;}
+      .appointment-item{font-size:12.5px;}
     }
   </style>
 </head>
 
 <body>
+<div class="app-shell">
 
-  <!-- TOPBAR COMPATTA -->
-  <div class="app-topbar">
-    <div class="wrap">
-      <div class="brand">
-        <div class="title">WEBAPP PIANIFICAZIONE</div>
-        <div class="sub" id="currentManagerLabel">Area Manager: —</div>
+  <!-- APPBAR -->
+  <header class="appbar">
+    <div class="appbar-inner">
+      <div style="min-width: 160px">
+        <div class="app-title">WEBAPP<br>PIANIFICAZIONE</div>
+        <div class="app-sub">Area Manager: <span id="amLabel"></span></div>
       </div>
 
-      <div class="topbar-right">
-        <div class="topbar-pill">
-          <label>AM</label>
-          <select id="managerSelect" class="topbar-select"></select>
+      <div class="am-box">
+        <div class="am-row">
+          <div class="am-label">AM</div>
+          <select id="managerSelect" class="custom-select w-100"></select>
         </div>
-        <button class="topbar-btn" type="button" data-toggle="modal" data-target="#settingsModal" aria-label="Impostazioni">
-          ⚙️
-        </button>
+
+        <input type="text" id="newManagerName" placeholder="Nuovo AM" class="form-control w-100">
+
+        <div class="am-actions">
+          <button class="btn btn-outline-light" onclick="addManager()">Aggiungi</button>
+          <button id="renameManagerBtn" class="btn btn-outline-light">Rinomina</button>
+          <button id="deleteManagerBtn" class="btn btn-outline-light">Elimina</button>
+        </div>
+
+        <div class="backup-mini">
+          <button id="exportAllBtn" class="btn btn-soft">ESPORTA JSON</button>
+          <label class="btn btn-soft mb-0" style="display:flex; align-items:center; justify-content:center; cursor:pointer;">
+            IMPORTA
+            <input type="file" id="importAllFile" accept=".json" hidden>
+          </label>
+        </div>
+
+        <div class="mini mt-2" style="opacity:.9;">
+          Backup completo (AM + Portafogli + Pianificazioni).
+        </div>
       </div>
     </div>
-  </div>
+  </header>
 
-  <div class="container app-container">
+  <!-- MAIN -->
+  <main class="app-main">
 
-    <!-- Tabs desktop (mobile = bottom nav) -->
-    <ul class="nav nav-tabs" id="mainTabs" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" id="portafoglio-tab" data-toggle="tab" href="#portafoglio">Portafoglio Clienti</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="pianificazione-tab" data-toggle="tab" href="#pianificazione">Pianificazione</a>
-      </li>
-    </ul>
+    <!-- VIEW CONTAINER -->
+    <div class="cardx mb-3">
+      <div class="cardx-hd">
+        <div class="d-flex align-items-center gap-2" style="gap:10px;">
+          <h4 class="mb-0" style="font-weight:1000;">Dashboard</h4>
+          <span class="chip" id="yearChip">2025</span>
+        </div>
 
-    <div class="tab-content" id="mainTabsContent">
+        <div class="d-flex align-items-center" style="gap:10px;">
+          <button class="btn btn-sm btn-outline-secondary" id="btnGoTodayTop">OGGI</button>
+          <button class="btn btn-sm btn-success" id="sendScheduleBtnTop">INVIA</button>
+        </div>
+      </div>
 
-      <!-- PORTAFOGLIO -->
-      <div class="tab-pane fade show active" id="portafoglio">
-        <div class="cardx mt-3">
-          <div class="cardx-h">
-            <div>
-              <h5 class="mb-1" style="font-weight:900;">Portafoglio Negozi</h5>
-              <div class="mini-note">Import Excel sovrascrive solo il portafoglio dell’AM selezionato (pianificazione invariata).</div>
-            </div>
-          </div>
+      <div class="cardx-bd">
+        <!-- Top segmented nav (desktop fallback; on mobile usiamo bottom-nav ma resta anche qui) -->
+        <div class="segmented mb-3" id="topSegment">
+          <button type="button" id="segPortafoglio" class="active">Portafoglio</button>
+          <button type="button" id="segPianificazione">Pianificazione</button>
+        </div>
 
-          <div class="cardx-b">
-            <div class="form-group mb-2">
-              <label class="mb-1"><strong>Importa Excel</strong></label>
-              <input type="file" id="importFile" accept=".xls,.xlsx" class="form-control-file">
-            </div>
-
-            <hr style="border-color:var(--border);">
-
-            <form id="addClientForm" class="mb-3">
-              <div class="form-row align-items-end">
-                <div class="col-12 col-md">
-                  <label>Nome negozio</label>
-                  <input type="text" id="newClientName" class="form-control" placeholder="Nome negozio" required>
-                </div>
-                <div class="col-12 col-md">
-                  <label>Indirizzo</label>
-                  <input type="text" id="newClientIndirizzo" class="form-control" placeholder="Indirizzo" required>
-                </div>
-                <div class="col-6 col-md">
-                  <label>Comune</label>
-                  <input type="text" id="newClientComune" class="form-control" placeholder="Comune" required>
-                </div>
-                <div class="col-6 col-md">
-                  <label>Città</label>
-                  <input type="text" id="newClientCitta" class="form-control" placeholder="Città" required>
-                </div>
-                <div class="col-6 col-md-auto">
-                  <div class="form-check mb-2 mt-3 mt-md-0">
-                    <input class="form-check-input" type="checkbox" id="newClientCoded">
-                    <label class="form-check-label" for="newClientCoded"><strong>Codificato</strong></label>
-                  </div>
-                </div>
-                <div class="col-6 col-md-auto">
-                  <button class="btn btn-primary btn-block" style="border-radius:12px;font-weight:900;">Aggiungi</button>
+        <!-- CONTENT: Portafoglio -->
+        <section id="viewPortafoglio">
+          <div class="cardx">
+            <div class="cardx-hd">
+              <div>
+                <h5 style="font-weight:1000;">Portafoglio Negozi</h5>
+                <div class="mini muted">
+                  Import Excel sovrascrive solo il portafoglio dell’AM selezionato (pianificazione invariata).
                 </div>
               </div>
-            </form>
+              <div class="d-flex" style="gap:8px; align-items:center;">
+                <span class="chip" id="shopsCountChip">0 negozi</span>
+              </div>
+            </div>
 
-            <div class="table-responsive" style="border-radius:14px; overflow:hidden; border:1px solid var(--border);">
-              <table class="table table-bordered mb-0" id="clientTable">
-                <thead class="thead-light">
-                  <tr>
-                    <th>Nome negozio</th>
-                    <th>Indirizzo</th>
-                    <th>Comune</th>
-                    <th>Città</th>
-                    <th style="width:110px;">Codificato</th>
-                    <th style="min-width:220px;">Azioni</th>
-                  </tr>
-                  <tr>
-                    <th><input type="text" id="filterName" placeholder="Filtra nome" class="form-control form-control-sm"></th>
-                    <th><input type="text" id="filterIndirizzo" placeholder="Filtra indirizzo" class="form-control form-control-sm"></th>
-                    <th><input type="text" id="filterComune" placeholder="Filtra comune" class="form-control form-control-sm"></th>
-                    <th><input type="text" id="filterCitta" placeholder="Filtra città" class="form-control form-control-sm"></th>
-                    <th>
-                      <select id="filterCoded" class="form-control form-control-sm">
+            <div class="cardx-bd">
+              <!-- Import Excel -->
+              <div class="mb-3">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <strong>Importa Excel</strong>
+                  <span class="mini muted">.xls/.xlsx</span>
+                </div>
+                <input type="file" id="importFile" accept=".xls,.xlsx" class="form-control-file">
+              </div>
+
+              <!-- Add shop -->
+              <div class="cardx mb-3" style="box-shadow:none;">
+                <div class="cardx-bd">
+                  <h6 style="font-weight:1000;">Aggiungi negozio</h6>
+
+                  <div class="form-group mb-2">
+                    <label class="mini muted mb-1">Nome negozio</label>
+                    <input type="text" id="newClientName" class="form-control" placeholder="Nome negozio">
+                  </div>
+
+                  <div class="form-group mb-2">
+                    <label class="mini muted mb-1">Indirizzo</label>
+                    <input type="text" id="newClientIndirizzo" class="form-control" placeholder="Indirizzo">
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-6">
+                      <label class="mini muted mb-1">Comune</label>
+                      <input type="text" id="newClientComune" class="form-control" placeholder="Comune">
+                    </div>
+                    <div class="col-6">
+                      <label class="mini muted mb-1">Città</label>
+                      <input type="text" id="newClientCitta" class="form-control" placeholder="Città">
+                    </div>
+                  </div>
+
+                  <div class="d-flex align-items-center justify-content-between mt-3" style="gap:10px;">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" id="newClientCoded">
+                      <label class="custom-control-label" for="newClientCoded" style="font-weight:900;">Codificato</label>
+                    </div>
+
+                    <button class="btn btn-primary" id="btnAddClient" style="min-width:140px;">Aggiungi</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Filters -->
+              <div class="cardx mb-3" style="box-shadow:none;">
+                <div class="cardx-bd">
+                  <h6 style="font-weight:1000;">Filtri</h6>
+                  <div class="filters-grid">
+                    <div class="full">
+                      <input type="text" id="filterName" class="form-control" placeholder="Filtra per nome">
+                    </div>
+                    <div class="full">
+                      <input type="text" id="filterIndirizzo" class="form-control" placeholder="Filtra per indirizzo">
+                    </div>
+                    <div>
+                      <input type="text" id="filterComune" class="form-control" placeholder="Filtra per comune">
+                    </div>
+                    <div>
+                      <input type="text" id="filterCitta" class="form-control" placeholder="Filtra per città">
+                    </div>
+                    <div class="full">
+                      <select id="filterCoded" class="custom-select">
                         <option value="">Tutti</option>
-                        <option value="true">SI</option>
-                        <option value="false">NO</option>
-                      </select>
-                    </th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      <!-- PIANIFICAZIONE -->
-      <div class="tab-pane fade" id="pianificazione">
-        <div class="cardx mt-3">
-          <div class="cardx-h">
-            <div>
-              <h5 class="mb-1" style="font-weight:900;">Pianificazione</h5>
-              <div class="mini-note">Drag & drop dal portafoglio al calendario (max 8 appuntamenti per giorno).</div>
-            </div>
-
-            <div class="d-flex align-items-center" style="gap:10px;">
-              <div class="d-flex align-items-center">
-                <span class="mr-2" style="font-weight:900;color:#334155;">Anno:</span>
-                <select id="yearSelect" class="custom-select w-auto" style="border-radius:12px;">
-                  <option value="2025">2025</option>
-                  <option value="2026">2026</option>
-                </select>
-              </div>
-              <button id="sendScheduleBtn" class="btn btn-success" style="border-radius:12px;font-weight:900;">INVIA</button>
-            </div>
-          </div>
-
-          <div class="cardx-b">
-            <!-- SubTabs: Generale + Settimana + Mesi -->
-            <ul class="nav nav-tabs mt-1" id="calendarSubTabs"></ul>
-
-            <div class="tab-content" id="calendarContent">
-              <!-- Generale -->
-              <div class="tab-pane fade show active" id="generale">
-                <div class="mt-3">
-                  <div class="d-flex flex-wrap justify-content-between align-items-center">
-                    <h6 class="mb-2" style="font-weight:900;">Classifica Negozi</h6>
-                    <div class="d-flex align-items-center">
-                      <span class="mr-2" style="font-weight:900;color:#334155;">Filtro:</span>
-                      <select id="rankingYearFilter" class="custom-select w-auto" style="border-radius:12px;">
-                        <option value="ALL">Tutti (2025+2026)</option>
-                        <option value="2025">Solo 2025</option>
-                        <option value="2026">Solo 2026</option>
+                        <option value="true">Codificati</option>
+                        <option value="false">Non codificati</option>
                       </select>
                     </div>
                   </div>
-                  <div id="generalSummary"></div>
                 </div>
               </div>
 
-              <!-- Settimana -->
-              <div class="tab-pane fade" id="weekly">
-                <div class="mt-3">
-                  <div class="week-controls">
-                    <div class="left">
-                      <span class="week-badge" id="weekRangeLabel">Settimana: —</span>
-                      <button class="btn btn-outline-secondary btn-sm" id="weekPrevBtn" style="border-radius:12px;font-weight:900;">←</button>
-                      <button class="btn btn-outline-secondary btn-sm" id="weekNextBtn" style="border-radius:12px;font-weight:900;">→</button>
-                      <input type="date" id="weekAnchorDate" class="form-control form-control-sm" style="border-radius:12px; max-width: 190px;">
-                    </div>
+              <!-- Mobile list -->
+              <div class="d-block d-lg-none">
+                <div class="mini muted mb-2">Trascina un negozio sul calendario (vista mensile/settimanale) per pianificare.</div>
+                <div id="shopList" class="shop-list"></div>
+              </div>
 
-                    <div class="right">
-                      <div class="mini-note mb-0">
-                        Vista settimanale: su mobile i giorni sono in colonna (più leggibile).
-                      </div>
-                    </div>
-                  </div>
-
-                  <div id="weeklyGrid" class="week-grid"></div>
+              <!-- Desktop table -->
+              <div class="d-none d-lg-block">
+                <div class="table-wrap">
+                  <table class="table table-bordered" id="clientTable">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>Nome negozio</th>
+                        <th>Indirizzo</th>
+                        <th>Comune</th>
+                        <th>Città</th>
+                        <th>Codificato</th>
+                        <th>Azioni</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
                 </div>
               </div>
 
-              <!-- mesi via JS -->
             </div>
           </div>
-        </div>
-      </div>
+        </section>
 
-    </div>
-  </div>
+        <!-- CONTENT: Pianificazione -->
+        <section id="viewPianificazione" style="display:none;">
+          <div class="cardx">
+            <div class="cardx-hd">
+              <div>
+                <h5 style="font-weight:1000;">Pianificazione</h5>
+                <div class="mini muted">Drag & drop dal portafoglio al calendario (max 8 appuntamenti/giorno).</div>
+              </div>
 
-  <!-- Bottom Nav (mobile) -->
-  <div class="bottom-nav">
-    <div class="bar">
-      <button type="button" id="bn-portafoglio" class="active">Portafoglio</button>
-      <button type="button" id="bn-pianificazione">Pianificazione</button>
-    </div>
-  </div>
-
-  <!-- SETTINGS MODAL (manager + backup) -->
-  <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content" style="border-radius:16px; overflow:hidden;">
-        <div class="modal-header" style="background:linear-gradient(90deg, rgba(10,186,181,.16), rgba(10,186,181,.06));">
-          <h5 class="modal-title" style="font-weight:900;">Impostazioni</h5>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-
-        <div class="modal-body">
-          <div class="mb-2" style="font-weight:900;">Gestione Area Manager</div>
-
-          <div class="form-row">
-            <div class="form-group col-12">
-              <label class="mb-1"><strong>Nuovo Area Manager</strong></label>
-              <input type="text" id="newManagerName" class="form-control" placeholder="Nome nuovo AM" style="border-radius:12px;">
-            </div>
-
-            <div class="form-group col-12 d-flex" style="gap:10px; flex-wrap:wrap;">
-              <button class="btn btn-primary" style="border-radius:12px;font-weight:900;" onclick="addManager()">Aggiungi</button>
-              <button id="renameManagerBtn" class="btn btn-outline-primary" style="border-radius:12px;font-weight:900;">Rinomina</button>
-              <button id="deleteManagerBtn" class="btn btn-outline-danger" style="border-radius:12px;font-weight:900;">Elimina</button>
-            </div>
-          </div>
-
-          <hr style="border-color:var(--border);">
-
-          <div class="mb-2" style="font-weight:900;">Backup dati</div>
-          <div class="d-flex" style="gap:10px; flex-wrap:wrap;">
-            <button id="exportAllBtn" class="btn btn-outline-primary" style="border-radius:12px;font-weight:900;">ESPORTA JSON</button>
-            <label class="btn btn-outline-success mb-0" style="border-radius:12px;font-weight:900; cursor:pointer;">
-              IMPORTA JSON <input type="file" id="importAllFile" accept=".json" hidden>
-            </label>
-          </div>
-
-          <div class="mini-note mt-2">
-            Esporta/importa Area Manager, Portafogli e Pianificazioni (2025+2026) da localStorage.
-          </div>
-        </div>
-
-        <div class="modal-footer">
-          <button class="btn btn-light" data-dismiss="modal" style="border-radius:12px;font-weight:900;">Chiudi</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal Pianificazione -->
-  <div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content" style="border-radius:16px; overflow:hidden;">
-        <form id="scheduleForm">
-          <div class="modal-header" style="background:linear-gradient(90deg, rgba(10,186,181,.16), rgba(10,186,181,.06));">
-            <h5 class="modal-title" style="font-weight:900;">Pianifica Visita</h5>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-
-          <div class="modal-body">
-            <div class="form-group">
-              <label><strong>Negozio</strong></label>
-              <input type="text" id="selectedClientName" class="form-control" readonly style="border-radius:12px;">
-            </div>
-
-            <div class="form-row">
-              <div class="form-group col-6">
-                <label><strong>Anno</strong></label>
-                <select id="scheduleYear" class="form-control" required style="border-radius:12px;">
+              <div class="d-flex align-items-center" style="gap:10px;">
+                <select id="yearSelect" class="custom-select" style="width:auto;">
                   <option value="2025">2025</option>
                   <option value="2026">2026</option>
                 </select>
-              </div>
-              <div class="form-group col-6">
-                <label><strong>Mese</strong></label>
-                <select id="scheduleMonth" class="form-control" required style="border-radius:12px;"></select>
+                <button class="btn btn-outline-secondary btn-sm" id="btnGoToday">OGGI</button>
+                <button class="btn btn-success btn-sm" id="sendScheduleBtn">INVIA</button>
               </div>
             </div>
 
-            <div class="form-group">
-              <label><strong>Seleziona giorno</strong></label>
-              <div id="dayThumbnails"></div>
-              <input type="hidden" id="scheduleDay" required>
+            <div class="cardx-bd">
+              <!-- Sub tabs (Generale / Settimana / Mesi) -->
+              <div class="subtabs mb-3" id="planningTabs"></div>
+
+              <!-- PANELS -->
+              <div id="panelGenerale" class="planning-panel">
+                <div class="d-flex align-items-center justify-content-between mb-2" style="gap:10px; flex-wrap:wrap;">
+                  <h6 class="mb-0" style="font-weight:1000;">Classifica Negozi</h6>
+                  <div class="d-flex align-items-center" style="gap:8px;">
+                    <span class="mini muted" style="font-weight:900;">Filtro:</span>
+                    <select id="rankingYearFilter" class="custom-select" style="width:auto;">
+                      <option value="ALL">Tutti</option>
+                      <option value="2025">Solo 2025</option>
+                      <option value="2026">Solo 2026</option>
+                    </select>
+                  </div>
+                </div>
+                <div id="generalSummary"></div>
+              </div>
+
+              <div id="panelSettimana" class="planning-panel" style="display:none;">
+                <div class="week-controls mb-2">
+                  <div class="d-flex" style="gap:8px;">
+                    <button class="btn btn-outline-secondary" id="prevWeekBtn">◀︎</button>
+                    <button class="btn btn-outline-secondary" id="nextWeekBtn">▶︎</button>
+                    <button class="btn btn-outline-secondary" id="todayWeekBtn">OGGI</button>
+                  </div>
+                  <div class="chip" id="weekLabel">Settimana</div>
+                </div>
+                <div id="weekGrid" class="week-grid"></div>
+              </div>
+
+              <div id="panelMese" class="planning-panel" style="display:none;">
+                <div class="month-wrap">
+                  <div class="month-head" id="monthHead"></div>
+                  <div class="month-grid" id="monthGrid"></div>
+                </div>
+                <div class="mini muted mt-2">Suggerimento: tap su un appuntamento per spostarlo (mese successivo, ecc.).</div>
+              </div>
+
             </div>
           </div>
+        </section>
 
-          <div class="modal-footer">
-            <button class="btn btn-light" data-dismiss="modal" style="border-radius:12px;font-weight:900;">Annulla</button>
-            <button class="btn btn-primary" style="border-radius:12px;font-weight:900;">Conferma</button>
-          </div>
-        </form>
       </div>
     </div>
-  </div>
 
-  <!-- jQuery, Popper, Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </main>
 
-  <script>
-    /************************************************************
-     * WEBAPP PIANIFICAZIONE (2025-2026) - BOZZA v2
-     * - Topbar compatta (azioni in modal impostazioni)
-     * - Vista settimanale + vista mensile + classifica
-     * - Stesso storage (date YYYY-MM-DD) -> tutto coerente
-     ************************************************************/
+  <!-- BOTTOM NAV (mobile) -->
+  <nav class="bottom-nav d-lg-none">
+    <div class="nav-pill">
+      <button id="navPortafoglio" class="active" type="button">Portafoglio</button>
+      <button id="navPianificazione" type="button">Pianificazione</button>
+    </div>
+  </nav>
 
-    /* =======================
-       STATE + CONSTANTS
-    ======================= */
-    let currentManager = '';
-    let currentClientId = null;
-    let selectedYear = 2025;
+</div>
 
-    // Weekly view anchor (date) -> rappresenta un giorno dentro la settimana visualizzata
-    let weekAnchor = null;
+<!-- MODAL: Pianifica -->
+<div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document"><div class="modal-content">
+    <form id="scheduleForm">
+      <div class="modal-header">
+        <h5 class="modal-title" style="font-weight:1000;">Pianifica Visita</h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
 
-    const weekdays = ["Lun","Mar","Mer","Gio","Ven","Sab","Dom"];
+        <div class="form-group">
+          <label class="mini muted mb-1">Negozio</label>
+          <input type="text" id="selectedClientName" class="form-control" readonly>
+        </div>
 
-    const MONTHS_BY_YEAR = {
-      2025: [
-        { label: "Aprile",    monthIndex0: 3,  monthNumber: 4,  key: "aprile" },
-        { label: "Maggio",    monthIndex0: 4,  monthNumber: 5,  key: "maggio" },
-        { label: "Giugno",    monthIndex0: 5,  monthNumber: 6,  key: "giugno" },
-        { label: "Luglio",    monthIndex0: 6,  monthNumber: 7,  key: "luglio" },
-        { label: "Agosto",    monthIndex0: 7,  monthNumber: 8,  key: "agosto" },
-        { label: "Settembre", monthIndex0: 8,  monthNumber: 9,  key: "settembre" },
-        { label: "Ottobre",   monthIndex0: 9,  monthNumber: 10, key: "ottobre" },
-        { label: "Novembre",  monthIndex0: 10, monthNumber: 11, key: "novembre" },
-        { label: "Dicembre",  monthIndex0: 11, monthNumber: 12, key: "dicembre" }
-      ],
-      2026: [
-        { label: "Gennaio",   monthIndex0: 0,  monthNumber: 1,  key: "gennaio" },
-        { label: "Febbraio",  monthIndex0: 1,  monthNumber: 2,  key: "febbraio" },
-        { label: "Marzo",     monthIndex0: 2,  monthNumber: 3,  key: "marzo" },
-        { label: "Aprile",    monthIndex0: 3,  monthNumber: 4,  key: "aprile" },
-        { label: "Maggio",    monthIndex0: 4,  monthNumber: 5,  key: "maggio" },
-        { label: "Giugno",    monthIndex0: 5,  monthNumber: 6,  key: "giugno" },
-        { label: "Luglio",    monthIndex0: 6,  monthNumber: 7,  key: "luglio" },
-        { label: "Agosto",    monthIndex0: 7,  monthNumber: 8,  key: "agosto" },
-        { label: "Settembre", monthIndex0: 8,  monthNumber: 9,  key: "settembre" },
-        { label: "Ottobre",   monthIndex0: 9,  monthNumber: 10, key: "ottobre" },
-        { label: "Novembre",  monthIndex0: 10, monthNumber: 11, key: "novembre" },
-        { label: "Dicembre",  monthIndex0: 11, monthNumber: 12, key: "dicembre" }
-      ]
+        <div class="form-row">
+          <div class="col-6">
+            <label class="mini muted mb-1">Anno</label>
+            <select id="scheduleYear" class="form-control" required>
+              <option value="2025">2025</option>
+              <option value="2026">2026</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <label class="mini muted mb-1">Mese</label>
+            <select id="scheduleMonth" class="form-control" required></select>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <label class="mini muted mb-1">Seleziona giorno</label>
+          <div id="dayThumbnails"></div>
+          <input type="hidden" id="scheduleDay" required>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+        <button class="btn btn-primary">Conferma</button>
+      </div>
+    </form>
+  </div></div>
+</div>
+
+<!-- MODAL: Sposta appuntamento -->
+<div class="modal fade" id="moveModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document"><div class="modal-content">
+    <form id="moveForm">
+      <div class="modal-header">
+        <h5 class="modal-title" style="font-weight:1000;">Sposta appuntamento</h5>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+
+        <div class="form-group">
+          <label class="mini muted mb-1">Negozio</label>
+          <input type="text" id="moveClientName" class="form-control" readonly>
+        </div>
+
+        <div class="form-row">
+          <div class="col-6">
+            <label class="mini muted mb-1">Anno</label>
+            <select id="moveYear" class="form-control" required>
+              <option value="2025">2025</option>
+              <option value="2026">2026</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <label class="mini muted mb-1">Mese</label>
+            <select id="moveMonth" class="form-control" required></select>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <label class="mini muted mb-1">Seleziona giorno</label>
+          <div id="moveDayThumbnails"></div>
+          <input type="hidden" id="moveDay" required>
+          <div class="mini muted mt-2">Puoi spostarlo anche su un mese non visibile ora: viene salvato comunque.</div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+        <button class="btn btn-primary">Sposta</button>
+      </div>
+    </form>
+  </div></div>
+</div>
+
+<!-- jQuery, Popper, Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  let currentManager = '';
+  let currentClientId = null;
+
+  const weekdays = ["Lun","Mar","Mer","Gio","Ven","Sab","Dom"];
+
+  const MONTHS_BY_YEAR = {
+    2025: [
+      { label: "Aprile",    monthIndex0: 3,  monthNumber: 4,  key: "aprile" },
+      { label: "Maggio",    monthIndex0: 4,  monthNumber: 5,  key: "maggio" },
+      { label: "Giugno",    monthIndex0: 5,  monthNumber: 6,  key: "giugno" },
+      { label: "Luglio",    monthIndex0: 6,  monthNumber: 7,  key: "luglio" },
+      { label: "Agosto",    monthIndex0: 7,  monthNumber: 8,  key: "agosto" },
+      { label: "Settembre", monthIndex0: 8,  monthNumber: 9,  key: "settembre" },
+      { label: "Ottobre",   monthIndex0: 9,  monthNumber: 10, key: "ottobre" },
+      { label: "Novembre",  monthIndex0: 10, monthNumber: 11, key: "novembre" },
+      { label: "Dicembre",  monthIndex0: 11, monthNumber: 12, key: "dicembre" }
+    ],
+    2026: [
+      { label: "Gennaio",   monthIndex0: 0,  monthNumber: 1,  key: "gennaio" },
+      { label: "Febbraio",  monthIndex0: 1,  monthNumber: 2,  key: "febbraio" },
+      { label: "Marzo",     monthIndex0: 2,  monthNumber: 3,  key: "marzo" },
+      { label: "Aprile",    monthIndex0: 3,  monthNumber: 4,  key: "aprile" },
+      { label: "Maggio",    monthIndex0: 4,  monthNumber: 5,  key: "maggio" },
+      { label: "Giugno",    monthIndex0: 5,  monthNumber: 6,  key: "giugno" },
+      { label: "Luglio",    monthIndex0: 6,  monthNumber: 7,  key: "luglio" },
+      { label: "Agosto",    monthIndex0: 7,  monthNumber: 8,  key: "agosto" },
+      { label: "Settembre", monthIndex0: 8,  monthNumber: 9,  key: "settembre" },
+      { label: "Ottobre",   monthIndex0: 9,  monthNumber: 10, key: "ottobre" },
+      { label: "Novembre",  monthIndex0: 10, monthNumber: 11, key: "novembre" },
+      { label: "Dicembre",  monthIndex0: 11, monthNumber: 12, key: "dicembre" }
+    ]
+  };
+
+  let selectedYear = 2025;
+
+  // Week view state
+  let weekStartDate = null; // Monday
+
+  // Move modal state
+  let moving = { name:"", coded:false, fromDate:"" };
+
+  // ========= UTILS DATE =========
+  function getTodayLocal(){ return new Date(); }
+  function pad2(n){ return String(n).padStart(2,"0"); }
+  function toISODate(d){
+    const y=d.getFullYear(), m=pad2(d.getMonth()+1), day=pad2(d.getDate());
+    return `${y}-${m}-${day}`;
+  }
+  function parseISODate(iso){
+    const [y,m,d]=iso.split("-").map(Number);
+    return new Date(y, m-1, d);
+  }
+  function startOfWeekMonday(date){
+    const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+    const day = d.getDay(); // 0 Sun..6 Sat
+    const diff = (day===0 ? -6 : 1-day); // move to Monday
+    d.setDate(d.getDate() + diff);
+    d.setHours(0,0,0,0);
+    return d;
+  }
+  function addDays(date, n){
+    const d=new Date(date);
+    d.setDate(d.getDate()+n);
+    return d;
+  }
+
+  function getMonthKeyForYear(year, monthNumber1to12){
+    const m=(MONTHS_BY_YEAR[year]||[]).find(x=>x.monthNumber===monthNumber1to12);
+    return m?m.key:null;
+  }
+  function pickBestMonth(year){
+    const today=getTodayLocal();
+    if(today.getFullYear()===year){
+      const k=getMonthKeyForYear(year, today.getMonth()+1);
+      return k || (MONTHS_BY_YEAR[year]||[])[0]?.key || null;
+    }
+    return (MONTHS_BY_YEAR[year]||[])[0]?.key || null;
+  }
+
+  // ========= STORAGE HELPERS =========
+  function getManagersList(){ return JSON.parse(localStorage.getItem("areaManagers")) || []; }
+  function setManagersList(list){ localStorage.setItem("areaManagers", JSON.stringify(list)); }
+  function clientsKey(mgr){ return "clientsData_" + mgr; }
+  function appsKey(mgr){ return "appointmentsData_" + mgr; }
+
+  // ========= AREA MANAGER CRUD =========
+  function loadManagers(){
+    let list=getManagersList();
+    if(!list.length){
+      list=["MARIO ISERNIA"];
+      setManagersList(list);
+    }
+    const sel=document.getElementById("managerSelect");
+    sel.innerHTML="";
+    list.forEach(m=>sel.add(new Option(m,m)));
+    currentManager = sel.value;
+    renderAmLabel();
+  }
+
+  function renderAmLabel(){
+    const el=document.getElementById("amLabel");
+    el.textContent = currentManager || "-";
+  }
+
+  function addManager(){
+    const nm=document.getElementById("newManagerName").value.trim();
+    if(!nm){ alert("Inserisci un nome."); return; }
+    let list=getManagersList();
+    if(list.includes(nm)){ alert("Esiste già."); return; }
+
+    saveClients(); saveAppointmentsDomOnly();
+
+    list.push(nm);
+    setManagersList(list);
+
+    loadManagers();
+    document.getElementById("managerSelect").value=nm;
+    currentManager=nm;
+    renderAmLabel();
+
+    document.getElementById("newManagerName").value="";
+    reloadAll();
+  }
+
+  function renameManager(){
+    const oldName=document.getElementById("managerSelect").value;
+    if(!oldName){ alert("Seleziona un Area Manager."); return; }
+
+    const newName=prompt("Nuovo nome Area Manager:", oldName);
+    if(newName===null) return;
+    const nn=newName.trim();
+    if(!nn){ alert("Nome non valido."); return; }
+
+    let list=getManagersList();
+    if(nn!==oldName && list.includes(nn)){ alert("Esiste già."); return; }
+
+    saveClients(); saveAppointmentsDomOnly();
+
+    const ok=confirm(`Rinominare "${oldName}" in "${nn}"?\n\nVerranno mantenuti portafoglio e pianificazioni.`);
+    if(!ok) return;
+
+    const oldClients=localStorage.getItem(clientsKey(oldName));
+    const oldApps=localStorage.getItem(appsKey(oldName));
+
+    if(oldClients!==null) localStorage.setItem(clientsKey(nn), oldClients);
+    if(oldApps!==null) localStorage.setItem(appsKey(nn), oldApps);
+
+    localStorage.removeItem(clientsKey(oldName));
+    localStorage.removeItem(appsKey(oldName));
+
+    list=list.map(m=>(m===oldName?nn:m));
+    setManagersList(list);
+
+    if(currentManager===oldName) currentManager=nn;
+
+    loadManagers();
+    document.getElementById("managerSelect").value=nn;
+    currentManager=nn;
+    renderAmLabel();
+
+    reloadAll();
+  }
+
+  function deleteManager(){
+    const name=document.getElementById("managerSelect").value;
+    if(!name){ alert("Seleziona un Area Manager."); return; }
+
+    let list=getManagersList();
+    if(list.length<=1){ alert("Non puoi eliminare l'ultimo Area Manager."); return; }
+
+    const ok=confirm(`Eliminare "${name}"?\n\nATTENZIONE: verranno cancellati portafoglio e pianificazioni di questo Area Manager.`);
+    if(!ok) return;
+
+    saveClients(); saveAppointmentsDomOnly();
+
+    localStorage.removeItem(clientsKey(name));
+    localStorage.removeItem(appsKey(name));
+
+    list=list.filter(m=>m!==name);
+    setManagersList(list);
+
+    if(currentManager===name) currentManager=list[0];
+
+    loadManagers();
+    document.getElementById("managerSelect").value=currentManager;
+    renderAmLabel();
+
+    reloadAll();
+  }
+
+  document.getElementById("renameManagerBtn").addEventListener("click", renameManager);
+  document.getElementById("deleteManagerBtn").addEventListener("click", deleteManager);
+
+  document.getElementById("managerSelect").addEventListener("change", ()=>{
+    saveClients(); saveAppointmentsDomOnly();
+    currentManager = document.getElementById("managerSelect").value;
+    renderAmLabel();
+    reloadAll();
+  });
+
+  // ========= BACKUP export/import =========
+  function buildBackupPayload(){
+    const payload={
+      app:"PIANIFICAZIONE_SETTIMANALE",
+      version:"webapp-mobile-v1",
+      exportedAt:new Date().toISOString(),
+      keys:{}
     };
-
-    /* =======================
-       DATE UTILS
-    ======================= */
-    function getTodayLocal(){ return new Date(); }
-
-    function pad2(n){ return String(n).padStart(2,"0"); }
-
-    function toYMD(d){
-      return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
-    }
-
-    // Monday-based week start
-    function startOfWeek(date){
-      const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-      const jsDay = d.getDay(); // 0=Sun
-      const mondayIndex = (jsDay === 0) ? 6 : jsDay - 1; // 0=Mon ... 6=Sun
-      d.setDate(d.getDate() - mondayIndex);
-      d.setHours(0,0,0,0);
-      return d;
-    }
-
-    function addDays(date, n){
-      const d = new Date(date.getTime());
-      d.setDate(d.getDate() + n);
-      return d;
-    }
-
-    function formatDM(date){
-      return `${pad2(date.getDate())}/${pad2(date.getMonth()+1)}`;
-    }
-
-    function getMonthKeyForYear(year, monthNumber1to12){
-      const m = (MONTHS_BY_YEAR[year] || []).find(x => x.monthNumber === monthNumber1to12);
-      return m ? m.key : null;
-    }
-    function getFirstMonthKey(year){
-      const arr = MONTHS_BY_YEAR[year] || [];
-      return arr.length ? arr[0].key : null;
-    }
-    function pickBestMonthKey(year){
-      const today = getTodayLocal();
-      const ty = today.getFullYear();
-      const tm = today.getMonth() + 1;
-      if(year === ty){
-        const k = getMonthKeyForYear(year, tm);
-        return k || getFirstMonthKey(year);
-      }
-      return getFirstMonthKey(year);
-    }
-    function autoGoToMonthInCorso(year){
-      const key = pickBestMonthKey(year);
-      if(!key) return;
-      const paneId = `#pane-${year}-${key}`;
-      const link = document.querySelector(`#calendarSubTabs a[href="${paneId}"]`);
-      if(link) $(link).tab('show');
-    }
-
-    /* =======================
-       STORAGE HELPERS
-    ======================= */
-    function getManagersList(){
-      return JSON.parse(localStorage.getItem("areaManagers")) || [];
-    }
-    function setManagersList(list){
-      localStorage.setItem("areaManagers", JSON.stringify(list));
-    }
-    function clientsKey(mgr){ return "clientsData_" + mgr; }
-    function appsKey(mgr){ return "appointmentsData_" + mgr; }
-
-    function updateTopbarLabel(){
-      const el = document.getElementById("currentManagerLabel");
-      if(el) el.textContent = `Area Manager: ${currentManager || "—"}`;
-    }
-
-    /* =======================
-       MANAGER CRUD
-    ======================= */
-    function loadManagers(){
-      let list = getManagersList();
-      if(!list.length){
-        list = ["MARIO ISERNIA"];
-        setManagersList(list);
-      }
-      const sel = document.getElementById("managerSelect");
-      sel.innerHTML = "";
-      list.forEach(m => sel.add(new Option(m, m)));
-      currentManager = sel.value;
-      updateTopbarLabel();
-    }
-
-    function addManager(){
-      const nm = document.getElementById("newManagerName").value.trim();
-      if(!nm){ alert("Inserisci un nome."); return; }
-
-      let list = getManagersList();
-      if(list.includes(nm)){ alert("Esiste già."); return; }
-
-      saveClients(); saveAppointments();
-
-      list.push(nm);
-      setManagersList(list);
-
-      loadManagers();
-      document.getElementById("managerSelect").value = nm;
-      currentManager = nm;
-      updateTopbarLabel();
-
-      document.getElementById("newManagerName").value = "";
-      reloadAll();
-    }
-
-    function renameManager(){
-      const oldName = document.getElementById("managerSelect").value;
-      if(!oldName){ alert("Seleziona un Area Manager."); return; }
-
-      const newName = prompt("Nuovo nome Area Manager:", oldName);
-      if(newName === null) return;
-      const nn = newName.trim();
-      if(!nn){ alert("Nome non valido."); return; }
-
-      let list = getManagersList();
-      if(nn !== oldName && list.includes(nn)){
-        alert("Esiste già un Area Manager con questo nome.");
-        return;
-      }
-
-      saveClients(); saveAppointments();
-
-      const ok = confirm(`Rinominare "${oldName}" in "${nn}"?\n\nVerranno mantenuti portafoglio e pianificazioni.`);
-      if(!ok) return;
-
-      const oldClients = localStorage.getItem(clientsKey(oldName));
-      const oldApps = localStorage.getItem(appsKey(oldName));
-
-      if(oldClients !== null) localStorage.setItem(clientsKey(nn), oldClients);
-      if(oldApps !== null) localStorage.setItem(appsKey(nn), oldApps);
-
-      localStorage.removeItem(clientsKey(oldName));
-      localStorage.removeItem(appsKey(oldName));
-
-      list = list.map(m => (m === oldName ? nn : m));
-      setManagersList(list);
-
-      if(currentManager === oldName) currentManager = nn;
-
-      loadManagers();
-      document.getElementById("managerSelect").value = nn;
-      currentManager = nn;
-      updateTopbarLabel();
-
-      reloadAll();
-    }
-
-    function deleteManager(){
-      const name = document.getElementById("managerSelect").value;
-      if(!name){ alert("Seleziona un Area Manager."); return; }
-
-      let list = getManagersList();
-      if(list.length <= 1){
-        alert("Non puoi eliminare l'ultimo Area Manager.");
-        return;
-      }
-
-      const ok = confirm(`Eliminare "${name}"?\n\nATTENZIONE: verranno cancellati portafoglio e pianificazioni di questo Area Manager.`);
-      if(!ok) return;
-
-      saveClients(); saveAppointments();
-
-      localStorage.removeItem(clientsKey(name));
-      localStorage.removeItem(appsKey(name));
-
-      list = list.filter(m => m !== name);
-      setManagersList(list);
-
-      if(currentManager === name){
-        currentManager = list[0];
-      }
-
-      loadManagers();
-      document.getElementById("managerSelect").value = currentManager;
-      updateTopbarLabel();
-
-      reloadAll();
-    }
-
-    /* =======================
-       BACKUP EXPORT/IMPORT
-    ======================= */
-    function buildBackupPayload(){
-      const payload = {
-        app: "PIANIFICAZIONE_SETTIMANALE",
-        version: "2025-2026-v1",
-        exportedAt: new Date().toISOString(),
-        keys: {}
-      };
-
-      const areaManagers = getManagersList();
-      payload.keys["areaManagers"] = areaManagers;
-
-      areaManagers.forEach(mgr=>{
-        const cKey = clientsKey(mgr);
-        const aKey = appsKey(mgr);
-        payload.keys[cKey] = JSON.parse(localStorage.getItem(cKey) || "null");
-        payload.keys[aKey] = JSON.parse(localStorage.getItem(aKey) || "null");
-      });
-
-      payload.keys["_lastManager"] = currentManager || "";
-      return payload;
-    }
-
-    function downloadJson(filename, obj){
-      const blob = new Blob([JSON.stringify(obj, null, 2)], {type: "application/json"});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    }
-
-    /* =======================
-       PORTAFOGLIO: FILTERS
-    ======================= */
-    function filterTable(){
-      const fn=document.getElementById("filterName").value.toLowerCase(),
-            fi=document.getElementById("filterIndirizzo").value.toLowerCase(),
-            fc=document.getElementById("filterComune").value.toLowerCase(),
-            fct=document.getElementById("filterCitta").value.toLowerCase(),
-            fcd=document.getElementById("filterCoded").value;
-
-      document.querySelectorAll("#clientTable tbody tr").forEach(tr=>{
-        const n=tr.querySelector(".client-name").innerText.toLowerCase(),
-              i=tr.querySelector(".client-indirizzo").innerText.toLowerCase(),
-              c=tr.querySelector(".client-comune").innerText.toLowerCase(),
-              ct=tr.querySelector(".client-citta").innerText.toLowerCase(),
-              cd=tr.classList.contains("coded")?"true":"false";
-        let show=true;
-        if(fn && !n.includes(fn)) show=false;
-        if(fi && !i.includes(fi)) show=false;
-        if(fc && !c.includes(fc)) show=false;
-        if(fct && !ct.includes(fct)) show=false;
-        if(fcd && fcd!==cd) show=false;
-        tr.style.display = show?"":"none";
-      });
-    }
-
-    /* =======================
-       DRAG & DROP
-    ======================= */
-    function dragStart(e){
-      const t=e.currentTarget;
-      if(t.classList.contains("appointment-item")){
-        e.dataTransfer.setData("type","appointment");
-        e.dataTransfer.setData("appointmentId",t.id);
-      } else {
-        e.dataTransfer.setData("type","client");
-        e.dataTransfer.setData("clientId",t.dataset.clientId);
-      }
-    }
-    function allowDrop(e){ e.preventDefault(); e.currentTarget.classList.add("over"); }
-    function drop(e){
-      e.preventDefault(); e.currentTarget.classList.remove("over");
-      if(e.currentTarget.querySelectorAll(".appointment-item").length>=8){
-        alert("Limite di 8 appuntamenti."); return;
-      }
-      const type=e.dataTransfer.getData("type");
-      if(type==="client"){
-        const id=e.dataTransfer.getData("clientId"),
-              row=document.getElementById(id);
-        if(!row)return;
-        const name=row.querySelector(".client-name").innerText,
-              coded=row.classList.contains("coded"),
-              app=createAppointment(name,coded);
-        e.currentTarget.appendChild(app);
-      } else {
-        const aid=e.dataTransfer.getData("appointmentId"),
-              app=document.getElementById(aid);
-        if(app) e.currentTarget.appendChild(app);
-      }
-      saveAppointments(); updateGeneralSummary();
-    }
-
-    /* =======================
-       APPOINTMENT
-    ======================= */
-    function createAppointment(name,isCoded){
-      const div=document.createElement("div"),
-            id="appointment-"+Date.now()+"-"+Math.random();
-      div.id=id;
-      div.className="appointment-item"+(isCoded?" appointment-coded":"");
-      div.dataset.name=name;
-      div.dataset.coded=isCoded ? "true" : "false";
-
-      const span=document.createElement("span");
-      span.innerText=name;
-      div.appendChild(span);
-
-      div.draggable=true;
-      div.addEventListener("dragstart",dragStart);
-
-      const del=document.createElement("span");
-      del.className="delete-btn";
-      del.innerHTML="&times;";
-      del.onclick=e=>{
-        e.stopPropagation();
-        div.remove();
-        saveAppointments();
-        updateGeneralSummary();
-      };
-      div.appendChild(del);
-      return div;
-    }
-
-    /* =======================
-       PORTAFOGLIO CRUD
-    ======================= */
-    function addClientRow(client){
-      const tbody=document.querySelector("#clientTable tbody"),
-            tr=document.createElement("tr");
-      tr.id=client.id;
-      tr.dataset.clientId=client.id;
-      tr.draggable=true;
-      tr.classList.add("draggable");
-      tr.addEventListener("dragstart",dragStart);
-
-      let td=document.createElement("td");
-      td.className="client-name";
-      td.innerText=client.name;
-      tr.appendChild(td);
-
-      td=document.createElement("td");
-      td.className="client-indirizzo";
-      td.innerText=client.indirizzo;
-      tr.appendChild(td);
-
-      td=document.createElement("td");
-      td.className="client-comune";
-      td.innerText=client.comune;
-      tr.appendChild(td);
-
-      td=document.createElement("td");
-      td.className="client-citta";
-      td.innerText=client.citta;
-      tr.appendChild(td);
-
-      td=document.createElement("td");
-      td.className="text-center";
-      const chk=document.createElement("input");
-      chk.type="checkbox";
-      chk.className="client-coded";
-      chk.checked=!!client.coded;
-      chk.onchange=()=>{
-        tr.classList.toggle("coded",chk.checked);
-        tr.classList.toggle("noncoded",!chk.checked);
-        saveClients();
-        updateGeneralSummary();
-      };
-      td.appendChild(chk);
-      tr.appendChild(td);
-
-      td=document.createElement("td");
-      ["Modifica","Pianifica","Cancella"].forEach(txt=>{
-        const btn=document.createElement("button");
-        btn.className="btn btn-sm "+(
-          txt==="Modifica" ? "btn-secondary mr-1" :
-          txt==="Pianifica"? "btn-primary mr-1" : "btn-danger"
-        );
-        btn.style.borderRadius = "12px";
-        btn.style.fontWeight = "900";
-        btn.innerText=txt;
-        btn.onclick=()=>{
-          if(txt==="Modifica") editClient(client.id);
-          if(txt==="Pianifica") openScheduleModal(client.id);
-          if(txt==="Cancella") deleteClient(client.id);
-        };
-        td.appendChild(btn);
-      });
-      tr.appendChild(td);
-
-      if(client.coded) tr.classList.add("coded");
-      else tr.classList.add("noncoded");
-
-      tbody.appendChild(tr);
-    }
-
-    function applyRowColors(){
-      document.querySelectorAll("#clientTable tbody tr").forEach(tr=>{
-        tr.classList.remove("coded","noncoded");
-        const chk=tr.querySelector(".client-coded");
-        if(chk && chk.checked) tr.classList.add("coded");
-        else tr.classList.add("noncoded");
-      });
-    }
-
-    function saveClients(){
-      const arr=[...document.querySelectorAll("#clientTable tbody tr")].map(r=>({
-        id:r.id,
-        name:r.querySelector(".client-name").innerText,
-        indirizzo:r.querySelector(".client-indirizzo").innerText,
-        comune:r.querySelector(".client-comune").innerText,
-        citta:r.querySelector(".client-citta").innerText,
-        coded:r.querySelector(".client-coded").checked
-      }));
-      localStorage.setItem(clientsKey(currentManager), JSON.stringify(arr));
-    }
-
-    function loadClients(){
-      document.querySelector("#clientTable tbody").innerHTML="";
-      let arr=JSON.parse(localStorage.getItem(clientsKey(currentManager)))||[];
-      if(!arr.length){
-        arr=[
-          {id:"client-1",name:"Negozio A",indirizzo:"Via Roma 1",comune:"Centro",citta:"Milano",coded:false},
-          {id:"client-2",name:"Negozio B",indirizzo:"Viale Europa 10",comune:"Periferia",citta:"Roma",coded:false}
-        ];
-        localStorage.setItem(clientsKey(currentManager), JSON.stringify(arr));
-      }
-      arr.sort((a,b)=>a.name.localeCompare(b.name));
-      arr.forEach(addClientRow);
-      applyRowColors();
-    }
-
-    function editClient(id){
-      const tr=document.getElementById(id);
-      if(!tr) return;
-      const ne=tr.querySelector(".client-name");
-      const nn=prompt("Modifica nome:",ne.innerText);
-      if(nn){
-        ne.innerText=nn.trim();
-        saveClients();
-        updateGeneralSummary();
-      }
-    }
-
-    function deleteClient(id){
-      if(confirm("Eliminare?")){
-        const el = document.getElementById(id);
-        if(el) el.remove();
-        saveClients();
-        updateGeneralSummary();
-      }
-    }
-
-    /* =======================
-       APPOINTMENTS (merge)
-       NOTE: ora salva/carica su QUALSIASI elemento [data-date],
-       non solo td, così funziona anche la vista settimanale.
-    ======================= */
-    function saveAppointments(){
-      const viewData = {};
-
-      document.querySelectorAll("[data-date]").forEach(el=>{
-        const apps=[...el.querySelectorAll(".appointment-item")].map(a=>({
-          name:a.dataset.name,
-          coded:(a.dataset.coded==="true")
-        }));
-        if(apps.length) viewData[el.dataset.date]=apps;
-      });
-
-      const existing = JSON.parse(localStorage.getItem(appsKey(currentManager))) || {};
-      const merged = { ...existing, ...viewData };
-
-      const viewDates = new Set([...document.querySelectorAll("[data-date]")].map(el => el.dataset.date));
-      Object.keys(existing).forEach(dateKey => {
-        if (viewDates.has(dateKey) && !viewData[dateKey]) {
-          delete merged[dateKey];
-        }
-      });
-
-      localStorage.setItem(appsKey(currentManager), JSON.stringify(merged));
-    }
-
-    function loadAppointments(){
-      document.querySelectorAll("[data-date]").forEach(el=>{
-        el.querySelectorAll(".appointment-item").forEach(a=>a.remove());
-      });
-
-      const data=JSON.parse(localStorage.getItem(appsKey(currentManager)))||{};
-      Object.entries(data).forEach(([date,apps])=>{
-        const el=document.querySelector(`[data-date="${date}"]`);
-        if(el) apps.forEach(a=>el.appendChild(createAppointment(a.name,a.coded)));
-      });
-    }
-
-    /* =======================
-       MONTH CALENDARS
-    ======================= */
-    function daysInMonth(y,m){ return new Date(y,m+1,0).getDate(); }
-    function weekday(y,m,d){ const w=new Date(y,m,d).getDay(); return w? w-1:6; }
-
-    function createCalendar(y,mIndex0,containerId){
-      const c=document.getElementById(containerId);
-      if(!c) return;
-      c.innerHTML="";
-
-      const tbl=document.createElement("table");
-      tbl.className="table table-bordered";
-
-      const thead=document.createElement("thead");
-      thead.className="thead-light";
-      const trh=document.createElement("tr");
-      weekdays.forEach(w=>{
-        const th=document.createElement("th");
-        th.innerText=w;
-        trh.appendChild(th);
-      });
-      thead.appendChild(trh);
-      tbl.appendChild(thead);
-
-      const tbody=document.createElement("tbody");
-      let day=1, total=daysInMonth(y,mIndex0);
-      while(day<=total){
-        const tr=document.createElement("tr");
-        for(let wd=0;wd<7;wd++){
-          const td=document.createElement("td");
-          if(day<=total && weekday(y,mIndex0,day)===wd){
-            td.className="droppable";
-            td.ondragover=allowDrop;
-            td.ondrop=drop;
-
-            const lbl=document.createElement("div");
-            lbl.className="day-label";
-            lbl.innerHTML = `<span>${day}</span><span class="small">${weekdays[wd]}</span>`;
-            td.appendChild(lbl);
-
-            td.dataset.date=`${y}-${pad2(mIndex0+1)}-${pad2(day)}`;
-            day++;
-          }
-          tr.appendChild(td);
-        }
-        tbody.appendChild(tr);
-      }
-      tbl.appendChild(tbody);
-      c.appendChild(tbl);
-    }
-
-    /* =======================
-       WEEKLY VIEW
-    ======================= */
-    function setWeekAnchor(d){
-      weekAnchor = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-      weekAnchor.setHours(0,0,0,0);
-      document.getElementById("weekAnchorDate").value = toYMD(weekAnchor);
-    }
-
-    function renderWeekly(){
-      if(!weekAnchor){
-        setWeekAnchor(getTodayLocal());
-      }
-
-      const start = startOfWeek(weekAnchor); // lunedì
-      const end = addDays(start, 6);
-
-      // Label settimana
-      const label = `Settimana: ${formatDM(start)} → ${formatDM(end)} (${start.getFullYear()})`;
-      document.getElementById("weekRangeLabel").textContent = label;
-
-      // Render grid
-      const grid = document.getElementById("weeklyGrid");
-      grid.innerHTML = "";
-
-      for(let i=0;i<7;i++){
-        const d = addDays(start, i);
-        const ymd = toYMD(d);
-
-        const card = document.createElement("div");
-        card.className = "week-day-card";
-
-        const head = document.createElement("div");
-        head.className = "week-day-head";
-        head.innerHTML = `
-          <div>
-            <div class="wd">${weekdays[i]}</div>
-            <div class="dt">${pad2(d.getDate())}/${pad2(d.getMonth()+1)}/${d.getFullYear()}</div>
-          </div>
-          <div style="font-weight:900;color:#0f172a; font-size:12px;">${pad2(d.getDate())}</div>
-        `;
-
-        const dropZone = document.createElement("div");
-        dropZone.className = "droppable week-drop";
-        dropZone.dataset.date = ymd;
-        dropZone.ondragover = allowDrop;
-        dropZone.ondrop = drop;
-
-        card.appendChild(head);
-        card.appendChild(dropZone);
-        grid.appendChild(card);
-      }
-
-      // Carica appuntamenti dentro la settimana
-      loadAppointments();
-    }
-
-    /* =======================
-       SUBTABS RENDER
-       - Generale
-       - Settimana
-       - Mesi anno selezionato
-    ======================= */
-    function renderCalendarTabsForYear(year){
-      const tabs = document.getElementById("calendarSubTabs");
-      const content = document.getElementById("calendarContent");
-
-      tabs.innerHTML = "";
-
-      // rimuove pane mese precedenti, lascia generale + weekly
-      [...content.querySelectorAll('.tab-pane')].forEach(p => {
-        if (p.id !== "generale" && p.id !== "weekly") p.remove();
-      });
-
-      // Generale
-      const liGen = document.createElement("li");
-      liGen.className = "nav-item";
-      liGen.innerHTML = `<a class="nav-link active" data-toggle="tab" href="#generale">Generale</a>`;
-      tabs.appendChild(liGen);
-
-      // Settimana
-      const liW = document.createElement("li");
-      liW.className = "nav-item";
-      liW.innerHTML = `<a class="nav-link" data-toggle="tab" href="#weekly">Settimana</a>`;
-      tabs.appendChild(liW);
-
-      // Mesi
-      (MONTHS_BY_YEAR[year] || []).forEach(m => {
-        const paneId = `pane-${year}-${m.key}`;
-        const containerId = `calendar-${year}-${m.key}`;
-
-        const li = document.createElement("li");
-        li.className = "nav-item";
-        li.innerHTML = `<a class="nav-link" data-toggle="tab" href="#${paneId}">${m.label}</a>`;
-        tabs.appendChild(li);
-
-        const pane = document.createElement("div");
-        pane.className = "tab-pane fade";
-        pane.id = paneId;
-        pane.innerHTML = `<div id="${containerId}" class="mt-3"></div>`;
-        content.appendChild(pane);
-      });
-
-      $('#calendarSubTabs a[href="#generale"]').tab('show');
-    }
-
-    function rebuildYearCalendars(year){
-      (MONTHS_BY_YEAR[year] || []).forEach(m => {
-        const containerId = `calendar-${year}-${m.key}`;
-        createCalendar(year, m.monthIndex0, containerId);
-      });
-    }
-
-    /* =======================
-       RANKING
-    ======================= */
-    function escapeHtml(str){
-      return String(str)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-    }
-
-    function updateGeneralSummary(){
-      const rawData = JSON.parse(localStorage.getItem(appsKey(currentManager)))||{};
-      const today = getTodayLocal();
-      const filter = document.getElementById("rankingYearFilter").value; // ALL / 2025 / 2026
-
-      const data = {};
-      Object.entries(rawData).forEach(([date, apps]) => {
-        const y = parseInt(String(date).slice(0,4), 10);
-        if (filter !== "ALL" && y !== parseInt(filter, 10)) return;
-        data[date] = apps;
-      });
-
-      const rankingObj = {};
-      Object.entries(data).forEach(([date,apps])=>{
-        const dt=new Date(date);
-        apps.forEach(a=>{
-          if(!rankingObj[a.name]) rankingObj[a.name]=[];
-          rankingObj[a.name].push(dt);
-        });
-      });
-
-      const clients = JSON.parse(localStorage.getItem(clientsKey(currentManager)))||[];
-
-      const arr = clients.map(c=>{
-        const dates = (rankingObj[c.name]||[]).sort((a,b)=>a-b);
-        const past   = dates.filter(d => d <= today);
-        const future = dates.filter(d => d >  today);
-
-        let daysSinceLastVal = NaN;
-        let daysSinceDisplay = "-";
-        if(past.length){
-          const last = past[past.length-1];
-          const diff = Math.round((today - last)/(1000*60*60*24));
-          daysSinceLastVal = diff;
-          daysSinceDisplay = diff + " giorni";
-        }
-
-        let progDisplay = "-";
-        if(future.length){
-          const next = future[0];
-          const missing = Math.round((next - today)/(1000*60*60*24));
-          progDisplay = missing + " giorni";
-        }
-
-        const total = dates.length;
-        const gap = total>1
-          ? (dates.slice(1).reduce((s,d,i)=>s + Math.round((d-dates[i])/(1000*60*60*24)),0)/(total-1)).toFixed(1) + " giorni"
-          : "N/A";
-
-        const sortKey = isNaN(daysSinceLastVal) ? -Infinity : daysSinceLastVal;
-
-        return {
-          name: c.name,
-          total,
-          gap,
-          coded: !!c.coded,
-          daysSinceVal: sortKey,
-          daysSinceDisplay,
-          progDisplay
-        };
-      });
-
-      const codedArr = arr.filter(x=>x.coded).sort((a,b)=>(b.daysSinceVal-a.daysSinceVal)||a.name.localeCompare(b.name));
-      const nonArr   = arr.filter(x=>!x.coded).sort((a,b)=>(b.daysSinceVal-a.daysSinceVal)||a.name.localeCompare(b.name));
-
-      const titleSuffix = (filter==="ALL") ? " (2025+2026)" : ` (${filter})`;
-
-      let html = "";
-      html += `<div class="mb-2"><strong>Totale Negozi:</strong> ${clients.length}${titleSuffix}</div>`;
-
-      function renderTable(title, rows){
-        let out = `<h6 class="mt-3" style="font-weight:900;">${title}</h6>`;
-        out += `<div class="table-responsive" style="border-radius:14px; overflow:hidden; border:1px solid var(--border);">
-          <table class="table table-sm table-bordered mb-0">
-            <thead class="thead-light">
-              <tr>
-                <th>Nome negozio</th>
-                <th>Totale visite</th>
-                <th>Gap medio</th>
-                <th>Programmata</th>
-                <th>Giorni dall'ultima visita</th>
-              </tr>
-            </thead>
-            <tbody>`;
-        rows.forEach(i=>{
-          out += `<tr>
-            <td>${escapeHtml(i.name)}</td>
-            <td>${i.total}</td>
-            <td>${escapeHtml(i.gap)}</td>
-            <td>${escapeHtml(String(i.progDisplay))}</td>
-            <td>${escapeHtml(i.daysSinceDisplay)}</td>
-          </tr>`;
-        });
-        out += `</tbody></table></div>`;
-        return out;
-      }
-
-      html += renderTable("Codificati", codedArr);
-      html += renderTable("Non codificati", nonArr);
-
-      document.getElementById("generalSummary").innerHTML = html;
-    }
-
-    /* =======================
-       MODAL: YEAR/MONTH/DAYS
-    ======================= */
-    function renderMonthSelectForYear(year){
-      const sel = document.getElementById("scheduleMonth");
-      sel.innerHTML = `<option value="">Seleziona</option>`;
-      (MONTHS_BY_YEAR[year] || []).forEach(m=>{
-        const opt = document.createElement("option");
-        opt.value = String(m.monthNumber);
-        opt.textContent = m.label;
-        sel.appendChild(opt);
-      });
-    }
-
-    function generateDayThumbnails(){
-      const year = parseInt(document.getElementById("scheduleYear").value, 10);
-      const mv = parseInt(document.getElementById("scheduleMonth").value, 10);
-      const cont = document.getElementById("dayThumbnails");
-
-      cont.innerHTML="";
-      document.getElementById("scheduleDay").value="";
-      if(!year || !mv) return;
-
-      const hd=document.createElement("div");
-      hd.className="calendar-grid-header";
-      weekdays.forEach(w=>{
-        const d=document.createElement("div");
-        d.innerText=w;
-        hd.appendChild(d);
-      });
-      cont.appendChild(hd);
-
-      const gd=document.createElement("div");
-      gd.className="calendar-grid";
-
-      const mIndex0 = mv - 1;
-      const total = daysInMonth(year, mIndex0);
-      const first = weekday(year, mIndex0, 1);
-
-      for(let i=0;i<first;i++) gd.appendChild(document.createElement("div"));
-
-      for(let d=1;d<=total;d++){
-        const btn=document.createElement("button");
-        btn.type="button";
-        btn.innerText=d;
-        btn.onclick=()=>{
-          gd.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
-          btn.classList.add("active");
-          document.getElementById("scheduleDay").value = String(d);
-        };
-        gd.appendChild(btn);
-      }
-      cont.appendChild(gd);
-    }
-
-    function openScheduleModal(id){
-      currentClientId = id;
-      const tr=document.getElementById(id);
-      if(!tr) return;
-
-      document.getElementById("selectedClientName").value = tr.querySelector(".client-name").innerText;
-
-      document.getElementById("scheduleYear").value = String(selectedYear);
-      renderMonthSelectForYear(selectedYear);
-
-      document.getElementById("scheduleMonth").value = "";
-      document.getElementById("dayThumbnails").innerHTML = "";
-      document.getElementById("scheduleDay").value = "";
-
-      $('#scheduleModal').modal('show');
-    }
-
-    /* =======================
-       SEND MAIL
-    ======================= */
-    function sendScheduleEmail(){
-      const active = document.querySelector("#calendarSubTabs .nav-link.active");
-      const href = active ? active.getAttribute("href") : "#generale";
-
-      let subj="", body="";
-
-      if(href==="#generale"){
-        subj = `Pianificazione - Classifica ${currentManager}`;
-        body = document.getElementById("generalSummary").innerText.trim();
-      } else if(href==="#weekly"){
-        subj = `Pianificazione ${selectedYear} - Settimana - ${currentManager}`;
-        const lines = [];
-        document.querySelectorAll(`#weeklyGrid [data-date]`).forEach(el=>{
-          const apps=[...el.querySelectorAll(".appointment-item")].map(a=>a.dataset.name);
-          if(apps.length){
-            lines.push(`${el.dataset.date}: ${apps.join(", ")}`);
-          }
-        });
-        body = lines.length ? lines.join("\n") : "Nessuna pianificazione presente in questa settimana.";
-      } else {
-        subj = `Pianificazione ${selectedYear} - ${active.innerText} - ${currentManager}`;
-        const pane = document.querySelector(href);
-        if(!pane){
-          alert("Tab non valido.");
+    const areaManagers=getManagersList();
+    payload.keys["areaManagers"]=areaManagers;
+    areaManagers.forEach(mgr=>{
+      payload.keys[clientsKey(mgr)] = JSON.parse(localStorage.getItem(clientsKey(mgr)) || "null");
+      payload.keys[appsKey(mgr)]    = JSON.parse(localStorage.getItem(appsKey(mgr)) || "null");
+    });
+    payload.keys["_lastManager"]=currentManager||"";
+    return payload;
+  }
+
+  function downloadJson(filename,obj){
+    const blob=new Blob([JSON.stringify(obj,null,2)],{type:"application/json"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url; a.download=filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  document.getElementById("exportAllBtn").addEventListener("click", ()=>{
+    const payload=buildBackupPayload();
+    const stamp=new Date();
+    const fn=`backup_webapp_pianificazione_${stamp.getFullYear()}-${pad2(stamp.getMonth()+1)}-${pad2(stamp.getDate())}.json`;
+    downloadJson(fn,payload);
+  });
+
+  document.getElementById("importAllFile").addEventListener("change",(e)=>{
+    const file=e.target.files && e.target.files[0];
+    if(!file) return;
+    const reader=new FileReader();
+    reader.onload=(ev)=>{
+      try{
+        const obj=JSON.parse(ev.target.result);
+        if(!obj || !obj.keys || obj.app!=="PIANIFICAZIONE_SETTIMANALE"){
+          alert("File non valido o non compatibile.");
           return;
         }
-        const lines = [];
-        pane.querySelectorAll(`[data-date]`).forEach(el=>{
-          const apps=[...el.querySelectorAll(".appointment-item")].map(a=>a.dataset.name);
-          if(apps.length){
-            lines.push(`${el.dataset.date}: ${apps.join(", ")}`);
-          }
+        const ok=confirm("Importare il backup?\n\nSovrascrive i dati locali (Area Manager, Portafogli, Pianificazioni).");
+        if(!ok) return;
+
+        Object.entries(obj.keys).forEach(([k,v])=>{
+          if(v===null || typeof v==="undefined") localStorage.removeItem(k);
+          else localStorage.setItem(k, JSON.stringify(v));
         });
-        body = lines.length ? lines.join("\n") : "Nessuna pianificazione presente in questo mese.";
-      }
 
-      window.location.href=`mailto:?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
+        loadManagers();
+        const last=(obj.keys["_lastManager"]||"");
+        if(last){
+          document.getElementById("managerSelect").value=last;
+          currentManager=last;
+        } else {
+          currentManager=document.getElementById("managerSelect").value;
+        }
+        renderAmLabel();
+
+        const today=getTodayLocal();
+        const initYear = (today.getFullYear()===2025 || today.getFullYear()===2026) ? today.getFullYear() : 2026;
+        selectedYear=initYear;
+        document.getElementById("yearSelect").value=String(initYear);
+
+        weekStartDate = startOfWeekMonday(today);
+
+        reloadAll();
+        alert("Backup importato correttamente.");
+      }catch(err){
+        console.error(err);
+        alert("Errore: il file JSON non è leggibile.");
+      }
+    };
+    reader.readAsText(file);
+    e.target.value="";
+  });
+
+  // ========= NAV (Portafoglio / Pianificazione) =========
+  function showView(which){
+    const isPort = which==="port";
+    document.getElementById("viewPortafoglio").style.display = isPort ? "" : "none";
+    document.getElementById("viewPianificazione").style.display = isPort ? "none" : "";
+
+    // top segment
+    document.getElementById("segPortafoglio").classList.toggle("active", isPort);
+    document.getElementById("segPianificazione").classList.toggle("active", !isPort);
+
+    // bottom nav
+    document.getElementById("navPortafoglio").classList.toggle("active", isPort);
+    document.getElementById("navPianificazione").classList.toggle("active", !isPort);
+
+    if(!isPort){
+      // refresh calendars + appointments on entering planning
+      rebuildPlanningTabs();
+      renderActivePlanningPanel();
+      loadAppointmentsToViews();
+      updateGeneralSummary();
     }
+  }
 
-    /* =======================
-       RELOAD / INIT
-    ======================= */
-    function reloadAll(){
-      renderCalendarTabsForYear(selectedYear);
-      rebuildYearCalendars(selectedYear);
+  document.getElementById("segPortafoglio").addEventListener("click", ()=>showView("port"));
+  document.getElementById("segPianificazione").addEventListener("click", ()=>showView("plan"));
+  document.getElementById("navPortafoglio").addEventListener("click", ()=>showView("port"));
+  document.getElementById("navPianificazione").addEventListener("click", ()=>showView("plan"));
 
-      // weekly init: se non esiste, ancora a oggi. Se cambia anno, resta coerente col selectedYear.
-      if(!weekAnchor){
-        setWeekAnchor(getTodayLocal());
-      }
-      renderWeekly();
+  // ========= YEAR SELECT =========
+  document.getElementById("yearSelect").addEventListener("change", ()=>{
+    const y=parseInt(document.getElementById("yearSelect").value,10);
+    if(!y || !MONTHS_BY_YEAR[y]) return;
+    selectedYear=y;
+    syncYearChip();
+    rebuildPlanningTabs();
+    renderActivePlanningPanel();
+    loadAppointmentsToViews();
+    updateGeneralSummary();
+  });
+
+  function syncYearChip(){
+    document.getElementById("yearChip").textContent = String(selectedYear);
+    document.getElementById("yearSelect").value = String(selectedYear);
+  }
+
+  // ========= TODAY buttons =========
+  function goToday(){
+    const t=getTodayLocal();
+    const y=t.getFullYear();
+    if(y===2025 || y===2026){
+      selectedYear=y;
+      syncYearChip();
+      rebuildPlanningTabs();
+      activatePlanningTab("mese"); // vai in mese
+      setMonthActiveFromToday();
+      renderActivePlanningPanel();
+      loadAppointmentsToViews();
+      updateGeneralSummary();
+    } else {
+      // fallback: 2026
+      selectedYear=2026; syncYearChip();
+      rebuildPlanningTabs();
+      activatePlanningTab("mese");
+      setMonthActiveFromToday();
+      renderActivePlanningPanel();
+      loadAppointmentsToViews();
+      updateGeneralSummary();
+    }
+  }
+  document.getElementById("btnGoToday").addEventListener("click", goToday);
+  document.getElementById("btnGoTodayTop").addEventListener("click", ()=>{
+    showView("plan");
+    goToday();
+  });
+
+  // ========= IMPORT EXCEL =========
+  document.getElementById("importFile").addEventListener("change", e=>{
+    const f=e.target.files[0];
+    if(!f) return;
+
+    const r=new FileReader();
+    r.onload=ev=>{
+      const data=new Uint8Array(ev.target.result);
+      const wb=XLSX.read(data,{type:"array"});
+      const rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:""});
+
+      localStorage.removeItem(clientsKey(currentManager));
+
+      const arr=[];
+      rows.forEach(rw=>{
+        const name=String(rw["Nome negozio"]||"").trim();
+        const indirizzo=String(rw["Indirizzo"]||"").trim();
+        const comune=String(rw["Comune"]||"").trim();
+        const citta=String(rw["Città"]||"").trim();
+        const cv=String(rw["Codificato"]||"").trim().toUpperCase();
+        const coded=(cv==="SI");
+
+        if(!name && !indirizzo && !comune && !citta) return;
+        arr.push({
+          id:"client-"+Date.now()+"-"+Math.random(),
+          name, indirizzo, comune, citta, coded
+        });
+      });
+
+      arr.sort((a,b)=>a.name.localeCompare(b.name));
+      localStorage.setItem(clientsKey(currentManager), JSON.stringify(arr));
 
       loadClients();
-      loadAppointments();
       updateGeneralSummary();
-      updateTopbarLabel();
+    };
+    r.readAsArrayBuffer(f);
+    e.target.value="";
+  });
+
+  // ========= FILTERS =========
+  ["Name","Indirizzo","Comune","Citta"].forEach(k=>{
+    document.getElementById("filter"+k).addEventListener("input", filterClientsAndRender);
+  });
+  document.getElementById("filterCoded").addEventListener("change", filterClientsAndRender);
+
+  function getFilterState(){
+    return {
+      name: document.getElementById("filterName").value.toLowerCase(),
+      indirizzo: document.getElementById("filterIndirizzo").value.toLowerCase(),
+      comune: document.getElementById("filterComune").value.toLowerCase(),
+      citta: document.getElementById("filterCitta").value.toLowerCase(),
+      coded: document.getElementById("filterCoded").value
+    };
+  }
+
+  function clientPassesFilter(c, f){
+    let show=true;
+    if(f.name && !String(c.name).toLowerCase().includes(f.name)) show=false;
+    if(f.indirizzo && !String(c.indirizzo).toLowerCase().includes(f.indirizzo)) show=false;
+    if(f.comune && !String(c.comune).toLowerCase().includes(f.comune)) show=false;
+    if(f.citta && !String(c.citta).toLowerCase().includes(f.citta)) show=false;
+    if(f.coded){
+      const cd = c.coded ? "true" : "false";
+      if(cd!==f.coded) show=false;
+    }
+    return show;
+  }
+
+  // ========= DRAG & DROP =========
+  function dragStart(e){
+    const t=e.currentTarget;
+    if(t.classList.contains("appointment-item")){
+      e.dataTransfer.setData("type","appointment");
+      e.dataTransfer.setData("appointmentId", t.dataset.appId || t.id);
+      e.dataTransfer.setData("fromDate", t.dataset.fromDate || "");
+    } else {
+      e.dataTransfer.setData("type","client");
+      e.dataTransfer.setData("clientId", t.dataset.clientId);
+    }
+  }
+  function allowDrop(e){
+    e.preventDefault();
+    e.currentTarget.classList.add("over");
+  }
+  function dragLeave(e){
+    e.currentTarget.classList.remove("over");
+  }
+
+  function dropToDate(dateISO, targetContainer){
+    if(!dateISO) return;
+
+    // limit 8
+    const currentCount = targetContainer.querySelectorAll(".appointment-item").length;
+    if(currentCount>=8){ alert("Limite di 8 appuntamenti."); return; }
+
+    const type = window._dndType;
+    if(type==="client"){
+      const id = window._dndClientId;
+      const client = getClientById(id);
+      if(!client) return;
+      upsertAppointmentToStorage(dateISO, {name: client.name, coded: !!client.coded});
+    } else if(type==="appointment"){
+      const appId = window._dndAppId;
+      const fromDate = window._dndFromDate;
+      const appEl = document.querySelector(`[data-app-id="${cssEscape(appId)}"]`) || document.getElementById(appId);
+
+      if(appEl){
+        const name = appEl.dataset.name;
+        const coded = (appEl.dataset.coded==="true");
+        // remove from old date in storage
+        if(fromDate) removeAppointmentFromStorage(fromDate, name, coded);
+        // add to new date
+        upsertAppointmentToStorage(dateISO, {name, coded});
+      }
     }
 
-    /* =======================
-       EVENTS
-    ======================= */
-    document.getElementById("renameManagerBtn").addEventListener("click", renameManager);
-    document.getElementById("deleteManagerBtn").addEventListener("click", deleteManager);
+    loadAppointmentsToViews();
+    updateGeneralSummary();
+  }
 
-    document.getElementById("managerSelect").addEventListener("change", () => {
-      saveClients(); saveAppointments();
-      currentManager = document.getElementById("managerSelect").value;
-      updateTopbarLabel();
-      reloadAll();
+  function handleDrop(e){
+    e.preventDefault();
+    e.currentTarget.classList.remove("over");
+
+    const dateISO = e.currentTarget.dataset.date;
+    if(!dateISO) return;
+
+    const targetContainer = e.currentTarget.querySelector(".day-appointments") || e.currentTarget;
+
+    dropToDate(dateISO, targetContainer);
+  }
+
+  // ========= APPOINTMENT ELEMENT =========
+  function createAppointmentEl(name, isCoded, fromDate){
+    const div=document.createElement("div");
+    const id="appointment-"+Date.now()+"-"+Math.random();
+
+    div.id=id;
+    div.dataset.appId = id;
+    div.dataset.name=name;
+    div.dataset.coded=isCoded ? "true" : "false";
+    div.dataset.fromDate = fromDate || "";
+
+    div.className="appointment-item" + (isCoded ? " appointment-coded" : "");
+    div.draggable=true;
+    div.addEventListener("dragstart", (e)=>{
+      window._dndType="appointment";
+      window._dndAppId=div.dataset.appId;
+      window._dndFromDate=div.dataset.fromDate;
+      dragStart(e);
     });
 
-    document.getElementById("exportAllBtn").addEventListener("click", ()=>{
-      const payload = buildBackupPayload();
-      const stamp = new Date();
-      const fn = `backup_pianificazione_${stamp.getFullYear()}-${pad2(stamp.getMonth()+1)}-${pad2(stamp.getDate())}.json`;
-      downloadJson(fn, payload);
+    // tap-to-move
+    div.addEventListener("click", (ev)=>{
+      // se clicchi sulla X non aprire move
+      if(ev.target && ev.target.classList.contains("delete-btn")) return;
+      openMoveModal(div.dataset.name, (div.dataset.coded==="true"), div.dataset.fromDate);
     });
 
-    document.getElementById("importAllFile").addEventListener("change", (e)=>{
-      const file = e.target.files && e.target.files[0];
-      if(!file) return;
+    const span=document.createElement("span");
+    span.textContent=name;
+    div.appendChild(span);
 
-      const reader = new FileReader();
-      reader.onload = (ev)=>{
-        try{
-          const obj = JSON.parse(ev.target.result);
+    const del=document.createElement("span");
+    del.className="delete-btn";
+    del.innerHTML="&times;";
+    del.onclick=(e)=>{
+      e.stopPropagation();
+      // remove from storage
+      removeAppointmentFromStorage(div.dataset.fromDate, div.dataset.name, (div.dataset.coded==="true"));
+      loadAppointmentsToViews();
+      updateGeneralSummary();
+    };
+    div.appendChild(del);
 
-          if(!obj || !obj.keys || obj.app !== "PIANIFICAZIONE_SETTIMANALE"){
-            alert("File non valido o non compatibile.");
-            return;
-          }
+    return div;
+  }
 
-          const ok = confirm("Importare il backup?\n\nSovrascrive i dati locali (Area Manager, Portafogli, Pianificazioni).");
-          if(!ok) return;
+  // ========= PORTAFOGLIO =========
+  function getClients(){
+    return JSON.parse(localStorage.getItem(clientsKey(currentManager)))||[];
+  }
 
-          Object.entries(obj.keys).forEach(([k,v])=>{
-            if(v === null || typeof v === "undefined"){
-              localStorage.removeItem(k);
-            } else {
-              localStorage.setItem(k, JSON.stringify(v));
-            }
-          });
+  function setClients(arr){
+    localStorage.setItem(clientsKey(currentManager), JSON.stringify(arr));
+  }
 
-          loadManagers();
-          const last = (obj.keys["_lastManager"] || "");
-          if(last){
-            document.getElementById("managerSelect").value = last;
-            currentManager = last;
-          } else {
-            currentManager = document.getElementById("managerSelect").value;
-          }
-          updateTopbarLabel();
+  function getClientById(id){
+    return getClients().find(c=>c.id===id);
+  }
 
-          const today = getTodayLocal();
-          const preferredYear = (today.getFullYear()===2025 || today.getFullYear()===2026) ? today.getFullYear() : 2026;
-          selectedYear = preferredYear;
-          document.getElementById("yearSelect").value = String(preferredYear);
+  document.getElementById("btnAddClient").addEventListener("click", ()=>{
+    const n=document.getElementById("newClientName").value.trim();
+    const i=document.getElementById("newClientIndirizzo").value.trim();
+    const c=document.getElementById("newClientComune").value.trim();
+    const ct=document.getElementById("newClientCitta").value.trim();
+    const cd=document.getElementById("newClientCoded").checked;
 
-          setWeekAnchor(today);
+    if(!n || !i || !c || !ct){
+      alert("Compila tutti i campi.");
+      return;
+    }
 
-          reloadAll();
-          autoGoToMonthInCorso(selectedYear);
+    const arr=getClients();
+    arr.push({ id:"client-"+Date.now()+"-"+Math.random(), name:n, indirizzo:i, comune:c, citta:ct, coded:cd });
+    arr.sort((a,b)=>a.name.localeCompare(b.name));
+    setClients(arr);
 
-          alert("Backup importato correttamente.");
-        } catch(err){
-          console.error(err);
-          alert("Errore: il file JSON non è leggibile.");
+    ["newClientName","newClientIndirizzo","newClientComune","newClientCitta"].forEach(id=>document.getElementById(id).value="");
+    document.getElementById("newClientCoded").checked=false;
+
+    loadClients();
+    updateGeneralSummary();
+  });
+
+  // Desktop table row
+  function addClientRowDesktop(client){
+    const tbody=document.querySelector("#clientTable tbody");
+    const tr=document.createElement("tr");
+    tr.id=client.id;
+    tr.dataset.clientId=client.id;
+    tr.draggable=true;
+    tr.addEventListener("dragstart", (e)=>{
+      window._dndType="client";
+      window._dndClientId=client.id;
+      dragStart(e);
+    });
+
+    const tdName=document.createElement("td"); tdName.textContent=client.name; tr.appendChild(tdName);
+    const tdInd=document.createElement("td"); tdInd.textContent=client.indirizzo; tr.appendChild(tdInd);
+    const tdCom=document.createElement("td"); tdCom.textContent=client.comune; tr.appendChild(tdCom);
+    const tdCit=document.createElement("td"); tdCit.textContent=client.citta; tr.appendChild(tdCit);
+
+    const tdCoded=document.createElement("td");
+    tdCoded.className="text-center";
+    const chk=document.createElement("input");
+    chk.type="checkbox"; chk.checked=!!client.coded;
+    chk.onchange=()=>{
+      const arr=getClients().map(x=>x.id===client.id ? {...x, coded:chk.checked} : x);
+      setClients(arr);
+      loadClients();
+      updateGeneralSummary();
+    };
+    tdCoded.appendChild(chk);
+    tr.appendChild(tdCoded);
+
+    const tdAct=document.createElement("td");
+    const btnEdit=document.createElement("button");
+    btnEdit.className="btn btn-sm btn-secondary mr-1";
+    btnEdit.textContent="Modifica";
+    btnEdit.onclick=()=>editClient(client.id);
+    const btnPlan=document.createElement("button");
+    btnPlan.className="btn btn-sm btn-primary mr-1";
+    btnPlan.textContent="Pianifica";
+    btnPlan.onclick=()=>openScheduleModal(client.id);
+    const btnDel=document.createElement("button");
+    btnDel.className="btn btn-sm btn-danger";
+    btnDel.textContent="Cancella";
+    btnDel.onclick=()=>deleteClient(client.id);
+
+    tdAct.appendChild(btnEdit);
+    tdAct.appendChild(btnPlan);
+    tdAct.appendChild(btnDel);
+    tr.appendChild(tdAct);
+
+    tbody.appendChild(tr);
+  }
+
+  // Mobile card
+  function addClientCardMobile(client){
+    const wrap=document.getElementById("shopList");
+    const el=document.createElement("div");
+    el.className="shop-item";
+    el.dataset.clientId=client.id;
+    el.draggable=true;
+
+    el.addEventListener("dragstart", (e)=>{
+      window._dndType="client";
+      window._dndClientId=client.id;
+      dragStart(e);
+    });
+
+    const codedChip = client.coded
+      ? `<span class="chip chip-ok">Codificato</span>`
+      : `<span class="chip chip-no">Non codificato</span>`;
+
+    el.innerHTML = `
+      <div class="shop-top">
+        <div style="min-width:0;">
+          <p class="shop-name">${escapeHtml(client.name)}</p>
+          <div class="mini muted" style="margin-top:6px;">Trascina per pianificare</div>
+        </div>
+        <div>${codedChip}</div>
+      </div>
+
+      <div class="shop-meta">
+        <div><span class="k">Ind:</span>${escapeHtml(client.indirizzo)}</div>
+        <div><span class="k">Comune:</span>${escapeHtml(client.comune)} <span class="k" style="margin-left:10px;">Città:</span>${escapeHtml(client.citta)}</div>
+      </div>
+
+      <div class="shop-actions">
+        <button class="btn btn-secondary btn-sm" data-act="edit">Modifica</button>
+        <button class="btn btn-primary btn-sm" data-act="plan">Pianifica</button>
+        <button class="btn btn-outline-secondary btn-sm" data-act="toggle">${client.coded ? "Segna NON cod." : "Segna cod."}</button>
+        <button class="btn btn-danger btn-sm" data-act="del">Cancella</button>
+      </div>
+    `;
+
+    el.querySelectorAll("button").forEach(b=>{
+      b.addEventListener("click",(ev)=>{
+        ev.stopPropagation();
+        const act=b.dataset.act;
+        if(act==="edit") editClient(client.id);
+        if(act==="plan") openScheduleModal(client.id);
+        if(act==="toggle"){
+          const arr=getClients().map(x=>x.id===client.id ? {...x, coded:!x.coded} : x);
+          setClients(arr);
+          loadClients();
+          updateGeneralSummary();
         }
-      };
-      reader.readAsText(file);
-      e.target.value = "";
+        if(act==="del") deleteClient(client.id);
+      });
     });
 
-    document.getElementById("yearSelect").addEventListener("change", () => {
-      const y = parseInt(document.getElementById("yearSelect").value, 10);
-      if (!y || !MONTHS_BY_YEAR[y]) return;
-      selectedYear = y;
+    wrap.appendChild(el);
+  }
 
-      renderCalendarTabsForYear(selectedYear);
-      rebuildYearCalendars(selectedYear);
+  function saveClients(){
+    // già su storage via setClients; teniamo per compatibilità
+    // (qui non serve serializzare dal DOM)
+  }
 
-      // Se il weekAnchor è fuori dall'anno selezionato, lo riporto al 1° giorno dell'anno selezionato
-      if(weekAnchor && weekAnchor.getFullYear() !== selectedYear){
-        setWeekAnchor(new Date(selectedYear, 0, 1));
-      }
-      renderWeekly();
+  function loadClients(){
+    let arr=getClients();
 
-      loadAppointments();
-      updateGeneralSummary();
-      autoGoToMonthInCorso(selectedYear);
-    });
-
-    document.getElementById("rankingYearFilter").addEventListener("change", updateGeneralSummary);
-
-    ["Name","Indirizzo","Comune","Citta"].forEach(k=>{
-      document.getElementById("filter"+k).addEventListener("keyup",filterTable);
-    });
-    document.getElementById("filterCoded").addEventListener("change",filterTable);
-
-    // Import Excel
-    document.getElementById("importFile").addEventListener("change",e=>{
-      const f=e.target.files[0];
-      if(!f)return;
-
-      const r=new FileReader();
-      r.onload=ev=>{
-        const data=new Uint8Array(ev.target.result),
-              wb=XLSX.read(data,{type:"array"}),
-              rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{defval:""});
-
-        localStorage.removeItem(clientsKey(currentManager));
-        document.querySelector("#clientTable tbody").innerHTML="";
-
-        rows.forEach(rw=>{
-          const name=String(rw["Nome negozio"]||"").trim();
-          const indirizzo=String(rw["Indirizzo"]||"").trim();
-          const comune=String(rw["Comune"]||"").trim();
-          const citta=String(rw["Città"]||"").trim();
-          const cv=String(rw["Codificato"]||"").trim().toUpperCase();
-          const coded=(cv==="SI");
-
-          if(!name && !indirizzo && !comune && !citta) return;
-
-          addClientRow({
-            id:"client-"+Date.now()+"-"+Math.random(),
-            name, indirizzo, comune, citta, coded
-          });
-        });
-
-        saveClients();
-        applyRowColors();
-        updateGeneralSummary();
-      };
-      r.readAsArrayBuffer(f);
-      e.target.value = "";
-    });
-
-    // Add client manual
-    document.getElementById("addClientForm").addEventListener("submit",e=>{
-      e.preventDefault();
-      const n=document.getElementById("newClientName").value.trim(),
-            i=document.getElementById("newClientIndirizzo").value.trim(),
-            c=document.getElementById("newClientComune").value.trim(),
-            ct=document.getElementById("newClientCitta").value.trim(),
-            cd=document.getElementById("newClientCoded").checked;
-
-      if(n && i && c && ct){
-        addClientRow({
-          id:"client-"+Date.now()+"-"+Math.random(),
-          name:n, indirizzo:i, comune:c, citta:ct, coded:cd
-        });
-        saveClients();
-        applyRowColors();
-        ["newClientName","newClientIndirizzo","newClientComune","newClientCitta"].forEach(id=>document.getElementById(id).value="");
-        document.getElementById("newClientCoded").checked=false;
-        updateGeneralSummary();
-      }
-    });
-
-    // Modal schedule fields
-    document.getElementById("scheduleYear").addEventListener("change", () => {
-      const y = parseInt(document.getElementById("scheduleYear").value, 10);
-      renderMonthSelectForYear(y);
-      document.getElementById("dayThumbnails").innerHTML="";
-      document.getElementById("scheduleDay").value="";
-    });
-    document.getElementById("scheduleMonth").addEventListener("change", generateDayThumbnails);
-
-    // Submit schedule modal
-    document.getElementById("scheduleForm").addEventListener("submit",e=>{
-      e.preventDefault();
-
-      const y = parseInt(document.getElementById("scheduleYear").value, 10);
-      const mv = document.getElementById("scheduleMonth").value;
-      const dv = document.getElementById("scheduleDay").value;
-
-      if(!y || !mv || !dv){
-        alert("Compila tutti i campi.");
-        return;
-      }
-
-      const date = `${y}-${pad2(mv)}-${pad2(dv)}`;
-
-      // ora cerca su qualunque vista (mese o settimana) presente
-      const cell = document.querySelector(`[data-date="${date}"]`);
-      if(!cell){
-        alert("La data selezionata non è visibile nelle viste attuali.\n\nConsiglio: passa all'anno corretto in alto (Pianificazione) e riprova.");
-        return;
-      }
-
-      if(cell.querySelectorAll(".appointment-item").length>=8){
-        alert("Limite di 8 appuntamenti.");
-        return;
-      }
-
-      const name = document.getElementById("selectedClientName").value;
-      const coded = document.getElementById(currentClientId).classList.contains("coded");
-      const app = createAppointment(name, coded);
-
-      cell.appendChild(app);
-      saveAppointments();
-      updateGeneralSummary();
-      $('#scheduleModal').modal('hide');
-    });
-
-    document.getElementById("sendScheduleBtn").onclick = sendScheduleEmail;
-
-    // Weekly view controls
-    document.getElementById("weekPrevBtn").addEventListener("click", ()=>{
-      if(!weekAnchor) setWeekAnchor(getTodayLocal());
-      setWeekAnchor(addDays(weekAnchor, -7));
-      renderWeekly();
-      saveAppointments(); // safe
-      updateGeneralSummary();
-    });
-    document.getElementById("weekNextBtn").addEventListener("click", ()=>{
-      if(!weekAnchor) setWeekAnchor(getTodayLocal());
-      setWeekAnchor(addDays(weekAnchor, +7));
-      renderWeekly();
-      saveAppointments();
-      updateGeneralSummary();
-    });
-    document.getElementById("weekAnchorDate").addEventListener("change", (e)=>{
-      const v = e.target.value;
-      if(!v) return;
-      const d = new Date(v + "T00:00:00");
-      if(isNaN(d.getTime())) return;
-      setWeekAnchor(d);
-      renderWeekly();
-      updateGeneralSummary();
-    });
-
-    // Mobile bottom nav -> tabs
-    function setBottomNavActive(which){
-      document.getElementById("bn-portafoglio").classList.toggle("active", which==="portafoglio");
-      document.getElementById("bn-pianificazione").classList.toggle("active", which==="pianificazione");
+    if(!arr.length){
+      arr=[
+        {id:"client-1",name:"Negozio A",indirizzo:"Via Roma 1",comune:"Centro",citta:"Milano",coded:false},
+        {id:"client-2",name:"Negozio B",indirizzo:"Viale Europa 10",comune:"Periferia",citta:"Roma",coded:false}
+      ];
+      setClients(arr);
     }
-    document.getElementById("bn-portafoglio").addEventListener("click", ()=>{
-      $('#portafoglio-tab').tab('show');
-      setBottomNavActive("portafoglio");
-      window.scrollTo({top:0, behavior:"smooth"});
+
+    arr.sort((a,b)=>a.name.localeCompare(b.name));
+
+    // update chips
+    document.getElementById("shopsCountChip").textContent = `${arr.length} negozi`;
+
+    // desktop table
+    const tbody=document.querySelector("#clientTable tbody");
+    if(tbody) tbody.innerHTML="";
+    arr.forEach(addClientRowDesktop);
+
+    // mobile list
+    const list=document.getElementById("shopList");
+    if(list) list.innerHTML="";
+    const f=getFilterState();
+    arr.filter(c=>clientPassesFilter(c,f)).forEach(addClientCardMobile);
+
+    // also apply filters to desktop rows (simple hide)
+    filterClientsDesktop(arr, f);
+  }
+
+  function filterClientsDesktop(arr, f){
+    document.querySelectorAll("#clientTable tbody tr").forEach(tr=>{
+      const id=tr.dataset.clientId;
+      const c=arr.find(x=>x.id===id);
+      if(!c){ tr.style.display="none"; return; }
+      tr.style.display = clientPassesFilter(c,f) ? "" : "none";
     });
-    document.getElementById("bn-pianificazione").addEventListener("click", ()=>{
-      $('#pianificazione-tab').tab('show');
-      setBottomNavActive("pianificazione");
-      window.scrollTo({top:0, behavior:"smooth"});
+  }
+
+  function filterClientsAndRender(){
+    loadClients();
+  }
+
+  function editClient(id){
+    const arr=getClients();
+    const c=arr.find(x=>x.id===id);
+    if(!c) return;
+    const nn=prompt("Modifica nome:", c.name);
+    if(nn){
+      c.name=nn.trim();
+      setClients(arr);
+      loadClients();
+      updateGeneralSummary();
+    }
+  }
+
+  function deleteClient(id){
+    if(!confirm("Eliminare il negozio?")) return;
+    const arr=getClients().filter(x=>x.id!==id);
+    setClients(arr);
+    loadClients();
+    updateGeneralSummary();
+  }
+
+  // ========= APPOINTMENTS STORAGE =========
+  function getAppointments(){
+    return JSON.parse(localStorage.getItem(appsKey(currentManager)))||{};
+  }
+  function setAppointments(obj){
+    localStorage.setItem(appsKey(currentManager), JSON.stringify(obj));
+  }
+
+  function upsertAppointmentToStorage(dateISO, item){
+    const data=getAppointments();
+    const arr=data[dateISO] ? [...data[dateISO]] : [];
+    if(arr.length>=8){
+      alert("Limite di 8 appuntamenti.");
+      return;
+    }
+    arr.push({name:item.name, coded:!!item.coded});
+    data[dateISO]=arr;
+    setAppointments(data);
+  }
+
+  function removeAppointmentFromStorage(dateISO, name, coded){
+    if(!dateISO) return;
+    const data=getAppointments();
+    const arr=data[dateISO] || [];
+    // rimuovi la prima occorrenza che matcha
+    const idx = arr.findIndex(x=>x.name===name && !!x.coded===!!coded);
+    if(idx>=0) arr.splice(idx,1);
+    if(arr.length) data[dateISO]=arr;
+    else delete data[dateISO];
+    setAppointments(data);
+  }
+
+  // ========= PLANNING TABS =========
+  let activePlanningTab = "generale"; // generale | settimana | mese
+  let activeMonthNumber = null; // 1..12 for selectedYear
+
+  function rebuildPlanningTabs(){
+    const tabs=document.getElementById("planningTabs");
+    tabs.innerHTML="";
+
+    const addTab=(key,label)=>{
+      const b=document.createElement("button");
+      b.type="button";
+      b.className="tabbtn" + (activePlanningTab===key ? " active" : "");
+      b.textContent=label;
+      b.addEventListener("click", ()=>{
+        activatePlanningTab(key);
+        renderActivePlanningPanel();
+        loadAppointmentsToViews();
+      });
+      tabs.appendChild(b);
+    };
+
+    addTab("generale","Generale");
+    addTab("settimana","Settimana");
+
+    // month label = current active month or best month
+    const bestKey=pickBestMonth(selectedYear);
+    const bestMonth = bestKey ? (MONTHS_BY_YEAR[selectedYear].find(m=>m.key===bestKey)?.monthNumber || MONTHS_BY_YEAR[selectedYear][0]?.monthNumber) : (MONTHS_BY_YEAR[selectedYear][0]?.monthNumber);
+    if(!activeMonthNumber) activeMonthNumber = bestMonth || 1;
+
+    const monthLabel = MONTHS_BY_YEAR[selectedYear].find(m=>m.monthNumber===activeMonthNumber)?.label || "Mese";
+    addTab("mese", monthLabel);
+
+    // keep year chip
+    syncYearChip();
+  }
+
+  function activatePlanningTab(key){
+    activePlanningTab = key;
+    rebuildPlanningTabs();
+  }
+
+  function setMonthActiveFromToday(){
+    const t=getTodayLocal();
+    if(t.getFullYear()===selectedYear){
+      activeMonthNumber = t.getMonth()+1;
+    } else {
+      // set first available month for that year
+      activeMonthNumber = (MONTHS_BY_YEAR[selectedYear][0]?.monthNumber) || 1;
+    }
+    rebuildPlanningTabs();
+  }
+
+  function renderActivePlanningPanel(){
+    document.getElementById("panelGenerale").style.display = (activePlanningTab==="generale") ? "" : "none";
+    document.getElementById("panelSettimana").style.display = (activePlanningTab==="settimana") ? "" : "none";
+    document.getElementById("panelMese").style.display = (activePlanningTab==="mese") ? "" : "none";
+
+    if(activePlanningTab==="mese"){
+      renderMonthView(selectedYear, activeMonthNumber);
+    }
+    if(activePlanningTab==="settimana"){
+      renderWeekView();
+    }
+    if(activePlanningTab==="generale"){
+      updateGeneralSummary();
+    }
+  }
+
+  // ========= MONTH VIEW RENDER =========
+  function daysInMonth(y,mIndex0){ return new Date(y,mIndex0+1,0).getDate(); }
+  function weekdayMon0(y,mIndex0,d){ const w=new Date(y,mIndex0,d).getDay(); return w ? w-1 : 6; } // Mon=0..Sun=6
+
+  function renderMonthView(year, monthNumber){
+    const mIndex0 = monthNumber - 1;
+
+    // header weekdays
+    const mh=document.getElementById("monthHead");
+    mh.innerHTML="";
+    weekdays.forEach(w=>{
+      const d=document.createElement("div");
+      d.textContent=w;
+      mh.appendChild(d);
     });
 
-    // Autosave
-    window.addEventListener("beforeunload",()=>{ saveClients(); saveAppointments(); });
-    setInterval(()=>{ saveClients(); saveAppointments(); },60000);
+    // grid
+    const mg=document.getElementById("monthGrid");
+    mg.innerHTML="";
 
-    // INIT
-    document.addEventListener("DOMContentLoaded",()=>{
-      loadManagers();
-      document.getElementById("managerSelect").value=currentManager;
-      updateTopbarLabel();
+    const total=daysInMonth(year, mIndex0);
+    const first=weekdayMon0(year, mIndex0, 1);
 
-      const today = getTodayLocal();
-      const initYear = (today.getFullYear()===2025 || today.getFullYear()===2026) ? today.getFullYear() : 2026;
+    // leading blanks
+    for(let i=0;i<first;i++){
+      const empty=document.createElement("div");
+      empty.className="day-cell is-empty";
+      mg.appendChild(empty);
+    }
 
-      selectedYear = initYear;
-      document.getElementById("yearSelect").value = String(initYear);
+    const today=getTodayLocal();
+    const todayISO = toISODate(today);
 
-      // weekly init
-      setWeekAnchor(today);
+    for(let day=1; day<=total; day++){
+      const cell=document.createElement("div");
+      const iso = `${year}-${pad2(monthNumber)}-${pad2(day)}`;
+      cell.className="day-cell droppable";
+      cell.dataset.date=iso;
 
-      document.getElementById("scheduleYear").value = String(initYear);
-      renderMonthSelectForYear(initYear);
+      cell.addEventListener("dragover", allowDrop);
+      cell.addEventListener("dragleave", dragLeave);
+      cell.addEventListener("drop", (e)=>{
+        // set dnd state from DataTransfer (fallback)
+        const type=e.dataTransfer.getData("type");
+        if(type==="client"){
+          window._dndType="client";
+          window._dndClientId=e.dataTransfer.getData("clientId");
+        } else {
+          window._dndType="appointment";
+          window._dndAppId=e.dataTransfer.getData("appointmentId");
+          window._dndFromDate=e.dataTransfer.getData("fromDate");
+        }
+        handleDrop(e);
+      });
 
-      reloadAll();
-      autoGoToMonthInCorso(selectedYear);
+      // today highlight
+      if(iso===todayISO) cell.classList.add("today");
 
-      console.assert(typeof currentManager === "string", "currentManager deve essere definito");
+      const num=document.createElement("div");
+      num.className="day-number";
+      num.textContent=day;
+
+      const apps=document.createElement("div");
+      apps.className="day-appointments";
+      // drop target is cell itself; we keep apps as container for scroll
+
+      cell.appendChild(num);
+      cell.appendChild(apps);
+      mg.appendChild(cell);
+    }
+
+    // trailing blanks to complete rows (optional)
+    const cellsSoFar = first + total;
+    const remainder = cellsSoFar % 7;
+    if(remainder!==0){
+      for(let i=0;i<7-remainder;i++){
+        const empty=document.createElement("div");
+        empty.className="day-cell is-empty";
+        mg.appendChild(empty);
+      }
+    }
+  }
+
+  // ========= WEEK VIEW RENDER =========
+  function renderWeekView(){
+    const grid=document.getElementById("weekGrid");
+    grid.innerHTML="";
+
+    const today=getTodayLocal();
+    if(!weekStartDate) weekStartDate = startOfWeekMonday(today);
+
+    const label=document.getElementById("weekLabel");
+    const end = addDays(weekStartDate, 6);
+    label.textContent = `${toISODate(weekStartDate)} → ${toISODate(end)}`;
+
+    const todayISO = toISODate(today);
+
+    for(let i=0;i<7;i++){
+      const d=addDays(weekStartDate, i);
+      const iso=toISODate(d);
+      const wname=weekdays[i];
+
+      const box=document.createElement("div");
+      box.className="week-day";
+      if(iso===todayISO) box.classList.add("today");
+
+      const hd=document.createElement("div");
+      hd.className="week-day-hd";
+      hd.innerHTML = `<div>${wname}</div><div class="small">${iso}</div>`;
+
+      const bd=document.createElement("div");
+      bd.className="week-day-bd";
+
+      const drop=document.createElement("div");
+      drop.className="week-drop droppable";
+      drop.dataset.date=iso;
+
+      drop.addEventListener("dragover", allowDrop);
+      drop.addEventListener("dragleave", dragLeave);
+      drop.addEventListener("drop", (e)=>{
+        const type=e.dataTransfer.getData("type");
+        if(type==="client"){
+          window._dndType="client";
+          window._dndClientId=e.dataTransfer.getData("clientId");
+        } else {
+          window._dndType="appointment";
+          window._dndAppId=e.dataTransfer.getData("appointmentId");
+          window._dndFromDate=e.dataTransfer.getData("fromDate");
+        }
+        handleDrop(e);
+      });
+
+      bd.appendChild(drop);
+      box.appendChild(hd);
+      box.appendChild(bd);
+      grid.appendChild(box);
+    }
+  }
+
+  document.getElementById("prevWeekBtn").addEventListener("click", ()=>{
+    weekStartDate = addDays(weekStartDate, -7);
+    renderWeekView();
+    loadAppointmentsToViews();
+  });
+  document.getElementById("nextWeekBtn").addEventListener("click", ()=>{
+    weekStartDate = addDays(weekStartDate, 7);
+    renderWeekView();
+    loadAppointmentsToViews();
+  });
+  document.getElementById("todayWeekBtn").addEventListener("click", ()=>{
+    weekStartDate = startOfWeekMonday(getTodayLocal());
+    renderWeekView();
+    loadAppointmentsToViews();
+  });
+
+  // ========= LOAD APPOINTMENTS into visible views =========
+  function clearAllAppointmentContainers(){
+    document.querySelectorAll(".day-appointments").forEach(c=>c.innerHTML="");
+    document.querySelectorAll(".week-drop").forEach(c=>c.innerHTML="");
+  }
+
+  function loadAppointmentsToViews(){
+    clearAllAppointmentContainers();
+    const data=getAppointments();
+
+    // month view: only cells present
+    document.querySelectorAll(".day-cell[data-date]").forEach(cell=>{
+      const iso=cell.dataset.date;
+      const cont=cell.querySelector(".day-appointments");
+      const arr=data[iso]||[];
+      arr.forEach(a=>{
+        cont.appendChild(createAppointmentEl(a.name, !!a.coded, iso));
+      });
     });
-  </script>
+
+    // week view
+    document.querySelectorAll(".week-drop[data-date]").forEach(drop=>{
+      const iso=drop.dataset.date;
+      const arr=data[iso]||[];
+      arr.forEach(a=>{
+        drop.appendChild(createAppointmentEl(a.name, !!a.coded, iso));
+      });
+    });
+  }
+
+  // legacy: autosave from DOM (now we save directly on changes, but keep for safety)
+  function saveAppointmentsDomOnly(){
+    // non necessario con nuova logica, ma lasciamo compatibile
+  }
+
+  // ========= CLASSIFICA =========
+  function escapeHtml(str){
+    return String(str)
+      .replace(/&/g,"&amp;")
+      .replace(/</g,"&lt;")
+      .replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;")
+      .replace(/'/g,"&#039;");
+  }
+
+  function updateGeneralSummary(){
+    const rawData=getAppointments();
+    const today=getTodayLocal();
+    const filter=document.getElementById("rankingYearFilter").value;
+
+    const filteredData={};
+    Object.entries(rawData).forEach(([date,apps])=>{
+      const y=parseInt(String(date).slice(0,4),10);
+      if(filter!=="ALL" && y!==parseInt(filter,10)) return;
+      filteredData[date]=apps;
+    });
+
+    const rankingObj={};
+    Object.entries(filteredData).forEach(([date,apps])=>{
+      const dt=new Date(date);
+      apps.forEach(a=>{
+        if(!rankingObj[a.name]) rankingObj[a.name]=[];
+        rankingObj[a.name].push(dt);
+      });
+    });
+
+    const clients=getClients();
+
+    const arr=clients.map(c=>{
+      const dates=(rankingObj[c.name]||[]).sort((a,b)=>a-b);
+      const past=dates.filter(d=>d<=today);
+      const future=dates.filter(d=>d>today);
+
+      let daysSinceLastVal=NaN;
+      let daysSinceDisplay="-";
+      if(past.length){
+        const last=past[past.length-1];
+        const diff=Math.round((today-last)/(1000*60*60*24));
+        daysSinceLastVal=diff;
+        daysSinceDisplay=diff+" giorni";
+      }
+
+      let progDisplay="-";
+      if(future.length){
+        const next=future[0];
+        const missing=Math.round((next-today)/(1000*60*60*24));
+        progDisplay=missing+" giorni";
+      }
+
+      const total=dates.length;
+      const gap=total>1
+        ? (dates.slice(1).reduce((s,d,i)=>s + Math.round((d-dates[i])/(1000*60*60*24)),0)/(total-1)).toFixed(1) + " giorni"
+        : "N/A";
+
+      const sortKey=isNaN(daysSinceLastVal) ? -Infinity : daysSinceLastVal;
+
+      return { name:c.name, total, gap, coded:!!c.coded, daysSinceVal:sortKey, daysSinceDisplay, progDisplay };
+    });
+
+    const codedArr=arr.filter(x=>x.coded).sort((a,b)=>(b.daysSinceVal-a.daysSinceVal)||a.name.localeCompare(b.name));
+    const nonArr=arr.filter(x=>!x.coded).sort((a,b)=>(b.daysSinceVal-a.daysSinceVal)||a.name.localeCompare(b.name));
+
+    let html="";
+    html += `<div class="mb-2"><span class="chip"><strong>Totale negozi:</strong> ${clients.length}</span></div>`;
+
+    function renderTable(title, rows){
+      let out=`<div class="cardx mb-3" style="box-shadow:none;">
+        <div class="cardx-hd"><h6 style="font-weight:1000;margin:0;">${escapeHtml(title)}</h6></div>
+        <div class="cardx-bd" style="padding:0;">
+          <div class="table-wrap" style="border:0;border-radius:0;">
+            <table class="table table-sm table-bordered mb-0">
+              <thead class="thead-light">
+                <tr>
+                  <th>Nome negozio</th>
+                  <th>Visite</th>
+                  <th>Gap medio</th>
+                  <th>Programmata</th>
+                  <th>Ultima visita</th>
+                </tr>
+              </thead>
+              <tbody>`;
+      rows.forEach(i=>{
+        out += `<tr>
+          <td>${escapeHtml(i.name)}</td>
+          <td>${i.total}</td>
+          <td>${escapeHtml(i.gap)}</td>
+          <td>${escapeHtml(String(i.progDisplay))}</td>
+          <td>${escapeHtml(i.daysSinceDisplay)}</td>
+        </tr>`;
+      });
+      out += `</tbody></table></div></div></div>`;
+      return out;
+    }
+
+    html += renderTable("Codificati", codedArr);
+    html += renderTable("Non codificati", nonArr);
+
+    document.getElementById("generalSummary").innerHTML=html;
+  }
+
+  document.getElementById("rankingYearFilter").addEventListener("change", updateGeneralSummary);
+
+  // ========= MODAL: Pianifica =========
+  function renderMonthSelectForYear(year, selectEl){
+    selectEl.innerHTML=`<option value="">Seleziona</option>`;
+    (MONTHS_BY_YEAR[year]||[]).forEach(m=>{
+      const opt=document.createElement("option");
+      opt.value=String(m.monthNumber);
+      opt.textContent=m.label;
+      selectEl.appendChild(opt);
+    });
+  }
+
+  function generateDayThumbnails(year, monthValue, containerEl, hiddenInputEl){
+    containerEl.innerHTML="";
+    hiddenInputEl.value="";
+    if(!year || !monthValue) return;
+
+    const hd=document.createElement("div");
+    hd.className="thumbs-hd";
+    weekdays.forEach(w=>{
+      const d=document.createElement("div");
+      d.textContent=w;
+      hd.appendChild(d);
+    });
+    containerEl.appendChild(hd);
+
+    const gd=document.createElement("div");
+    gd.className="thumbs-grid";
+
+    const mIndex0 = monthValue - 1;
+    const total = daysInMonth(year, mIndex0);
+    const first = weekdayMon0(year, mIndex0, 1);
+
+    for(let i=0;i<first;i++){
+      const spacer=document.createElement("div");
+      gd.appendChild(spacer);
+    }
+
+    for(let d=1;d<=total;d++){
+      const btn=document.createElement("button");
+      btn.type="button";
+      btn.textContent=d;
+      btn.onclick=()=>{
+        gd.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
+        btn.classList.add("active");
+        hiddenInputEl.value=String(d);
+      };
+      gd.appendChild(btn);
+    }
+    containerEl.appendChild(gd);
+  }
+
+  function openScheduleModal(id){
+    currentClientId=id;
+    const client=getClientById(id);
+    if(!client) return;
+
+    document.getElementById("selectedClientName").value = client.name;
+
+    // default year: selectedYear
+    document.getElementById("scheduleYear").value = String(selectedYear);
+    renderMonthSelectForYear(selectedYear, document.getElementById("scheduleMonth"));
+
+    document.getElementById("scheduleMonth").value="";
+    document.getElementById("dayThumbnails").innerHTML="";
+    document.getElementById("scheduleDay").value="";
+
+    $('#scheduleModal').modal('show');
+  }
+
+  document.getElementById("scheduleYear").addEventListener("change", ()=>{
+    const y=parseInt(document.getElementById("scheduleYear").value,10);
+    renderMonthSelectForYear(y, document.getElementById("scheduleMonth"));
+    document.getElementById("dayThumbnails").innerHTML="";
+    document.getElementById("scheduleDay").value="";
+  });
+
+  document.getElementById("scheduleMonth").addEventListener("change", ()=>{
+    const y=parseInt(document.getElementById("scheduleYear").value,10);
+    const mv=parseInt(document.getElementById("scheduleMonth").value,10);
+    generateDayThumbnails(y, mv, document.getElementById("dayThumbnails"), document.getElementById("scheduleDay"));
+  });
+
+  document.getElementById("scheduleForm").addEventListener("submit",(e)=>{
+    e.preventDefault();
+    const y=parseInt(document.getElementById("scheduleYear").value,10);
+    const mv=parseInt(document.getElementById("scheduleMonth").value,10);
+    const dv=parseInt(document.getElementById("scheduleDay").value,10);
+
+    if(!y||!mv||!dv){ alert("Compila tutti i campi."); return; }
+
+    const dateISO = `${y}-${pad2(mv)}-${pad2(dv)}`;
+    const client=getClientById(currentClientId);
+    if(!client){ alert("Negozio non trovato."); return; }
+
+    // enforce limit
+    const data=getAppointments();
+    const arr=data[dateISO]||[];
+    if(arr.length>=8){ alert("Limite di 8 appuntamenti."); return; }
+
+    upsertAppointmentToStorage(dateISO, {name: client.name, coded: !!client.coded});
+
+    loadAppointmentsToViews();
+    updateGeneralSummary();
+    $('#scheduleModal').modal('hide');
+  });
+
+  // ========= MODAL: Sposta appuntamento =========
+  function openMoveModal(name, coded, fromDate){
+    moving = { name, coded, fromDate };
+
+    document.getElementById("moveClientName").value = name;
+
+    // prefill fromDate
+    const d = fromDate ? parseISODate(fromDate) : getTodayLocal();
+    const y = d.getFullYear();
+    const m = d.getMonth()+1;
+    const day = d.getDate();
+
+    document.getElementById("moveYear").value = String(y);
+    renderMonthSelectForYear(y, document.getElementById("moveMonth"));
+    document.getElementById("moveMonth").value = String(m);
+
+    // thumbs
+    generateDayThumbnails(y, m, document.getElementById("moveDayThumbnails"), document.getElementById("moveDay"));
+
+    // set active day
+    document.getElementById("moveDay").value = String(day);
+    // mark active button
+    setTimeout(()=>{
+      const grid=document.querySelector("#moveDayThumbnails .thumbs-grid");
+      if(grid){
+        const btns=[...grid.querySelectorAll("button")];
+        btns.forEach(b=>b.classList.toggle("active", b.textContent===String(day)));
+      }
+    }, 0);
+
+    $('#moveModal').modal('show');
+  }
+
+  document.getElementById("moveYear").addEventListener("change", ()=>{
+    const y=parseInt(document.getElementById("moveYear").value,10);
+    renderMonthSelectForYear(y, document.getElementById("moveMonth"));
+    document.getElementById("moveDayThumbnails").innerHTML="";
+    document.getElementById("moveDay").value="";
+  });
+
+  document.getElementById("moveMonth").addEventListener("change", ()=>{
+    const y=parseInt(document.getElementById("moveYear").value,10);
+    const mv=parseInt(document.getElementById("moveMonth").value,10);
+    generateDayThumbnails(y, mv, document.getElementById("moveDayThumbnails"), document.getElementById("moveDay"));
+  });
+
+  document.getElementById("moveForm").addEventListener("submit",(e)=>{
+    e.preventDefault();
+    const y=parseInt(document.getElementById("moveYear").value,10);
+    const mv=parseInt(document.getElementById("moveMonth").value,10);
+    const dv=parseInt(document.getElementById("moveDay").value,10);
+
+    if(!y||!mv||!dv){ alert("Compila tutti i campi."); return; }
+
+    const toDate = `${y}-${pad2(mv)}-${pad2(dv)}`;
+
+    // limit 8
+    const data=getAppointments();
+    const targetArr=data[toDate]||[];
+    if(targetArr.length>=8){ alert("Limite di 8 appuntamenti."); return; }
+
+    // remove from old
+    removeAppointmentFromStorage(moving.fromDate, moving.name, moving.coded);
+    // add to new
+    upsertAppointmentToStorage(toDate, {name:moving.name, coded:moving.coded});
+
+    loadAppointmentsToViews();
+    updateGeneralSummary();
+    $('#moveModal').modal('hide');
+  });
+
+  // ========= INVIO (mail) =========
+  function buildMailFromCurrentView(){
+    let subj="", body="";
+
+    if(activePlanningTab==="generale"){
+      subj = `Pianificazione - Classifica ${currentManager}`;
+      body = document.getElementById("generalSummary").innerText.trim();
+      return {subj, body};
+    }
+
+    if(activePlanningTab==="settimana"){
+      subj = `Pianificazione Settimana - ${document.getElementById("weekLabel").innerText} - ${currentManager}`;
+      const data=getAppointments();
+      const lines=[];
+      for(let i=0;i<7;i++){
+        const d=addDays(weekStartDate, i);
+        const iso=toISODate(d);
+        const arr=data[iso]||[];
+        if(arr.length){
+          lines.push(`${iso}: ${arr.map(x=>x.name).join(", ")}`);
+        }
+      }
+      body = lines.length ? lines.join("\n") : "Nessuna pianificazione presente in questa settimana.";
+      return {subj, body};
+    }
+
+    // mese
+    const monthLabel = MONTHS_BY_YEAR[selectedYear].find(m=>m.monthNumber===activeMonthNumber)?.label || "Mese";
+    subj = `Pianificazione ${selectedYear} - ${monthLabel} - ${currentManager}`;
+
+    const data=getAppointments();
+    const lines=[];
+    Object.keys(data)
+      .filter(iso=>iso.startsWith(`${selectedYear}-${pad2(activeMonthNumber)}-`))
+      .sort()
+      .forEach(iso=>{
+        const arr=data[iso]||[];
+        if(arr.length) lines.push(`${iso}: ${arr.map(x=>x.name).join(", ")}`);
+      });
+
+    body = lines.length ? lines.join("\n") : "Nessuna pianificazione presente in questo mese.";
+    return {subj, body};
+  }
+
+  function sendMail(){
+    const {subj, body} = buildMailFromCurrentView();
+    window.location.href=`mailto:?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
+  }
+
+  document.getElementById("sendScheduleBtn").addEventListener("click", sendMail);
+  document.getElementById("sendScheduleBtnTop").addEventListener("click", ()=>{
+    showView("plan");
+    sendMail();
+  });
+
+  // ========= Month tab label change (tap on Mese tab cycles months) =========
+  // Per restare semplice nella bozza: tap lungo sul tab "Mese" per cambiare mese.
+  // (Lo raffiniamo dopo con picker mese).
+  document.addEventListener("contextmenu", (e)=>{ /* prevent iOS weirdness */ });
+
+  // long-press / double click on month tab to change month
+  function openMonthPicker(){
+    const list = (MONTHS_BY_YEAR[selectedYear]||[]);
+    const labels = list.map(m=>`${m.monthNumber} - ${m.label}`).join("\n");
+    const currentLabel = list.find(m=>m.monthNumber===activeMonthNumber)?.label || "";
+    const input = prompt(`Seleziona mese (${selectedYear}) inserendo numero 1-12.\n\nDisponibili:\n${labels}\n\nAttuale: ${currentLabel}`, String(activeMonthNumber||""));
+    if(input===null) return;
+    const mv = parseInt(input,10);
+    if(!mv || !list.some(m=>m.monthNumber===mv)){ alert("Mese non valido per l'anno selezionato."); return; }
+    activeMonthNumber = mv;
+    rebuildPlanningTabs();
+    renderActivePlanningPanel();
+    loadAppointmentsToViews();
+  }
+
+  // attach to the third tab if exists
+  function attachMonthPickerHook(){
+    const tabs=[...document.querySelectorAll("#planningTabs .tabbtn")];
+    const monthBtn=tabs.find(b=>b.textContent === (MONTHS_BY_YEAR[selectedYear].find(m=>m.monthNumber===activeMonthNumber)?.label || "Mese"));
+    if(monthBtn){
+      let t=0;
+      monthBtn.addEventListener("click", ()=>{
+        // normal click already handled by activatePlanningTab
+      });
+      monthBtn.addEventListener("dblclick", openMonthPicker);
+      // simple long press
+      monthBtn.addEventListener("touchstart", ()=>{
+        t=setTimeout(openMonthPicker, 550);
+      }, {passive:true});
+      monthBtn.addEventListener("touchend", ()=>clearTimeout(t), {passive:true});
+      monthBtn.addEventListener("touchcancel", ()=>clearTimeout(t), {passive:true});
+    }
+  }
+
+  // ========= CSS escape helper =========
+  function cssEscape(s){
+    return String(s).replace(/([!"#$%&'()*+,.\/:;<=>?@\[\\\]^`{|}~])/g,'\\$1');
+  }
+
+  // ========= INIT / RELOAD / AUTOSAVE =========
+  function reloadAll(){
+    renderAmLabel();
+    syncYearChip();
+
+    // ensure base state
+    if(!activeMonthNumber){
+      const bestKey=pickBestMonth(selectedYear);
+      activeMonthNumber = bestKey ? (MONTHS_BY_YEAR[selectedYear].find(m=>m.key===bestKey)?.monthNumber || MONTHS_BY_YEAR[selectedYear][0]?.monthNumber) : (MONTHS_BY_YEAR[selectedYear][0]?.monthNumber);
+    }
+
+    loadClients();
+
+    rebuildPlanningTabs();
+    renderActivePlanningPanel();
+    loadAppointmentsToViews();
+    updateGeneralSummary();
+
+    attachMonthPickerHook();
+  }
+
+  window.addEventListener("beforeunload", ()=>{
+    // dati già persistiti, qui lasciamo per sicurezza
+  });
+
+  setInterval(()=>{ /* keep placeholder autosave */ }, 60000);
+
+  // ========= INIT =========
+  document.addEventListener("DOMContentLoaded", ()=>{
+    loadManagers();
+    document.getElementById("managerSelect").value = currentManager;
+    renderAmLabel();
+
+    const today=getTodayLocal();
+    const initYear = (today.getFullYear()===2025 || today.getFullYear()===2026) ? today.getFullYear() : 2026;
+    selectedYear = initYear;
+    syncYearChip();
+
+    weekStartDate = startOfWeekMonday(today);
+    activeMonthNumber = (today.getFullYear()===selectedYear) ? (today.getMonth()+1) : (MONTHS_BY_YEAR[selectedYear][0]?.monthNumber || 1);
+
+    // schedule modal default month list
+    document.getElementById("scheduleYear").value=String(selectedYear);
+    renderMonthSelectForYear(selectedYear, document.getElementById("scheduleMonth"));
+
+    // move modal month list
+    document.getElementById("moveYear").value=String(selectedYear);
+    renderMonthSelectForYear(selectedYear, document.getElementById("moveMonth"));
+
+    // initial view = portafoglio
+    showView("port");
+    reloadAll();
+
+    console.assert(typeof currentManager==="string", "currentManager deve essere definito");
+  });
+</script>
 </body>
 </html>
-
