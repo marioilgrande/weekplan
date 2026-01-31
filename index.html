@@ -40,10 +40,8 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
-    /* ===== APP SHELL ===== */
     .app-shell{ height:100%; display:flex; flex-direction:column; }
 
-    /* ===== APPBAR ===== */
     .appbar{
       position: sticky;
       top: 0;
@@ -121,15 +119,34 @@
       justify-content:center;
     }
 
-    /* ===== MAIN ===== */
     .app-main{
       flex:1;
       overflow:auto;
       padding: 14px 14px calc(var(--bottomH) + 14px + env(safe-area-inset-bottom));
       -webkit-overflow-scrolling: touch;
+      position:relative;
     }
 
-    /* ===== BOTTOM NAV ===== */
+    /* Pull-to-refresh overlay */
+    .ptr-indicator{
+      position: sticky;
+      top: 0;
+      z-index: 2000;
+      display:none;
+      margin: -6px 0 10px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(10,186,181,.28);
+      background: rgba(10,186,181,.12);
+      color:#0f766e;
+      font-weight:1000;
+      font-size:13px;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+    }
+    .ptr-indicator.show{display:flex;}
+
     .bottom-nav{
       position:fixed; left:0; right:0; bottom:0;
       height: calc(var(--bottomH) + env(safe-area-inset-bottom));
@@ -163,7 +180,6 @@
       box-shadow: inset 0 0 0 1px rgba(10,186,181,.25);
     }
 
-    /* ===== CARDS ===== */
     .cardx{
       background: var(--card);
       border: 1px solid var(--border);
@@ -194,7 +210,6 @@
     .chip-no{border-color: rgba(107,114,128,.25); background: rgba(107,114,128,.10); color:#374151;}
     .chip-tiffany{border-color: rgba(10,186,181,.35); background: rgba(10,186,181,.12); color:#0f766e;}
 
-    /* Segmented top */
     .segmented{
       display:flex;
       border:1px solid var(--border);
@@ -215,7 +230,6 @@
       box-shadow: inset 0 0 0 1px rgba(10,186,181,.22);
     }
 
-    /* Form controls */
     .form-control, .custom-select{border-radius: 12px;}
     .btn{border-radius: 12px; font-weight:800;}
     .btn-primary{background: #0ea5a4; border-color:#0ea5a4;}
@@ -227,7 +241,6 @@
     .btn-secondary{background:#64748b; border-color:#64748b;}
     .btn-secondary:hover{background:#475569; border-color:#475569;}
 
-    /* ===== PORTAFOGLIO ===== */
     .filters-grid{
       display:grid;
       grid-template-columns: 1fr 1fr;
@@ -261,7 +274,6 @@
       background: rgba(10,186,181,.10) !important;
     }
 
-    /* ===== PIANIFICAZIONE TABS (solo Generale/Settimana su mobile) ===== */
     .subtabs{
       display:flex;
       gap:8px;
@@ -296,7 +308,6 @@
     .mini-controls .btn{height:36px; padding:0 12px; font-size:12px;}
     .desktop-only{display:none;}
 
-    /* ===== WEEK VIEW ===== */
     .week-controls{
       display:flex;
       align-items:center;
@@ -309,6 +320,7 @@
       display:grid;
       grid-template-columns: 1fr;
       gap:10px;
+      touch-action: pan-y; /* permette swipe orizzontale senza bloccare scroll verticale */
     }
     .week-day{
       border:1px solid var(--border);
@@ -329,7 +341,6 @@
     .week-day-hd .small{font-size:12px; color:#475569; font-weight:900;}
     .week-day-bd{ padding:10px 12px 12px; }
 
-    /* ✅ vedere fino a 8 appuntamenti senza scroll nel giorno */
     .week-drop{
       min-height: 84px;
       overflow: visible;
@@ -354,7 +365,7 @@
       position:relative;
       cursor:move;
       user-select:none;
-      white-space:normal;  /* più leggibile su mobile */
+      white-space:normal;
       word-break:break-word;
     }
     .appointment-coded{
@@ -371,10 +382,8 @@
     }
     .appointment-coded .delete-btn{color: rgba(255,255,255,.92);}
 
-    /* Droppable */
     .droppable.over{outline:2px dashed rgba(14,165,164,.55); outline-offset:2px; border-radius: 10px;}
 
-    /* ===== CLASSIFICA: righe codificate tiffany ===== */
     .rank-card{
       border:1px solid var(--border);
       border-radius:14px;
@@ -389,13 +398,57 @@
       background: rgba(10,186,181,.10) !important;
     }
 
-    /* ===== Desktop tweaks ===== */
+    /* ===== FIX CALENDARIO MODALI (BUG iPhone) ===== */
+    #dayThumbnails, #moveDayThumbnails{
+      margin-top: 6px;
+    }
+    .thumbs-hd{
+      display:grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap:6px;
+      margin: 6px 0 8px;
+      font-weight:1000;
+      color:#0f172a;
+      font-size:13px;
+    }
+    .thumbs-hd > div{
+      text-align:center;
+      color:#0f172a;
+      font-weight:1000;
+    }
+    .thumbs-grid{
+      display:grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap:6px;
+    }
+    .thumbs-grid > div{ /* spacer */
+      height: 42px;
+    }
+    .thumbs-grid button{
+      width:100%;
+      height:42px;
+      border-radius: 10px;
+      border: 1px solid #e5e7eb;
+      background:#f8fafc;
+      font-weight:1000;
+      color:#0f172a;
+      padding:0;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .thumbs-grid button:active{transform:scale(.98);}
+    .thumbs-grid button.active{
+      background: rgba(10,186,181,.18);
+      border-color: rgba(10,186,181,.45);
+      color:#0f766e;
+      box-shadow: inset 0 0 0 1px rgba(10,186,181,.20);
+    }
+
     @media (min-width: 992px){
       body{overflow:auto;}
       .app-main{padding-bottom: 24px;}
       .bottom-nav{display:none;}
       .week-grid{grid-template-columns: repeat(2, 1fr);}
-
       .desktop-only{display:inline-flex;}
     }
   </style>
@@ -404,7 +457,6 @@
 <body>
 <div class="app-shell">
 
-  <!-- APPBAR -->
   <header class="appbar">
     <div class="appbar-compact">
       <div class="brand">
@@ -422,8 +474,8 @@
     </div>
   </header>
 
-  <!-- MAIN -->
-  <main class="app-main">
+  <main class="app-main" id="appMain">
+    <div class="ptr-indicator" id="ptrIndicator">AGGIORNA…</div>
 
     <div class="cardx mb-3">
       <div class="cardx-hd">
@@ -530,13 +582,11 @@
                 </div>
               </div>
 
-              <!-- Mobile list -->
               <div class="d-block d-lg-none">
                 <div class="mini muted mb-2">Trascina un negozio sul calendario settimanale per pianificare.</div>
                 <div id="shopList" class="shop-list"></div>
               </div>
 
-              <!-- Desktop table -->
               <div class="d-none d-lg-block">
                 <div class="table-wrap">
                   <table class="table table-bordered" id="clientTable">
@@ -565,11 +615,10 @@
             <div class="cardx-hd">
               <div>
                 <h5 style="font-weight:1000;">Pianificazione</h5>
-                <div class="mini muted">Drag & drop dal portafoglio al calendario (max 8 appuntamenti/giorno).</div>
+                <div class="mini muted">Swipe sx/dx per cambiare settimana • Swipe giù per AGGIORNA.</div>
               </div>
 
               <div class="mini-controls">
-                <!-- Su mobile: niente mese; su desktop lasciamo anno+mese (compatibile con futura vista mensile, se vuoi) -->
                 <select id="yearSelect" class="custom-select desktop-only" style="width:auto;">
                   <option value="2025">2025</option>
                   <option value="2026">2026</option>
@@ -583,7 +632,6 @@
             </div>
 
             <div class="cardx-bd">
-              <!-- Tabs (mobile: Generale + Settimana / desktop: Generale + Settimana + Mese) -->
               <div class="subtabs mb-3" id="planningTabs"></div>
 
               <div id="panelGenerale" class="planning-panel">
@@ -617,9 +665,7 @@
                 <div id="weekGrid" class="week-grid"></div>
               </div>
 
-              <!-- Panel mese: rimane solo desktop (ma su smartphone non verrà mai mostrata) -->
               <div id="panelMese" class="planning-panel d-none d-lg-block" style="display:none;"></div>
-
             </div>
           </div>
         </section>
@@ -629,7 +675,6 @@
 
   </main>
 
-  <!-- BOTTOM NAV (mobile) -->
   <nav class="bottom-nav d-lg-none">
     <div class="nav-pill">
       <button id="navPortafoglio" class="active" type="button">Portafoglio</button>
@@ -820,23 +865,34 @@
     ]
   };
 
-  let selectedYear = 2025; // usato solo per dropdown desktop
-  let activeMonthNumber = null; // usato solo per dropdown desktop
-  let activePlanningTab = "generale"; // generale | settimana | mese (mese solo desktop, qui lo teniamo compatibile)
+  let selectedYear = 2025; // dropdown desktop
+  let activeMonthNumber = null;
+  let activePlanningTab = "generale"; // generale | settimana
   let weekStartDate = null; // Monday
 
-  // Move modal state
   let moving = { name:"", coded:false, fromDate:"" };
 
   // ======= helpers =======
   function isDesktop(){ return window.matchMedia("(min-width: 992px)").matches; }
   function getTodayLocal(){ return new Date(); }
   function pad2(n){ return String(n).padStart(2,"0"); }
+
+  // ISO storage key (stable)
   function toISODate(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
   function parseISODate(iso){
     const [y,m,d]=iso.split("-").map(Number);
     return new Date(y, m-1, d);
   }
+
+  // ✅ display DD-MM-YYYY
+  function formatDDMMYYYYFromDate(d){
+    return `${pad2(d.getDate())}-${pad2(d.getMonth()+1)}-${d.getFullYear()}`;
+  }
+  function formatDDMMYYYYFromISO(iso){
+    const d = parseISODate(iso);
+    return formatDDMMYYYYFromDate(d);
+  }
+
   function startOfWeekMonday(date){
     const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
     const day = d.getDay(); // 0..6 (Sun..Sat)
@@ -1090,7 +1146,6 @@
     document.getElementById("navPianificazione").classList.toggle("active", !isPort);
 
     if(!isPort){
-      // su smartphone: vogliamo la settimana come vista utile (mese non serve)
       if(!isDesktop() && activePlanningTab==="mese") activePlanningTab="settimana";
       rebuildPlanningTabs();
       renderActivePlanningPanel();
@@ -1104,7 +1159,7 @@
   document.getElementById("navPortafoglio").addEventListener("click", ()=>showView("port"));
   document.getElementById("navPianificazione").addEventListener("click", ()=>showView("plan"));
 
-  // ========= MONTH dropdown (desktop only UI) =========
+  // ========= MONTH dropdown (desktop only) =========
   function populateMonthSelect(){
     const sel = document.getElementById("monthSelect");
     const list = MONTHS_BY_YEAR[selectedYear] || [];
@@ -1133,8 +1188,6 @@
 
   document.getElementById("monthSelect").addEventListener("change", ()=>{
     activeMonthNumber = normalizeActiveMonthForYear(selectedYear, parseInt(document.getElementById("monthSelect").value,10));
-    // se su desktop vuoi andare su mese, qui potresti attivare tab mese.
-    // Su mobile non esiste.
   });
 
   function syncYearChip(){
@@ -1155,13 +1208,11 @@
     const t = getTodayLocal();
     weekStartDate = startOfWeekMonday(t);
 
-    // teniamo compatibilità con desktop dropdown
     selectedYear = (t.getFullYear()===2025 || t.getFullYear()===2026) ? t.getFullYear() : 2026;
     activeMonthNumber = normalizeActiveMonthForYear(selectedYear, t.getMonth()+1);
     syncYearChip();
     populateMonthSelect();
 
-    // ✅ su smartphone: forza vista settimanale
     activatePlanningTab("settimana");
     renderActivePlanningPanel();
     loadAppointmentsToViews();
@@ -1287,7 +1338,6 @@
   function dropToDate(dateISO, targetContainer){
     if(!dateISO) return;
 
-    // limit 8
     const currentCount = targetContainer.querySelectorAll(".appointment-item").length;
     if(currentCount>=8){ alert("Limite di 8 appuntamenti."); return; }
 
@@ -1343,7 +1393,6 @@
       dragStart(e);
     });
 
-    // tap-to-move
     div.addEventListener("click", (ev)=>{
       if(ev.target && ev.target.classList.contains("delete-btn")) return;
       openMoveModal(div.dataset.name, (div.dataset.coded==="true"), div.dataset.fromDate);
@@ -1392,29 +1441,7 @@
   function addClientRowDesktop(client){
     const tbody=document.querySelector("#clientTable tbody");
     const tr=document.createElement("tr");
-    tr.id=client.id;
     tr.dataset.clientId=client.id;
-    tr.dataset.clientId=client.id;
-    tr.dataset.clientId=client.id;
-    tr.dataset.clientId=client.id;
-    tr.dataset.clientId=client.id;
-    tr.dataset.clientId=client.id;
-    tr.dataset.clientId=client.id;
-    tr.dataset.clientId=client.id;
-    tr.dataset.clientId=client.id;
-    tr.dataset.clientId=client.id;
-
-    tr.dataset.clientId=client.id;
-    tr.dataset.clientId=client.id;
-    tr.dataset.clientId=client.id;
-    tr.dataset.clientId=client.id;
-
-    tr.dataset.clientId=client.id;
-    tr.dataset.clientId=client.id;
-    tr.dataset.clientId=client.id;
-
-    tr.dataset.clientId=client.id;
-
     tr.draggable=true;
     tr.addEventListener("dragstart", (e)=>{
       window._dndType="client";
@@ -1533,7 +1560,6 @@
     document.getElementById("codedCountChip").textContent = `Codificati: ${coded}`;
     document.getElementById("toCodeCountChip").textContent = `Da codificare: ${toCode}`;
 
-    // anche in classifica
     document.getElementById("rankCodedChip").textContent = `Codificati: ${coded}`;
     document.getElementById("rankToCodeChip").textContent = `Da codificare: ${toCode}`;
   }
@@ -1560,7 +1586,6 @@
     const f=getFilterState();
     arr.filter(c=>clientPassesFilter(c,f)).forEach(addClientCardMobile);
 
-    // desktop filter display
     document.querySelectorAll("#clientTable tbody tr").forEach(tr=>{
       const id=tr.dataset.clientId;
       const c=arr.find(x=>x.id===id);
@@ -1596,7 +1621,6 @@
     const tabs=document.getElementById("planningTabs");
     tabs.innerHTML="";
 
-    // su smartphone: solo Generale + Settimana
     const desktop = isDesktop();
 
     const addTab=(key,label)=>{
@@ -1622,7 +1646,6 @@
   }
 
   function activatePlanningTab(key){
-    // su mobile vietiamo "mese"
     if(!isDesktop() && key==="mese") key="settimana";
     activePlanningTab = key;
     rebuildPlanningTabs();
@@ -1651,7 +1674,7 @@
 
     const label=document.getElementById("weekLabel");
     const end = addDays(weekStartDate, 6);
-    label.textContent = `${toISODate(weekStartDate)} → ${toISODate(end)}`;
+    label.textContent = `${formatDDMMYYYYFromDate(weekStartDate)} → ${formatDDMMYYYYFromDate(end)}`;
 
     const todayISO = toISODate(today);
 
@@ -1667,7 +1690,7 @@
 
       const hd=document.createElement("div");
       hd.className="week-day-hd";
-      hd.innerHTML = `<div>${wname}</div><div class="small">${iso}</div>`;
+      hd.innerHTML = `<div>${wname}</div><div class="small">${formatDDMMYYYYFromISO(iso)}</div>`;
 
       const bd=document.createElement("div");
       bd.className="week-day-bd";
@@ -1708,6 +1731,50 @@
     renderWeekView();
     loadAppointmentsToViews();
   });
+
+  // ========= SWIPE SX/DX: settimana =========
+  function setupWeekSwipe(){
+    const grid = document.getElementById("weekGrid");
+
+    let sx=0, sy=0, ex=0, ey=0;
+    let tracking=false;
+
+    grid.addEventListener("touchstart", (e)=>{
+      if(activePlanningTab!=="settimana") return;
+      if(!e.touches || !e.touches.length) return;
+      const t = e.touches[0];
+      sx=t.clientX; sy=t.clientY;
+      ex=sx; ey=sy;
+      tracking=true;
+    }, {passive:true});
+
+    grid.addEventListener("touchmove", (e)=>{
+      if(!tracking) return;
+      const t = e.touches[0];
+      ex=t.clientX; ey=t.clientY;
+    }, {passive:true});
+
+    grid.addEventListener("touchend", ()=>{
+      if(!tracking) return;
+      tracking=false;
+
+      const dx = ex - sx;
+      const dy = ey - sy;
+
+      // gesture orizzontale “pulita”
+      if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)*1.2){
+        if(dx < 0){
+          // swipe left -> prossima settimana
+          weekStartDate = addDays(weekStartDate, 7);
+        } else {
+          // swipe right -> settimana precedente
+          weekStartDate = addDays(weekStartDate, -7);
+        }
+        renderWeekView();
+        loadAppointmentsToViews();
+      }
+    }, {passive:true});
+  }
 
   // ========= LOAD APPOINTMENTS into week view =========
   function clearAllAppointmentContainers(){
@@ -1750,7 +1817,7 @@
     });
 
     const clients=getClients();
-    updatePortafoglioCounters(clients); // mantiene i chip aggiornati anche qui
+    updatePortafoglioCounters(clients);
 
     const arr=clients.map(c=>{
       const dates=(rankingObj[c.name]||[]).sort((a,b)=>a-b);
@@ -1852,7 +1919,7 @@
 
   document.getElementById("rankingYearFilter").addEventListener("change", updateGeneralSummary);
 
-  // ========= MODAL: Pianifica =========
+  // ========= MODAL: Pianifica / Sposta (Calendario FIX) =========
   function renderMonthSelectForYear(year, selectEl){
     selectEl.innerHTML=`<option value="">Seleziona</option>`;
     (MONTHS_BY_YEAR[year]||[]).forEach(m=>{
@@ -1962,7 +2029,6 @@
     $('#scheduleModal').modal('hide');
   });
 
-  // ========= MODAL: Sposta =========
   function openMoveModal(name, coded, fromDate){
     moving = { name, coded, fromDate };
 
@@ -2039,7 +2105,6 @@
       return {subj, body};
     }
 
-    // default settimana
     subj = `Pianificazione Settimana - ${document.getElementById("weekLabel").innerText} - ${currentManager}`;
     const data=getAppointments();
     const lines=[];
@@ -2048,7 +2113,7 @@
       const iso=toISODate(d);
       const arr=data[iso]||[];
       if(arr.length){
-        lines.push(`${iso}: ${arr.map(x=>x.name).join(", ")}`);
+        lines.push(`${formatDDMMYYYYFromISO(iso)}: ${arr.map(x=>x.name).join(", ")}`);
       }
     }
     body = lines.length ? lines.join("\n") : "Nessuna pianificazione presente in questa settimana.";
@@ -2071,11 +2136,73 @@
     return String(s).replace(/([!"#$%&'()*+,.\/:;<=>?@\[\\\]^`{|}~])/g,'\\$1');
   }
 
+  // ========= REFRESH (Pull-to-refresh) =========
+  function setupPullToRefresh(){
+    const main = document.getElementById("appMain");
+    const indicator = document.getElementById("ptrIndicator");
+
+    let startY=0, startX=0;
+    let pulling=false;
+    let armed=false;
+
+    function canPTR(){
+      // solo quando sei in pianificazione + settimana o generale (app fluida)
+      const planVisible = document.getElementById("viewPianificazione").style.display !== "none";
+      if(!planVisible) return false;
+      if(main.scrollTop > 0) return false;
+      // evita quando modale aperta
+      if(document.body.classList.contains("modal-open")) return false;
+      return true;
+    }
+
+    main.addEventListener("touchstart", (e)=>{
+      if(!canPTR()) return;
+      if(!e.touches || !e.touches.length) return;
+      const t=e.touches[0];
+      startY=t.clientY;
+      startX=t.clientX;
+      pulling=true;
+      armed=false;
+    }, {passive:true});
+
+    main.addEventListener("touchmove", (e)=>{
+      if(!pulling) return;
+      if(!canPTR()) { pulling=false; return; }
+      const t=e.touches[0];
+      const dy = t.clientY - startY;
+      const dx = t.clientX - startX;
+
+      // deve essere principalmente verticale verso il basso
+      if(dy > 25 && Math.abs(dy) > Math.abs(dx) * 1.3){
+        indicator.classList.add("show");
+        armed = dy > 70;
+      } else if(dy < 10){
+        indicator.classList.remove("show");
+        armed = false;
+      }
+    }, {passive:true});
+
+    main.addEventListener("touchend", ()=>{
+      if(!pulling) return;
+      pulling=false;
+
+      if(armed){
+        // refresh “soft”
+        indicator.textContent = "AGGIORNA…";
+        setTimeout(()=>{
+          reloadAll();
+          indicator.textContent = "AGGIORNATO ✅";
+          setTimeout(()=>indicator.classList.remove("show"), 650);
+        }, 100);
+      } else {
+        indicator.classList.remove("show");
+      }
+    }, {passive:true});
+  }
+
   // ========= INIT / RELOAD =========
   function reloadAll(){
     renderAmLabel();
-
-    // Counters + list
     loadClients();
 
     rebuildPlanningTabs();
@@ -2100,19 +2227,19 @@
     activeMonthNumber = normalizeActiveMonthForYear(selectedYear, today.getMonth()+1);
     populateMonthSelect();
 
-    // schedule modal default month list
     document.getElementById("scheduleYear").value=String(selectedYear);
     renderMonthSelectForYear(selectedYear, document.getElementById("scheduleMonth"));
 
-    // move modal month list
     document.getElementById("moveYear").value=String(selectedYear);
     renderMonthSelectForYear(selectedYear, document.getElementById("moveMonth"));
 
-    // initial view
     showView("port");
     reloadAll();
 
-    // se ruoti/switch breakpoint, ricostruisci tabs coerenti
+    // gesture init
+    setupWeekSwipe();
+    setupPullToRefresh();
+
     window.addEventListener("resize", ()=>{
       if(!isDesktop() && activePlanningTab==="mese") activePlanningTab="settimana";
       rebuildPlanningTabs();
